@@ -1,0 +1,28 @@
+{
+  "name": "coinselect",
+  "version": "0.1.0",
+  "description": "A fee optimizing bitcoin input selection module.",
+  "main": "./index.js",
+  "scripts": {
+    "prepublish": "npm run test",
+    "standard": "standard",
+    "test": "npm run-script unit",
+    "unit": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dcousens/coinselect.git"
+  },
+  "author": "Daniel Cousens",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dcousens/coinselect/issues"
+  },
+  "homepage": "https://github.com/dcousens/coinselect",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "*",
+    "sinon": "^1.12.0",
+    "standard": "*"
+  }
+}
