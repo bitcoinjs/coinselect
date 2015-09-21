@@ -20,9 +20,9 @@ function estimateRelayFee (byteLength, feePerKb) {
   return Math.ceil(byteLength / 1000) * feePerKb
 }
 
-function selectInputs (unspents, outputs, feePerKb) {
+module.exports = function coinSelect (unspents, outputs, feePerKb) {
   // sort by descending value
-  var sorted = [].concat(unspents).sort(function (o1, o2) {
+  var sorted = unspents.concat().sort(function (o1, o2) {
     return o2.value - o1.value
   })
 
@@ -74,5 +74,3 @@ function selectInputs (unspents, outputs, feePerKb) {
 
   throw new Error('Not enough funds: ' + accum + ' < ' + total)
 }
-
-module.exports = selectInputs
