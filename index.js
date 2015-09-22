@@ -79,6 +79,7 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
   }
 
   return {
-    fee: baseFee
+    fee: baseFee,
+    inputs: null
   }
 }
