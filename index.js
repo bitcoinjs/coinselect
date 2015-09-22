@@ -77,5 +77,5 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
     }
   }
 
-  throw new Error('Not enough funds: ' + accum + ' < ' + total)
+  return undefined
 }

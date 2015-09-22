@@ -6,7 +6,7 @@ var coinSelect = require('../')
 var fixtures = require('./fixtures')
 
 describe('coinSelect', function () {
-  fixtures.valid.forEach(function (f) {
+  fixtures.forEach(function (f) {
     var outputs, unspents
 
     beforeEach(function () {
@@ -16,6 +16,9 @@ describe('coinSelect', function () {
 
     it(f.description, function () {
       var result = coinSelect(unspents, outputs, f.feePerKb)
+
+      // ensure a solution was found
+      if (!f.expected) return assert.equal(result, undefined)
 
       // ensure remainder is correctly calculated
       assert.equal(result.remainder, f.expected.remainder, 'Invalid remainder: ' + result.remainder + ' !== ' + f.expected.remainder)
@@ -30,21 +33,6 @@ describe('coinSelect', function () {
 
       // ensure no other inputs exist
       assert.equal(result.inputs.length, f.expected.inputs.length)
-    })
-  })
-
-  fixtures.invalid.forEach(function (f) {
-    var outputs, unspents
-
-    beforeEach(function () {
-      outputs = f.outputs.map(function (value) { return { value: value } })
-      unspents = f.unspents.map(function (value) { return { value: value } })
-    })
-
-    it('throws on ' + f.exception, function () {
-      assert.throws(function () {
-        coinSelect(unspents, outputs, f.feePerKb)
-      }, new RegExp(f.exception))
     })
   })
 })
