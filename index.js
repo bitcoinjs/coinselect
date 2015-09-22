@@ -54,15 +54,15 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
     if (accum < total) continue
     var inputs = sorted.slice(0, i + 1)
 
-    var feeAfterChange = estimateRelayFee(byteLength + TX_PUBKEYHASH_OUTPUT, feePerKb)
-    var totalAfterChange = target + feeAfterChange
+    var feeWithChange = estimateRelayFee(byteLength + TX_PUBKEYHASH_OUTPUT, feePerKb)
+    var totalWithChange = target + feeWithChange
 
     // can we afford a change output?
-    if (accum >= totalAfterChange) {
+    if (accum >= totalWithChange) {
       return {
-        fee: feeAfterChange,
+        fee: feeWithChange,
         inputs: inputs,
-        remainder: accum - totalAfterChange
+        remainder: accum - totalWithChange
       }
     }
 
