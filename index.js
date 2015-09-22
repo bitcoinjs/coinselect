@@ -30,7 +30,7 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
   var target = 0
 
   outputs.forEach(function (output) {
-    byteLength += TX_PUBKEYHASH_OUTPUT
+    byteLength += output.script ? output.script.length : TX_PUBKEYHASH_OUTPUT
     target += output.value
   })
 
@@ -40,6 +40,7 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
   for (var i = 0; i < sorted.length; ++i) {
     var unspent = sorted[i]
 
+    // TODO: an estimate is used because of missing signature data
     byteLength += TX_PUBKEYHASH_INPUT
     accum += unspent.value
 
