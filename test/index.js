@@ -11,28 +11,18 @@ describe('coinSelect', function () {
 
     beforeEach(function () {
       outputs = f.outputs.map(function (value) { return { value: value } })
-      unspents = f.unspents.map(function (value) { return { value: value } })
+      unspents = f.unspents.map(function (value, i) { return { i: i, value: value } })
     })
 
     it(f.description, function () {
       var result = coinSelect(unspents, outputs, f.feePerKb)
 
-      // ensure a solution was found
-      if (!f.expected) return assert.equal(result, undefined)
+      // map to indexes for fixture comparison
+      if (result.inputs) {
+        result.inputs = result.inputs.map(function (input) { return input.i })
+      }
 
-      // ensure remainder is correctly calculated
-      assert.equal(result.remainder, f.expected.remainder, 'Invalid remainder: ' + result.remainder + ' !== ' + f.expected.remainder)
-
-      // ensure fee is correctly calculated
-      assert.equal(result.fee, f.expected.fee, 'Invalid fee: ' + result.fee + ' !== ' + f.expected.fee)
-
-      // ensure all expected inputs are found
-      f.expected.inputs.forEach(function (i, j) {
-        assert.equal(result.inputs[j], unspents[i])
-      })
-
-      // ensure no other inputs exist
-      assert.equal(result.inputs.length, f.expected.inputs.length)
+      assert.deepEqual(result, f.expected)
     })
   })
 })

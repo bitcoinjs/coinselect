@@ -102,12 +102,36 @@
     "description": "no solution | target too high (40000 > 20000)",
     "feePerKb": 10000,
     "outputs": [40000],
-    "unspents": [20000]
+    "unspents": [20000],
+    "expected": {
+      "fee": 10000
+    }
   },
   {
     "description": "no solution | target too high (w/ fee) (40000 + fee > 40000)",
     "feePerKb": 10000,
     "outputs": [40000],
-    "unspents": [40000]
+    "unspents": [40000],
+    "expected": {
+      "fee": 10000
+    }
+  },
+  {
+    "description": "no solution | no unspents",
+    "feePerKb": 10000,
+    "outputs": [],
+    "unspents": [],
+    "expected": {
+      "fee": 10000
+    }
+  },
+  {
+    "description": "no solution | no unspents (>1KiB)",
+    "feePerKb": 10000,
+    "outputs": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    "unspents": [],
+    "expected": {
+      "fee": 20000
+    }
   }
 ]

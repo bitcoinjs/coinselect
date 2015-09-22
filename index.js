@@ -35,7 +35,8 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
   })
 
   var accum = 0
-  var total = target
+  var baseFee = estimateRelayFee(byteLength, feePerKb)
+  var total = target + baseFee
 
   for (var i = 0; i < sorted.length; ++i) {
     var unspent = sorted[i]
@@ -47,7 +48,7 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
     // ignore fees until we have the minimum amount
     if (accum < target) continue
 
-    var baseFee = estimateRelayFee(byteLength, feePerKb)
+    baseFee = estimateRelayFee(byteLength, feePerKb)
     total = target + baseFee
 
     // continue until we can afford the base fee
@@ -77,5 +78,7 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
     }
   }
 
-  return undefined
+  return {
+    fee: baseFee
+  }
 }
