@@ -59,15 +59,19 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
 
     // can we afford a change output?
     if (accum >= totalWithChange) {
+      var remainderWithChange = accum - totalWithChange
+
       return {
         fee: feeWithChange,
         inputs: inputs,
-        remainder: accum - totalWithChange
+        remainder: remainderWithChange
       }
     }
 
+    var remainder = accum - total
+
     return {
-      fee: baseFee + (accum - total),
+      fee: baseFee + remainder,
       inputs: inputs,
       remainder: 0
     }
