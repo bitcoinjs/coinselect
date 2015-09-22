@@ -6,3 +6,9 @@
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
 A fee-saving bitcoin input selection module.
+
+The code is stable.
+
+The module's interface/existence is not.
+
+Please let me know if you are using this package.
