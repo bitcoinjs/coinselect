@@ -119,6 +119,16 @@
     }
   },
   {
+    "description": "not enough funds (fee > 10000), empty result",
+    "feePerKb": 10000,
+    "outputs": [900000],
+    "unspents": [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    "expected": {
+      "fee": 20000,
+      "inputs": null
+    }
+  },
+  {
     "description": "no unspents, empty result",
     "feePerKb": 10000,
     "outputs": [],
