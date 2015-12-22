@@ -1,20 +1,11 @@
 // TODO: integrate privacy calculations, group by address, avoid linking multiple addresses together
-// XXX: There may be better optimization techniques available here, may, be.
-// TODO: integrate priority calculations
-// var COIN = 100000000
-// var freeThreshold = COIN * 144 / 250
-// var isFree = inputs.reduce(function (accum, input) { return accum + priority(input) }, 0)  >  freeThreshold
-//
-// function priority(unspent) {
-//   // unlike bitcoind, we assume priority is calculated for _right_ now
-//   // not the next block
-//   return unspent.value * unspent.confirmations
-// }
 
-// XXX: these are based on pubKeyHash estimates, the information is ignored so pre-calculated placeholders are used to improve performance
+// XXX: these are based on pubKeyHash estimates, used to improve performance
 var TX_EMPTY_SIZE = 8
-var TX_PUBKEYHASH_INPUT = 40 + 2 + 106
-var TX_PUBKEYHASH_OUTPUT = 8 + 2 + 25
+var TX_INPUT_BASE = 40 + 2
+var TX_INPUT_PUBKEYHASH = 106
+var TX_OUTPUT_BASE = 8 + 1
+var TX_OUTPUT_PUBKEYHASH = 25
 
 function estimateRelayFee (byteLength, feePerKb) {
   return Math.ceil(byteLength / 1000) * feePerKb
@@ -30,7 +21,7 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
   var target = 0
 
   outputs.forEach(function (output) {
-    byteLength += output.script ? output.script.length : TX_PUBKEYHASH_OUTPUT
+    byteLength += TX_OUTPUT_BASE + (output.script ? output.script.length : TX_OUTPUT_PUBKEYHASH)
     target += output.value
   })
 
@@ -40,7 +31,7 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
     var unspent = sorted[i]
 
     // TODO: an estimate is used because of missing signature data
-    byteLength += TX_PUBKEYHASH_INPUT
+    byteLength += TX_INPUT_BASE + TX_INPUT_PUBKEYHASH
     accum += unspent.value
 
     // ignore fees until we have the minimum amount
@@ -53,7 +44,7 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
     if (accum < total) continue
     var inputs = sorted.slice(0, i + 1)
 
-    var feeWithChange = estimateRelayFee(byteLength + TX_PUBKEYHASH_OUTPUT, feePerKb)
+    var feeWithChange = estimateRelayFee(byteLength + TX_OUTPUT_BASE + TX_OUTPUT_PUBKEYHASH, feePerKb)
     var totalWithChange = target + feeWithChange
 
     // can we afford a change output?
