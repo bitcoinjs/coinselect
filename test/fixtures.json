@@ -3,31 +3,31 @@
     "description": "singular output, no remainder",
     "feePerKb": 10000,
     "outputs": [100000],
-    "unspents": [30000, 110000],
+    "unspents": [102000],
     "expected": {
-      "fee": 10000,
-      "inputs": [1],
+      "fee": 2000,
+      "inputs": [0],
       "remainder": 0
     }
   },
   {
     "description": "singular output, remainder expected",
     "feePerKb": 10000,
-    "outputs": [90000],
-    "unspents": [30000, 110000],
+    "outputs": [100000],
+    "unspents": [106000],
     "expected": {
-      "fee": 10000,
-      "inputs": [1],
-      "remainder": 10000
+      "fee": 2240,
+      "inputs": [0],
+      "remainder": 3760
     }
   },
   {
     "description": "singular output, fee > 10000, no remainder",
     "feePerKb": 10000,
     "outputs": [60000],
-    "unspents": [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    "unspents": [10000, 10000, 10000, 10000, 10000, 10000, 10000, 2600],
     "expected": {
-      "fee": 20000,
+      "fee": 12600,
       "inputs": [0, 1, 2, 3, 4, 5, 6, 7],
       "remainder": 0
     }
@@ -35,21 +35,21 @@
   {
     "description": "singular output, fee > 10000, remainder expected",
     "feePerKb": 10000,
-    "outputs": [55000],
-    "unspents": [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    "outputs": [60000],
+    "unspents": [10000, 10000, 10000, 10000, 10000, 10000, 10000, 2601],
     "expected": {
-      "fee": 20000,
+      "fee": 12600,
       "inputs": [0, 1, 2, 3, 4, 5, 6, 7],
-      "remainder": 5000
+      "remainder": 1
     }
   },
   {
     "description": "multiple outputs, no remainder",
     "feePerKb": 10000,
     "outputs": [35000, 5000, 5000, 1000],
-    "unspents": [30000, 16000, 10000],
+    "unspents": [30000, 12220, 10000],
     "expected": {
-      "fee": 10000,
+      "fee": 6220,
       "inputs": [0, 1, 2],
       "remainder": 0
     }
@@ -57,45 +57,56 @@
   {
     "description": "multiple outputs, remainder expected",
     "feePerKb": 10000,
-    "outputs": [35000, 5000, 2000, 1000],
-    "unspents": [30000, 16000, 10000],
+    "outputs": [35000, 5000, 5000, 1000],
+    "unspents": [30000, 12220, 10001],
     "expected": {
-      "fee": 10000,
+      "fee": 6220,
       "inputs": [0, 1, 2],
-      "remainder": 3000
+      "remainder": 1
     }
   },
   {
-    "description": "multiple outputs, base fee, remainder expected",
-    "feePerKb": 1000,
+    "description": "singular output, no fee, remainder expected",
+    "feePerKb": 0,
+    "unspents": [5000, 5000, 5000, 5000, 5000, 5000],
+    "outputs": [28000],
+    "expected": {
+      "fee": 0,
+      "inputs": [0, 1, 2, 3, 4, 5],
+      "remainder": 2000
+    }
+  },
+  {
+    "description": "multiple outputs, no fee, remainder expected",
+    "feePerKb": 0,
     "unspents": [5000, 5000, 5000, 5000, 5000, 5000],
     "outputs": [28000, 1000],
     "expected": {
-      "fee": 1000,
+      "fee": 0,
       "inputs": [0, 1, 2, 3, 4, 5],
-      "remainder": 0
+      "remainder": 1000
     }
   },
   {
-    "description": "multiple outputs, change fee, remainder exists",
-    "feePerKb": 1000,
-    "unspents": [7000, 5000, 5000, 5000, 5000, 5000],
-    "outputs": [28000, 1000],
+    "description": "no outputs, no remainder",
+    "feePerKb": 10000,
+    "outputs": [],
+    "unspents": [1900],
     "expected": {
-      "fee": 2000,
-      "inputs": [0, 1, 2, 3, 4, 5],
-      "remainder": 1000
+      "fee": 1900,
+      "inputs": [0],
+      "remainder": 0
     }
   },
   {
     "description": "no outputs, remainder expected",
     "feePerKb": 10000,
     "outputs": [],
-    "unspents": [30000, 16000, 10000],
+    "unspents": [2000],
     "expected": {
-      "fee": 10000,
+      "fee": 1900,
       "inputs": [0],
-      "remainder": 20000
+      "remainder": 100
     }
   },
   {
@@ -104,7 +115,7 @@
     "outputs": [40000],
     "unspents": [20000],
     "expected": {
-      "fee": 10000,
+      "fee": 1900,
       "inputs": null
     }
   },
@@ -114,7 +125,7 @@
     "outputs": [40000],
     "unspents": [40000],
     "expected": {
-      "fee": 10000,
+      "fee": 1900,
       "inputs": null
     }
   },
@@ -124,7 +135,7 @@
     "outputs": [900000],
     "unspents": [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
     "expected": {
-      "fee": 20000,
+      "fee": 12260,
       "inputs": null
     }
   },
@@ -134,7 +145,7 @@
     "outputs": [],
     "unspents": [],
     "expected": {
-      "fee": 10000,
+      "fee": 80,
       "inputs": null
     }
   },
@@ -144,7 +155,7 @@
     "outputs": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     "unspents": [],
     "expected": {
-      "fee": 20000,
+      "fee": 9940,
       "inputs": null
     }
   }
