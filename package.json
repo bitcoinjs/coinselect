@@ -1,6 +1,6 @@
 {
   "name": "coinselect",
-  "version": "0.3.1",
+  "version": "1.0.0",
   "description": "A fee optimizing bitcoin input selection module",
   "main": "./index.js",
   "scripts": {
