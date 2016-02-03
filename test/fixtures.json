@@ -44,6 +44,17 @@
     }
   },
   {
+    "description": "singular output, non-integer feePerKb, rounded fee",
+    "feePerKb": 10000.9,
+    "outputs": [100000],
+    "unspents": [102000],
+    "expected": {
+      "fee": 2000,
+      "inputs": [0],
+      "remainder": 0
+    }
+  },
+  {
     "description": "multiple outputs, no remainder",
     "feePerKb": 10000,
     "outputs": [35000, 5000, 5000, 1000],

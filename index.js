@@ -8,7 +8,7 @@ var TX_OUTPUT_BASE = 8 + 1
 var TX_OUTPUT_PUBKEYHASH = 25
 
 function estimateRelayFee (byteLength, feePerKb) {
-  return (byteLength / 1000) * feePerKb
+  return Math.round((byteLength / 1000) * feePerKb)
 }
 
 module.exports = function coinSelect (unspents, outputs, feePerKb) {
