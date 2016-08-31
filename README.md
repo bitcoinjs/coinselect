@@ -5,7 +5,7 @@
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
-A fee-saving bitcoin input selection module.
+A fee-optimizing, transaction input selection module for bitcoinjs-lib.
 
 The code is stable.
 
