@@ -15,6 +15,5 @@ matrix:
       env: TEST_SUITE=standard
 env:
   - TEST_SUITE=coverage
-  - TEST_SUITE=integration
   - TEST_SUITE=unit
 script: npm run-script $TEST_SUITE
