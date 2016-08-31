@@ -58,8 +58,6 @@ module.exports = function coinSelect (unspents, outputs, feeRate) {
       }
     }
 
-    console.log(baseFee, accum, total, remainder, feeWithChange)
-
     var remainder = accum - total
 
     return {
