@@ -7,11 +7,11 @@ var TX_INPUT_PUBKEYHASH = 106
 var TX_OUTPUT_BASE = 8 + 1
 var TX_OUTPUT_PUBKEYHASH = 25
 
-function estimateRelayFee (byteLength, feePerKb) {
-  return Math.round((byteLength / 1000) * feePerKb)
+function estimateRelayFee (byteLength, feeRate) {
+  return byteLength * feeRate
 }
 
-module.exports = function coinSelect (unspents, outputs, feePerKb) {
+module.exports = function coinSelect (unspents, outputs, feeRate) {
   // sort by descending value
   var sorted = unspents.concat().sort(function (o1, o2) {
     return o2.value - o1.value
@@ -37,14 +37,14 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
     // ignore fees until we have the minimum amount
     if (accum < target) continue
 
-    var baseFee = estimateRelayFee(byteLength, feePerKb)
+    var baseFee = estimateRelayFee(byteLength, feeRate)
     var total = target + baseFee
 
     // continue until we can afford the base fee
     if (accum < total) continue
     var inputs = sorted.slice(0, i + 1)
 
-    var feeWithChange = estimateRelayFee(byteLength + TX_OUTPUT_BASE + TX_OUTPUT_PUBKEYHASH, feePerKb)
+    var feeWithChange = estimateRelayFee(byteLength + TX_OUTPUT_BASE + TX_OUTPUT_PUBKEYHASH, feeRate)
     var totalWithChange = target + feeWithChange
 
     // can we afford a change output?
@@ -58,6 +58,8 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
       }
     }
 
+    console.log(baseFee, accum, total, remainder, feeWithChange)
+
     var remainder = accum - total
 
     return {
@@ -68,7 +70,7 @@ module.exports = function coinSelect (unspents, outputs, feePerKb) {
   }
 
   return {
-    fee: estimateRelayFee(byteLength, feePerKb),
+    fee: estimateRelayFee(byteLength, feeRate),
     inputs: null
   }
 }

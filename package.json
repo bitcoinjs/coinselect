@@ -2,27 +2,44 @@
   "name": "coinselect",
   "version": "1.0.1",
   "description": "A fee optimizing bitcoin input selection module",
-  "main": "./index.js",
-  "scripts": {
-    "prepublish": "npm run test",
-    "standard": "standard",
-    "test": "npm run-script unit",
-    "unit": "mocha"
+  "keywords": [
+    "coinselect",
+    "coin",
+    "unspents",
+    "wallet",
+    "BIP32",
+    "management",
+    "utxo",
+    "transaction",
+    "fee",
+    "optimization",
+    "optimizing",
+    "bitcoin"
+  ],
+  "homepage": "https://github.com/dcousens/coinselect",
+  "bugs": {
+    "url": "https://github.com/dcousens/coinselect/issues"
   },
+  "license": "MIT",
+  "author": "Daniel Cousens",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/dcousens/coinselect.git"
   },
-  "author": "Daniel Cousens",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/dcousens/coinselect/issues"
+  "scripts": {
+    "prepublish": "npm run test",
+    "coverage": "nyc --check-coverage --branches 100 --functions 100 tape test/*.js",
+    "lint": "standard",
+    "test": "npm run lint && npm run unit",
+    "unit": "tape test/*.js"
   },
-  "homepage": "https://github.com/dcousens/coinselect",
-  "dependencies": {},
   "devDependencies": {
-    "mocha": "*",
-    "sinon": "^1.12.0",
-    "standard": "*"
+    "nyc": "^6.4.0",
+    "standard": "*",
+    "tape": "^4.5.1"
   }
 }

@@ -19,7 +19,7 @@ Please let me know if you are using this package.
 ``` javascript
 var coinSelect = require('coinselect')
 
-var feePerKb = 1000
+var feeRate = 55
 var unspents = [
 	...,
 	{
@@ -35,7 +35,7 @@ var outputs = [
 	}
 ]
 
-var result = coinselect(unspents, outputs, feePerKb)
+var result = coinselect(unspents, outputs, feeRate)
 
 // the accumulated fee is always returned
 console.log(result.fee)

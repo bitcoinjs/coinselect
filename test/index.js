@@ -1,28 +1,19 @@
-/* global beforeEach, describe, it */
-
-var assert = require('assert')
-
 var coinSelect = require('../')
 var fixtures = require('./fixtures')
+var tape = require('tape')
 
-describe('coinSelect', function () {
-  fixtures.forEach(function (f) {
-    var outputs, unspents
+fixtures.forEach(function (f) {
+  tape(f.description, function (t) {
+    var outputs = f.outputs.map(value => ({ value }))
+    var unspents = f.unspents.map((value, i) => ({ i, value }))
+    var result = coinSelect(unspents, outputs, f.feeRate)
 
-    beforeEach(function () {
-      outputs = f.outputs.map(function (value) { return { value: value } })
-      unspents = f.unspents.map(function (value, i) { return { i: i, value: value } })
-    })
+    // drop non-index related input data for easy result comparison
+    if (result.inputs) {
+      result.inputs = result.inputs.map(input => input.i)
+    }
 
-    it(f.description, function () {
-      var result = coinSelect(unspents, outputs, f.feePerKb)
-
-      // map to indexes for fixture comparison
-      if (result.inputs) {
-        result.inputs = result.inputs.map(function (input) { return input.i })
-      }
-
-      assert.deepEqual(result, f.expected)
-    })
+    t.deepEqual(result, f.expected)
+    t.end()
   })
 })
