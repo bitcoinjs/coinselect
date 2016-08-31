@@ -4,7 +4,11 @@ var tape = require('tape')
 
 fixtures.forEach(function (f) {
   tape(f.description, function (t) {
-    var outputs = f.outputs.map(function (value) { return { value } })
+    var outputs = f.outputs.map(function (value) {
+      if (value.script) return value
+      return { value }
+    })
+
     var unspents = f.unspents.map(function (value, i) { return { i, value } })
     var result = coinSelect(unspents, outputs, f.feeRate)
 

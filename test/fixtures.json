@@ -158,5 +158,23 @@
       "fee": 9940,
       "inputs": null
     }
+  },
+  {
+    "description": "singular output, script provided, huge",
+    "feeRate": 10,
+    "outputs": [
+      {
+        "value": 98010,
+        "script": {
+          "length": 200
+        }
+      }
+    ],
+    "unspents": [102000],
+    "expected": {
+      "fee": 3990,
+      "inputs": [0],
+      "remainder": 0
+    }
   }
 ]
