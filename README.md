@@ -19,7 +19,7 @@ Please let me know if you are using this package.
 ``` javascript
 var coinSelect = require('coinselect')
 
-var feeRate = 55
+var feeRate = 55 // satoshis per byte
 var unspents = [
 	...,
 	{
