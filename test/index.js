@@ -1,20 +1,20 @@
-var coinSelect = require('../')
-var fixtures = require('./fixtures')
-var tape = require('tape')
+let coinSelect = require('../')
+let fixtures = require('./fixtures')
+let tape = require('tape')
 
-fixtures.forEach(function (f) {
-  tape(f.description, function (t) {
-    var outputs = f.outputs.map(function (value) {
-      if (value.script) return value
-      return { value }
-    })
-
-    var unspents = f.unspents.map(function (value, i) { return { i, value } })
-    var result = coinSelect(unspents, outputs, f.feeRate)
+fixtures.forEach((f) => {
+  tape(f.description, (t) => {
+    let inputs = f.inputs.map((x, i) => ({ i, value: x }))
+    let outputs = f.outputs.map(x => x.script ? x : { value: x })
+    let result = coinSelect(inputs, outputs, f.feeRate)
 
     // drop non-index related input data for easy result comparison
     if (result.inputs) {
-      result.inputs = result.inputs.map(function (input) { return input.i })
+      result.inputs = result.inputs.map(input => input.i)
+    }
+
+    if (result.outputs) {
+      result.outputs = result.outputs.map(x => x.script ? x : x.value)
     }
 
     t.deepEqual(result, f.expected)

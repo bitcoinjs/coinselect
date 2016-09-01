@@ -1,180 +1,177 @@
 [
   {
-    "description": "singular output, no remainder",
+    "description": "1 output, no change",
     "feeRate": 10,
+    "inputs": [102001],
     "outputs": [100000],
-    "unspents": [102000],
     "expected": {
-      "fee": 2000,
+      "fee": 2001,
       "inputs": [0],
-      "remainder": 0
+      "outputs": [100000]
     }
   },
   {
-    "description": "singular output, remainder expected",
+    "description": "1 output, change expected",
     "feeRate": 10,
+    "inputs": [106001],
     "outputs": [100000],
-    "unspents": [106000],
     "expected": {
       "fee": 2240,
       "inputs": [0],
-      "remainder": 3760
+      "outputs": [100000, 3761]
     }
   },
   {
-    "description": "singular output, fee > 10000, no remainder",
-    "feeRate": 10,
-    "outputs": [60000],
-    "unspents": [10000, 10000, 10000, 10000, 10000, 10000, 10000, 2600],
-    "expected": {
-      "fee": 12600,
-      "inputs": [0, 1, 2, 3, 4, 5, 6, 7],
-      "remainder": 0
-    }
-  },
-  {
-    "description": "singular output, fee > 10000, remainder expected",
-    "feeRate": 10,
-    "outputs": [60000],
-    "unspents": [10000, 10000, 10000, 10000, 10000, 10000, 10000, 2601],
-    "expected": {
-      "fee": 12600,
-      "inputs": [0, 1, 2, 3, 4, 5, 6, 7],
-      "remainder": 1
-    }
-  },
-  {
-    "description": "multiple outputs, no remainder",
-    "feeRate": 10,
-    "outputs": [35000, 5000, 5000, 1000],
-    "unspents": [30000, 12220, 10000],
-    "expected": {
-      "fee": 6220,
-      "inputs": [0, 1, 2],
-      "remainder": 0
-    }
-  },
-  {
-    "description": "multiple outputs, remainder expected",
-    "feeRate": 10,
-    "outputs": [35000, 5000, 5000, 1000],
-    "unspents": [30000, 12220, 10001],
-    "expected": {
-      "fee": 6220,
-      "inputs": [0, 1, 2],
-      "remainder": 1
-    }
-  },
-  {
-    "description": "singular output, no fee, remainder expected",
+    "description": "1 output, no fee, change expected",
     "feeRate": 0,
-    "unspents": [5000, 5000, 5000, 5000, 5000, 5000],
+    "inputs": [5000, 5000, 5000, 5000, 5000, 5000],
     "outputs": [28000],
     "expected": {
       "fee": 0,
       "inputs": [0, 1, 2, 3, 4, 5],
-      "remainder": 2000
+      "outputs": [28000, 2000]
     }
   },
   {
-    "description": "multiple outputs, no fee, remainder expected",
+    "description": "1 output, script provided, no change",
+    "feeRate": 10,
+    "inputs": [100000],
+    "outputs": [
+      {
+        "script": {
+          "length": 200
+        },
+        "value": 95000
+      }
+    ],
+    "expected": {
+      "fee": 5000,
+      "inputs": [0],
+      "outputs": [
+        {
+          "script": {
+            "length": 200
+          },
+          "value": 95000
+        }
+      ]
+    }
+  },
+  {
+    "description": "1 output, script provided, change expected",
+    "feeRate": 10,
+    "inputs": [200000],
+    "outputs": [
+      {
+        "script": {
+          "length": 200
+        },
+        "value": 95000
+      }
+    ],
+    "expected": {
+      "fee": 3990,
+      "inputs": [0],
+      "outputs": [
+        {
+          "script": {
+            "length": 200
+          },
+          "value": 95000
+        },
+        101010
+      ]
+    }
+  },
+  {
+    "description": "many outputs, no change",
+    "feeRate": 10,
+    "inputs": [30000, 12220, 10001],
+    "outputs": [35000, 5000, 5000, 1000],
+    "expected": {
+      "fee": 6221,
+      "inputs": [0, 1, 2],
+      "outputs": [35000, 5000, 5000, 1000]
+    }
+  },
+  {
+    "description": "many outputs, change expected",
+    "feeRate": 10,
+    "inputs": [30000, 14220, 10001],
+    "outputs": [35000, 5000, 5000, 1000],
+    "expected": {
+      "fee": 6220,
+      "inputs": [0, 1, 2],
+      "outputs": [35000, 5000, 5000, 1000, 2001]
+    }
+  },
+  {
+    "description": "many outputs, no fee, change expected",
     "feeRate": 0,
-    "unspents": [5000, 5000, 5000, 5000, 5000, 5000],
+    "inputs": [5000, 5000, 5000, 5000, 5000, 5000],
     "outputs": [28000, 1000],
     "expected": {
       "fee": 0,
       "inputs": [0, 1, 2, 3, 4, 5],
-      "remainder": 1000
+      "outputs": [28000, 1000, 1000]
     }
   },
   {
-    "description": "no outputs, no remainder",
+    "description": "no outputs, no change",
     "feeRate": 10,
+    "inputs": [1900],
     "outputs": [],
-    "unspents": [1900],
     "expected": {
       "fee": 1900,
       "inputs": [0],
-      "remainder": 0
+      "outputs": []
     }
   },
   {
-    "description": "no outputs, remainder expected",
+    "description": "no outputs, change expected",
     "feeRate": 10,
+    "inputs": [20000],
     "outputs": [],
-    "unspents": [2000],
     "expected": {
       "fee": 1900,
       "inputs": [0],
-      "remainder": 100
+      "outputs": [18100]
     }
   },
   {
     "description": "not enough funds, empty result",
     "feeRate": 10,
+    "inputs": [20000],
     "outputs": [40000],
-    "unspents": [20000],
     "expected": {
-      "fee": 1900,
-      "inputs": null
+      "fee": 1900
     }
   },
   {
     "description": "not enough funds (w/ fee), empty result",
     "feeRate": 10,
+    "inputs": [40000],
     "outputs": [40000],
-    "unspents": [40000],
     "expected": {
-      "fee": 1900,
-      "inputs": null
+      "fee": 1900
     }
   },
   {
-    "description": "not enough funds (fee > 10000), empty result",
+    "description": "not enough funds (no inputs), empty result",
     "feeRate": 10,
-    "outputs": [900000],
-    "unspents": [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
-    "expected": {
-      "fee": 12260,
-      "inputs": null
-    }
-  },
-  {
-    "description": "no unspents, empty result",
-    "feeRate": 10,
+    "inputs": [],
     "outputs": [],
-    "unspents": [],
     "expected": {
-      "fee": 80,
-      "inputs": null
+      "fee": 80
     }
   },
   {
-    "description": "no unspents, empty result (>1KiB)",
+    "description": "not enough funds (no inputs), empty result (>1KiB)",
     "feeRate": 10,
+    "inputs": [],
     "outputs": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    "unspents": [],
     "expected": {
-      "fee": 9940,
-      "inputs": null
-    }
-  },
-  {
-    "description": "singular output, script provided, huge",
-    "feeRate": 10,
-    "outputs": [
-      {
-        "value": 98010,
-        "script": {
-          "length": 200
-        }
-      }
-    ],
-    "unspents": [102000],
-    "expected": {
-      "fee": 3990,
-      "inputs": [0],
-      "remainder": 0
+      "fee": 9940
     }
   }
 ]
