@@ -1,13 +1,12 @@
 // baseline estimates, used to improve performance
-const TX_EMPTY_SIZE = 8
-const TX_INPUT_BASE = 40 + 2
+const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
+const TX_INPUT_BASE = 32 + 4 + 1 + 4
 const TX_INPUT_PUBKEYHASH = 106
 const TX_OUTPUT_BASE = 8 + 1
 const TX_OUTPUT_PUBKEYHASH = 25
 
-// FIXME: an estimate is used due to missing data
 function inputBytes (input) {
-  return TX_INPUT_BASE + TX_INPUT_PUBKEYHASH
+  return TX_INPUT_BASE + (input.script ? input.script.length : TX_INPUT_PUBKEYHASH)
 }
 
 function outputBytes (output) {

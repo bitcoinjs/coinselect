@@ -37,7 +37,7 @@ let targets = [
 ]
 
 // ...
-let { inputs, outputs, fee } = coinSelect.minimal(utxos, targets, feeRate)
+let { inputs, outputs, fee } = coinSelect(utxos, targets, feeRate)
 
 // the accumulated fee is always returned for analysis
 console.log(fee)

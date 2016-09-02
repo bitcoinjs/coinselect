@@ -1,7 +1,7 @@
 {
   "name": "coinselect",
   "version": "2.0.1",
-  "description": "A fee optimizing bitcoin input selection module",
+  "description": "A transaction input selection module for bitcoin.",
   "keywords": [
     "coinselect",
     "coin",
@@ -23,7 +23,10 @@
   "license": "MIT",
   "author": "Daniel Cousens",
   "files": [
-    "index.js"
+    "accumulative.js",
+    "blackjack.js",
+    "index.js",
+    "utils.js"
   ],
   "main": "index.js",
   "repository": {
@@ -42,5 +45,6 @@
     "standard": "*",
     "tap-spec": "^4.1.1",
     "tape": "^4.5.1"
-  }
+  },
+  "dependencies": {}
 }

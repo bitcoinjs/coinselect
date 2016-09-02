@@ -106,6 +106,26 @@
     }
   },
   {
+    "description": "1 output, 2 input (related), no change",
+    "feeRate": 10,
+    "inputs": [
+      {
+        "address": "a",
+        "value": 100000
+      },
+      {
+        "address": "a",
+        "value": 2000
+      }
+    ],
+    "outputs": [98000],
+    "expected": {
+      "fee": 4000,
+      "inputs": [0, 1],
+      "outputs": [98000]
+    }
+  },
+  {
     "description": "many outputs, no change",
     "feeRate": 10,
     "inputs": [30000, 12220, 10001],
