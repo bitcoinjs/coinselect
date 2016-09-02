@@ -18,9 +18,8 @@ Please let me know if you are using this package.
 
 ``` javascript
 let coinSelect = require('coinselect')
-
 let feeRate = 55 // satoshis per byte
-let inputsBase = [
+let utxos = [
 	...,
 	{
 		txId: '...',
@@ -29,7 +28,7 @@ let inputsBase = [
 		value: 10000
 	}
 ]
-let outputsBase = [
+let targets = [
 	...,
 	{
 		address: '1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm',
@@ -37,7 +36,8 @@ let outputsBase = [
 	}
 ]
 
-let { inputs, outputs, fee } = coinSelect.minimal(inputsBase, outputsBase, feeRate)
+// ...
+let { inputs, outputs, fee } = coinSelect.minimal(utxos, targets, feeRate)
 
 // the accumulated fee is always returned for analysis
 console.log(fee)
