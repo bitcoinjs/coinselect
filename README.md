@@ -5,11 +5,11 @@
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
-A fee-optimizing, transaction input selection module for bitcoinjs-lib.
+A transaction input selection module for bitcoin.
 
 The code is stable.
 
-The module's interface/existence is not.
+The module's interface is not.
 
 Please let me know if you are using this package.
 
@@ -17,17 +17,19 @@ Please let me know if you are using this package.
 ## Example
 
 ``` javascript
-var coinSelect = require('coinselect')
+let coinSelect = require('coinselect')
 
-var feeRate = 55 // satoshis per byte
-var unspents = [
+let feeRate = 55 // satoshis per byte
+let inputsBase = [
 	...,
 	{
+		txId: '...',
+		vout: 0,
 		...,
 		value: 10000
 	}
 ]
-var outputs = [
+let outputsBase = [
 	...,
 	{
 		address: '1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm',
@@ -35,21 +37,26 @@ var outputs = [
 	}
 ]
 
-var result = coinselect(unspents, outputs, feeRate)
+let { inputs, outputs, fee } = coinSelect.minimal(inputsBase, outputsBase, feeRate)
 
-// the accumulated fee is always returned
-console.log(result.fee)
+// the accumulated fee is always returned for analysis
+console.log(fee)
 
-// .inputs may be null if not enough funds exist
-if (!result.inputs) return
+// .inputs and .outputs will be undefined if no solution was found
+if (!inputs || !outputs) return
 
-// success!
-var txb = new bitcoin.TransactionBuilder()
+let txb = new bitcoin.TransactionBuilder()
 
-// is a change output non-dust?
-if (result.remainder > 5460) {
-	txb.addOutput(changeAddress, result.remainder)
-}
+inputs.forEach(input => txb.addInput(input.txId, input.vout))
+outputs.forEach(output => {
+	// watch out, outputs may have been added that you need to provide
+	// an output address/script for
+	if (!output.address) {
+		output.address = wallet.getChangeAddress()
+	}
+
+	txb.addOutput(output.address, output.value)
+})
 ```
 
 Feedback welcome on the API,  I'm not sure if I like it.

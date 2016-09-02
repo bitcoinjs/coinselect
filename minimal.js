@@ -4,7 +4,6 @@ let fInputBytes = utils.inputBytes
 let fOutputBytes = utils.outputBytes
 let fTransactionBytes = utils.transactionBytes
 
-// TODO: group inputs by prevOutScript
 module.exports = function select (prospectiveInputs, outputs, feeRate) {
   let inAccum = 0
   let bytesAccum = fTransactionBytes([], outputs)
