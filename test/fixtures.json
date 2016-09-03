@@ -16,20 +16,20 @@
     "inputs": [106001],
     "outputs": [100000],
     "expected": {
-      "fee": 2240,
+      "fee": 2250,
       "inputs": [0],
-      "outputs": [100000, 3761]
+      "outputs": [100000, 3751]
     }
   },
   {
-    "description": "1 output, sub-optimal inputs, change expected",
+    "description": "1 output, sub-optimal inputs (after ordering), change expected",
     "feeRate": 10,
     "inputs": [10000, 40000, 40000],
     "outputs": [7700],
     "expected": {
-      "fee": 2240,
-      "inputs": [1],
-      "outputs": [7700, 30060]
+      "fee": 2300,
+      "inputs": [0],
+      "outputs": [7700]
     }
   },
   {
@@ -92,7 +92,7 @@
       }
     ],
     "expected": {
-      "fee": 3990,
+      "fee": 4000,
       "inputs": [0],
       "outputs": [
         {
@@ -101,12 +101,12 @@
           },
           "value": 95000
         },
-        101010
+        101000
       ]
     }
   },
   {
-    "description": "1 output, 2 input (related), no change",
+    "description": "1 output, 2 inputs (related), no change",
     "feeRate": 10,
     "inputs": [
       {
@@ -120,8 +120,8 @@
     ],
     "outputs": [98000],
     "expected": {
-      "fee": 4000,
-      "inputs": [0, 1],
+      "fee": 2000,
+      "inputs": [0],
       "outputs": [98000]
     }
   },
@@ -142,9 +142,9 @@
     "inputs": [30000, 14220, 10001],
     "outputs": [35000, 5000, 5000, 1000],
     "expected": {
-      "fee": 6220,
+      "fee": 6210,
       "inputs": [0, 1, 2],
-      "outputs": [35000, 5000, 5000, 1000, 2001]
+      "outputs": [35000, 5000, 5000, 1000, 2011]
     }
   },
   {
@@ -175,9 +175,9 @@
     "inputs": [20000],
     "outputs": [],
     "expected": {
-      "fee": 1900,
+      "fee": 1910,
       "inputs": [0],
-      "outputs": [18100]
+      "outputs": [18090]
     }
   },
   {
@@ -186,7 +186,7 @@
     "inputs": [20000],
     "outputs": [40000],
     "expected": {
-      "fee": 1900
+      "fee": 1910
     }
   },
   {
@@ -195,7 +195,7 @@
     "inputs": [40000],
     "outputs": [40000],
     "expected": {
-      "fee": 1900
+      "fee": 1910
     }
   },
   {
@@ -204,7 +204,7 @@
     "inputs": [],
     "outputs": [],
     "expected": {
-      "fee": 80
+      "fee": 100
     }
   },
   {
@@ -213,7 +213,7 @@
     "inputs": [],
     "outputs": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     "expected": {
-      "fee": 9940
+      "fee": 9960
     }
   }
 ]
