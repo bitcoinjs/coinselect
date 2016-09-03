@@ -8,25 +8,25 @@ module.exports = function blackjack (utxos, outputs, feeRate) {
   let inAccum = 0
   let bytesAccum = utils.transactionBytes([], outputs)
 
-  // accumulate inputs unless we bust
+  // accumulate inputs until we bust
   let inputs = []
 
   for (let i = 0; i < utxos.length; ++i) {
     const utxo = utxos[i]
-    const inputBytes = utils.inputBytes(utxo)
-    const fee = feeRate * (bytesAccum + inputBytes)
-    const needed = outAccum + fee
+    const bytesAfter = utils.inputBytes(utxo)
+    const feeAfter = feeRate * (bytesAccum + bytesAfter)
 
-    // would we bust?
-    if (inAccum + utxo.value > needed + threshold) continue
+    // are we wasting value?
+    if (inAccum + utxo.value > outAccum + feeAfter + threshold) continue
 
     inAccum += utxo.value
-    bytesAccum += inputBytes
+    bytesAccum += bytesAfter
     inputs.push(utxo)
 
     // go again?
-    if (inAccum < needed) continue
+    if (inAccum < outAccum + feeAfter) continue
 
+    const fee = inAccum - outAccum
     return { inputs, outputs, fee }
   }
 
