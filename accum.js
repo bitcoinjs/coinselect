@@ -21,8 +21,8 @@ module.exports = function accumulative (utxos, outputs, feeRate) {
   }
 
   // did we bust?
-  const feeWanted = feeRate * bytesAccum
-  if (inAccum < outAccum + feeWanted) return { fee: feeWanted }
+  const feeAccum = feeRate * bytesAccum
+  if (inAccum < outAccum + feeAccum) return { fee: feeAccum }
 
   // is it worth an extra output [for change]?
   {
