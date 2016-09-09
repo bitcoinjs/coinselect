@@ -43,7 +43,6 @@
   "devDependencies": {
     "nyc": "^6.4.0",
     "standard": "*",
-    "tap-spec": "^4.1.1",
     "tape": "^4.5.1"
   },
   "dependencies": {}
