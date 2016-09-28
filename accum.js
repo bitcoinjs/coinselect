@@ -32,7 +32,7 @@ module.exports = function accumulative (utxos, outputs, feeRate) {
 
     if (valueExtra > utils.dustThreshold({}, feeRate)) {
       outAccum += valueExtra
-      outputs.push({ value: valueExtra })
+      outputs = outputs.concat({ value: valueExtra })
 
       const fee = inAccum - outAccum
       return { inputs, outputs, fee }
