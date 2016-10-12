@@ -25,7 +25,9 @@
   "files": [
     "accum.js",
     "blackjack.js",
+    "broken.js",
     "index.js",
+    "split.js",
     "utils.js"
   ],
   "main": "index.js",

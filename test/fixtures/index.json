@@ -12,17 +12,17 @@
   },
   {
     "description": "1 output, change expected",
-    "feeRate": 10,
+    "feeRate": 5,
     "inputs": [106001],
     "outputs": [100000],
     "expected": {
-      "fee": 2250,
+      "fee": 1125,
       "inputs": [0],
-      "outputs": [100000, 3751]
+      "outputs": [100000, 4876]
     }
   },
   {
-    "description": "1 output, sub-optimal inputs (if re-ordered)",
+    "description": "1 output, sub-optimal inputs (if re-ordered), direct possible",
     "feeRate": 10,
     "inputs": [10000, 40000, 40000],
     "outputs": [7700],
@@ -33,14 +33,25 @@
     }
   },
   {
-    "description": "1 output, sub-optimal inputs (if re-ordered, no direct available), change expected",
+    "description": "1 output, sub-optimal inputs (if re-ordered), direct possible, but slightly higher fee",
     "feeRate": 10,
+    "inputs": [10000, 40000, 40000],
+    "outputs": [6800],
+    "expected": {
+      "fee": 3200,
+      "inputs": [0],
+      "outputs": [6800]
+    }
+  },
+  {
+    "description": "1 output, sub-optimal inputs (if re-ordered, no direct possible), change expected",
+    "feeRate": 5,
     "inputs": [10000, 40000, 40000],
     "outputs": [4700],
     "expected": {
-      "fee": 2250,
+      "fee": 1125,
       "inputs": [1],
-      "outputs": [4700, 33050]
+      "outputs": [4700, 34175]
     }
   },
   {

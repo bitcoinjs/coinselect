@@ -14,7 +14,8 @@ function outputBytes (output) {
 }
 
 function dustThreshold (output, feeRate) {
-  return 3 * (outputBytes(output) * feeRate)
+  /* ... classify the output for input estimate  */
+  return inputBytes() * feeRate
 }
 
 function transactionBytes (inputs, outputs) {
@@ -23,7 +24,10 @@ function transactionBytes (inputs, outputs) {
     outputs.reduce((a, x) => a + outputBytes(x), 0)
 }
 
+const BLANK_OUTPUT = outputBytes({})
+
 module.exports = {
+  BLANK_OUTPUT,
   dustThreshold,
   inputBytes,
   outputBytes,
