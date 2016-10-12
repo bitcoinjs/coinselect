@@ -1,4 +1,4 @@
-let utils = require('./utils')
+const utils = require('./utils')
 
 module.exports = function split (utxos, outputs, feeRate) {
   const inAccum = utxos.reduce((a, x) => a + x.value, 0)

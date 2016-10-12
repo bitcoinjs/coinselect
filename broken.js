@@ -1,4 +1,4 @@
-let utils = require('./utils')
+const utils = require('./utils')
 
 module.exports = function broken (utxos, output, feeRate) {
   if (!isFinite(output.value)) throw new TypeError('Expected Satoshi value, got ' + output.value)

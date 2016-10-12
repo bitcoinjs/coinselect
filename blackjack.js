@@ -1,4 +1,4 @@
-let utils = require('./utils')
+const utils = require('./utils')
 
 // O(n * n)
 module.exports = function blackjack (utxos, outputs, feeRate) {

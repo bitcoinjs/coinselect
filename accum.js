@@ -1,4 +1,4 @@
-let utils = require('./utils')
+const utils = require('./utils')
 
 // O(n)
 module.exports = function accumulative (utxos, outputs, feeRate) {
