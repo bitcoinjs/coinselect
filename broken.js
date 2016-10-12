@@ -3,7 +3,7 @@ let utils = require('./utils')
 module.exports = function broken (utxos, output, feeRate) {
   if (!isFinite(output.value)) throw new TypeError('Expected Satoshi value, got ' + output.value)
 
-  let inAccum = utxos.reduce(function (a, x) { return a + x.value }, 0)
+  let inAccum = utxos.reduce((a, x) => a + x.value, 0)
   let bytesAccum = utils.transactionBytes(utxos, [])
   const outputBytes = utils.outputBytes(output)
   const value = output.value
