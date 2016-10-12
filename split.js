@@ -6,18 +6,17 @@ module.exports = function split (utxos, outputs, feeRate) {
   const fee = bytesAccum * feeRate
   if (outputs.length === 0) return { fee }
 
-  let outAccum = outputs.reduce((a, x) => a + (x.value | 0), 0)
+  const outAccum = outputs.reduce((a, x) => a + (x.value | 0), 0)
   const remaining = inAccum - outAccum - fee
   if (remaining <= 0) return { fee }
 
-  const wildOutputsCount = outputs.reduce((a, x) => a + (x.value === undefined), 0)
-  const wildValue = (remaining / wildOutputsCount) | 0
+  const splitOutputsCount = outputs.reduce((a, x) => a + !x.value, 0)
+  const splitValue = (remaining / splitOutputsCount) | 0
 
-  if (!outputs.every((x) => (x.value !== undefined) || (wildValue > utils.dustThreshold(x, feeRate)))) {
-    return { fee }
-  }
+  // ensure every output is either user defined, or over the threshold
+  if (!outputs.every((x) => x.value || (splitValue > utils.dustThreshold(x, feeRate)))) return { fee }
 
-  outputs = outputs.map(x => Object.assign({ value: wildValue }, x))
+  outputs = outputs.map(x => Object.assign({ value: splitValue }, x))
   const actualFee = inAccum - outputs.reduce((a, x) => a + x.value, 0)
 
   return { inputs: utxos, outputs, fee: actualFee }
