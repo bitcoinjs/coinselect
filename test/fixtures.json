@@ -22,7 +22,7 @@
     }
   },
   {
-    "description": "1 output, sub-optimal inputs (after ordering), change expected",
+    "description": "1 output, sub-optimal inputs (if re-ordered)",
     "feeRate": 10,
     "inputs": [10000, 40000, 40000],
     "outputs": [7700],
@@ -30,6 +30,17 @@
       "fee": 2300,
       "inputs": [0],
       "outputs": [7700]
+    }
+  },
+  {
+    "description": "1 output, sub-optimal inputs (if re-ordered, no direct available), change expected",
+    "feeRate": 10,
+    "inputs": [10000, 40000, 40000],
+    "outputs": [4700],
+    "expected": {
+      "fee": 2250,
+      "inputs": [1],
+      "outputs": [4700, 33050]
     }
   },
   {
