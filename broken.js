@@ -3,37 +3,40 @@ const utils = require('./utils')
 module.exports = function broken (utxos, output, feeRate) {
   if (!isFinite(output.value)) throw new TypeError('Expected Satoshi value, got ' + output.value)
 
-  let inAccum = utxos.reduce((a, x) => a + x.value, 0)
-  let bytesAccum = utils.transactionBytes(utxos, [])
+  const inAccum = utxos.reduce((a, x) => a + x.value, 0)
   const outputBytes = utils.outputBytes(output)
   const value = output.value
 
+  let bytesAccum = utils.transactionBytes(utxos, [])
+  let outAccum = 0
   let outputs = []
-  let fee = inAccum
 
-  while (inAccum >= value) {
+  while (true) {
+    const fee = feeRate * (bytesAccum + outputBytes)
+
+    // did we bust?
+    if (inAccum < (outAccum + fee)) {
+      // did we bust before we split anything?
+      if (outputs.length === 0) return { fee }
+      break
+    }
+
     bytesAccum += outputBytes
-
-    fee = feeRate * bytesAccum
-    if ((inAccum - value - fee) < 0) break
-
-    inAccum -= value
+    outAccum += value
     outputs.push({ value })
   }
 
-  // did we bust before we split anything?
-  if (outputs.length === 0) return { fee }
-
-  // is it worth an extra output [for change]?
+  // is it worth a change output?
   {
     const fee = feeRate * (bytesAccum + outputBytes)
-    const valueExtra = inAccum - fee
+    const value = inAccum - (outAccum + fee)
 
-    if (valueExtra > utils.dustThreshold({}, feeRate)) {
-      outputs.push({ value: valueExtra })
-      inAccum -= valueExtra
+    if (value > utils.dustThreshold({}, feeRate)) {
+      outputs.push({ value })
+      outAccum += value
     }
   }
 
-  return { inputs: utxos, outputs, fee: inAccum }
+  const fee = inAccum - outAccum
+  return { inputs: utxos, outputs, fee }
 }

@@ -3,7 +3,7 @@ const utils = require('./utils')
 module.exports = function split (utxos, outputs, feeRate) {
   const inAccum = utxos.reduce((a, x) => a + x.value, 0)
   const bytesAccum = utils.transactionBytes(utxos, outputs)
-  const fee = bytesAccum * feeRate
+  const fee = feeRate * bytesAccum
   if (outputs.length === 0) return { fee }
 
   const outAccum = outputs.reduce((a, x) => a + (x.value | 0), 0)
