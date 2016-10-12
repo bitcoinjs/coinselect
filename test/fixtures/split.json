@@ -33,6 +33,23 @@
     }
   },
   {
+    "description": "3 to 3 (1 output pre-defined)",
+    "feeRate": 10,
+    "inputs": [10000, 10000, 10000],
+    "outputs": [
+      {
+        "value": 12000
+      },
+      {},
+      {}
+    ],
+    "expected": {
+      "inputs": true,
+      "outputs": [12000, 6235, 6235],
+      "fee": 5530
+    }
+  },
+  {
     "description": "2 to 0 (no result)",
     "feeRate": 10,
     "inputs": [10000, 10000],
