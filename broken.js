@@ -15,7 +15,7 @@ module.exports = function broken (utxos, output, feeRate) {
     const fee = feeRate * (bytesAccum + outputBytes)
 
     // did we bust?
-    if (inAccum < (outAccum + fee)) {
+    if (inAccum < (outAccum + value + fee)) {
       // did we bust before we split anything?
       if (outputs.length === 0) return { fee }
       break
@@ -32,8 +32,8 @@ module.exports = function broken (utxos, output, feeRate) {
     const value = inAccum - (outAccum + fee)
 
     if (value > utils.dustThreshold({}, feeRate)) {
-      outputs.push({ value })
       outAccum += value
+      outputs.push({ value })
     }
   }
 

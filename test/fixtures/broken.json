@@ -118,7 +118,7 @@
     "inputs": [],
     "output": 2000,
     "expected": {
-      "fee": 0
+      "fee": 440
     }
   }
 ]
