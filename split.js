@@ -22,7 +22,9 @@ module.exports = function split (utxos, outputs, feeRate) {
 
   // assign splitValue to outputs not user defined
   outputs = outputs.map(function (x) {
-    return Object.assign({ value: splitValue }, x)
+    if (isFinite(x.value)) return x
+
+    return { value: splitValue }
   })
 
   return utils.finalize(utxos, outputs, feeRate)
