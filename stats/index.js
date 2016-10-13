@@ -21,7 +21,8 @@ function pad (i) {
 //
 let strategies = [
   'bestof', 'maximal', 'minimal', 'random', 'proximal', // plain accumulative
-  'blackmax', 'blackmin', 'blackrand' // blackjack & accumulative
+  'blackmax', 'blackmin', 'blackrand', // blackjack & accumulative
+  '../blackjack', '../accum', '../split', '../'
 ]
 
 let modules = strategies.map(name => ({ name, f: require('./' + name) }))
