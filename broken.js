@@ -24,7 +24,7 @@ module.exports = function broken (utxos, output, feeRate) {
 
     bytesAccum += outputBytes
     outAccum += value
-    outputs.push({ value })
+    outputs.push(Object.assign({}, output))
   }
 
   return utils.finalize(utxos, outputs, feeRate)
