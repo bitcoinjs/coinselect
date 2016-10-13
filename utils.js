@@ -35,7 +35,7 @@ function worthChange (inputs, outputs, feeRate) {
   const fee = feeRate * (bytesAccum + BLANK_OUTPUT)
   const remainder = sum(inputs) - (sum(outputs) + fee)
 
-  if (remainder < dustThreshold({}, feeRate)) return null
+  if (remainder <= dustThreshold({}, feeRate)) return null
   return { value: remainder }
 }
 
