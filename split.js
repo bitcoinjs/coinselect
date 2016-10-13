@@ -15,9 +15,7 @@ module.exports = function split (utxos, outputs, feeRate) {
 
   // ensure every output is either user defined, or over the threshold
   if (!outputs.every((x) => x.value || (splitValue > utils.dustThreshold(x, feeRate)))) return { fee }
-
   outputs = outputs.map(x => Object.assign({ value: splitValue }, x))
-  const actualFee = inAccum - outputs.reduce((a, x) => a + x.value, 0)
 
-  return { inputs: utxos, outputs, fee: actualFee }
+  return utils.finalize(utxos, outputs, feeRate)
 }

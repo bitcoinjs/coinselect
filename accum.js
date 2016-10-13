@@ -2,11 +2,11 @@ const utils = require('./utils')
 
 // O(n)
 module.exports = function accumulative (utxos, outputs, feeRate) {
+  const outAccum = outputs.reduce((a, x) => a + x.value, 0)
+
+  // accumulators
   let bytesAccum = utils.transactionBytes([], outputs)
   let inAccum = 0
-  let outAccum = outputs.reduce((a, x) => a + x.value, 0)
-
-  // accumulate inputs
   let inputs = []
 
   for (let i = 0; i < utxos.length; ++i) {
@@ -16,30 +16,14 @@ module.exports = function accumulative (utxos, outputs, feeRate) {
     inAccum += utxo.value
     inputs.push(utxo)
 
-    const feeWanted = feeRate * bytesAccum
-    if (inAccum >= outAccum + feeWanted) break
+    const fee = feeRate * bytesAccum
+
+    // go again?
+    if (inAccum < outAccum + fee) continue
+
+    return utils.finalize(inputs, outputs, feeRate)
   }
 
-  // did we bust?
-  const feeAccum = feeRate * bytesAccum
-  if (inAccum < outAccum + feeAccum) return { fee: feeAccum }
-
-  // is it worth a change output?
-  {
-    const bytesExtra = utils.outputBytes({})
-    const feeExtra = feeRate * (bytesAccum + bytesExtra)
-    const valueExtra = inAccum - outAccum - feeExtra
-
-    if (valueExtra > utils.dustThreshold({}, feeRate)) {
-      outAccum += valueExtra
-      outputs = outputs.concat({ value: valueExtra })
-
-      const fee = inAccum - outAccum
-      return { inputs, outputs, fee }
-    }
-  }
-
-  // ignore it
-  const fee = inAccum - outAccum
-  return { inputs, outputs, fee }
+  const fee = feeRate * bytesAccum
+  return { fee }
 }

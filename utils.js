@@ -24,11 +24,36 @@ function transactionBytes (inputs, outputs) {
     outputs.reduce((a, x) => a + outputBytes(x), 0)
 }
 
+function sum (range) {
+  return range.reduce(function (a, x) { return a + x.value }, 0)
+}
+
 const BLANK_OUTPUT = outputBytes({})
 
+function worthChange (inputs, outputs, feeRate) {
+  const bytesAccum = transactionBytes(inputs, outputs)
+  const fee = feeRate * (bytesAccum + BLANK_OUTPUT)
+  const remainder = sum(inputs) - (sum(outputs) + fee)
+
+  if (remainder < dustThreshold({}, feeRate)) return null
+  return { value: remainder }
+}
+
+function finalize (inputs, outputs, feeRate) {
+  // was too much left over?
+  const change = worthChange(inputs, outputs, feeRate)
+  if (change) outputs = outputs.concat(change)
+
+  return {
+    inputs: inputs,
+    outputs: outputs,
+    fee: sum(inputs) - sum(outputs)
+  }
+}
+
 module.exports = {
-  BLANK_OUTPUT,
   dustThreshold,
+  finalize,
   inputBytes,
   outputBytes,
   transactionBytes

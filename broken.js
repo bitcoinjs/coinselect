@@ -26,17 +26,5 @@ module.exports = function broken (utxos, output, feeRate) {
     outputs.push({ value })
   }
 
-  // is it worth a change output?
-  {
-    const fee = feeRate * (bytesAccum + outputBytes)
-    const value = inAccum - (outAccum + fee)
-
-    if (value > utils.dustThreshold({}, feeRate)) {
-      outAccum += value
-      outputs.push({ value })
-    }
-  }
-
-  const fee = inAccum - outAccum
-  return { inputs: utxos, outputs, fee }
+  return utils.finalize(utxos, outputs, feeRate)
 }
