@@ -4,7 +4,7 @@ const utils = require('./utils')
 
 // O(n)
 module.exports = function accumulative (utxos, outputs, feeRate) {
-  const outAccum = utils.sum(outputs)
+  var outAccum = utils.sum(outputs)
 
   // accumulators
   var bytesAccum = utils.transactionBytes([], outputs)
@@ -12,13 +12,13 @@ module.exports = function accumulative (utxos, outputs, feeRate) {
   var inputs = []
 
   for (var i = 0; i < utxos.length; ++i) {
-    const utxo = utxos[i]
+    var utxo = utxos[i]
 
     bytesAccum += utils.inputBytes(utxo)
     inAccum += utxo.value
     inputs.push(utxo)
 
-    const fee = feeRate * bytesAccum
+    var fee = feeRate * bytesAccum
 
     // go again?
     if (inAccum < outAccum + fee) continue
