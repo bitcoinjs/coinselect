@@ -1,3 +1,5 @@
+'use-strict'
+
 // baseline estimates, used to improve performance
 const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 const TX_INPUT_BASE = 32 + 4 + 1 + 4
@@ -20,8 +22,8 @@ function dustThreshold (output, feeRate) {
 
 function transactionBytes (inputs, outputs) {
   return TX_EMPTY_SIZE +
-    inputs.reduce((a, x) => a + inputBytes(x), 0) +
-    outputs.reduce((a, x) => a + outputBytes(x), 0)
+    inputs.reduce(function (a, x) { return a + inputBytes(x) }, 0) +
+    outputs.reduce(function (a, x) { return a + outputBytes(x) }, 0)
 }
 
 function sum (range) {
@@ -52,9 +54,9 @@ function finalize (inputs, outputs, feeRate) {
 }
 
 module.exports = {
-  dustThreshold,
-  finalize,
-  inputBytes,
-  outputBytes,
-  transactionBytes
+  dustThreshold: dustThreshold,
+  finalize: finalize,
+  inputBytes: inputBytes,
+  outputBytes: outputBytes,
+  transactionBytes: transactionBytes
 }

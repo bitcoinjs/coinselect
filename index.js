@@ -1,3 +1,5 @@
+'use-strict'
+
 let accumulative = require('./accum')
 let blackjack = require('./blackjack')
 
