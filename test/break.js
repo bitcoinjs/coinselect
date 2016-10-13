@@ -1,5 +1,5 @@
-var coinBreak = require('../broken')
-var fixtures = require('./fixtures/broken')
+var coinBreak = require('../break')
+var fixtures = require('./fixtures/break')
 var tape = require('tape')
 var utils = require('./_utils')
 
