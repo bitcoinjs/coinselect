@@ -4,14 +4,14 @@ const utils = require('./utils')
 
 // O(n)
 module.exports = function accumulative (utxos, outputs, feeRate) {
-  const outAccum = outputs.reduce((a, x) => a + x.value, 0)
+  const outAccum = utils.sum(outputs)
 
   // accumulators
-  let bytesAccum = utils.transactionBytes([], outputs)
-  let inAccum = 0
-  let inputs = []
+  var bytesAccum = utils.transactionBytes([], outputs)
+  var inAccum = 0
+  var inputs = []
 
-  for (let i = 0; i < utxos.length; ++i) {
+  for (var i = 0; i < utxos.length; ++i) {
     const utxo = utxos[i]
 
     bytesAccum += utils.inputBytes(utxo)

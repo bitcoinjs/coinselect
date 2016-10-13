@@ -27,7 +27,7 @@ function transactionBytes (inputs, outputs) {
 }
 
 function sum (range) {
-  return range.reduce(function (a, x) { return a + x.value }, 0)
+  return range.reduce(function (a, x) { return a + (x.value | 0) }, 0)
 }
 
 const BLANK_OUTPUT = outputBytes({})
@@ -58,5 +58,6 @@ module.exports = {
   finalize: finalize,
   inputBytes: inputBytes,
   outputBytes: outputBytes,
+  sum: sum,
   transactionBytes: transactionBytes
 }

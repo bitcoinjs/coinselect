@@ -4,15 +4,15 @@ const utils = require('./utils')
 
 // O(n * n)
 module.exports = function blackjack (utxos, outputs, feeRate) {
-  const outAccum = outputs.reduce((a, x) => a + x.value, 0)
+  const outAccum = utils.sum(outputs)
   const threshold = utils.dustThreshold({}, feeRate)
 
   // accumulate inputs until we bust
-  let inAccum = 0
-  let bytesAccum = utils.transactionBytes([], outputs)
-  let inputs = []
+  var inAccum = 0
+  var bytesAccum = utils.transactionBytes([], outputs)
+  var inputs = []
 
-  for (let i = 0; i < utxos.length; ++i) {
+  for (var i = 0; i < utxos.length; ++i) {
     const input = utxos[i]
     const inputBytes = utils.inputBytes(input)
     const fee = feeRate * (bytesAccum + inputBytes)
