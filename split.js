@@ -17,7 +17,7 @@ module.exports = function split (utxos, outputs, feeRate) {
 
   // ensure every output is either user defined, or over the threshold
   if (outputs.some(function (x) {
-    return !x.value && (splitValue > utils.dustThreshold(x, feeRate))
+    return !isFinite(x.value) && (splitValue <= utils.dustThreshold(x, feeRate))
   })) return { fee: fee }
 
   // assign splitValue to outputs not user defined
