@@ -75,7 +75,7 @@ for (var m = 1; m < 5; ++m) {
     for (var k = 1; k < 3; ++k) {
       let feeRate = 56 / l
       let amount = 300000000 // 3BTC
-      let utxos = generate(amount, 40000000 * k) // 0.4BTC max
+      let utxos = generate(amount, 20000000 * k) // 0.2BTC max
       let outputs = generate(amount, 2000000 / m) // spend ~54USD max
       outputs.forEach(x => (x.external = true))
 
