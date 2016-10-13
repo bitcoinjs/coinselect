@@ -18,8 +18,8 @@ module.exports = function blackjack (utxos, outputs, feeRate) {
     // would it waste value?
     if ((inAccum + input.value) > (outAccum + fee + threshold)) continue
 
-    inAccum += input.value
     bytesAccum += inputBytes
+    inAccum += input.value
     inputs.push(input)
 
     // go again?

@@ -15,9 +15,10 @@ module.exports = function broken (utxos, output, feeRate) {
     const fee = feeRate * (bytesAccum + outputBytes)
 
     // did we bust?
-    if (inAccum < (outAccum + value + fee)) {
-      // did we bust before we split anything?
-      if (outputs.length === 0) return { fee }
+    if (inAccum < (outAccum + fee + value)) {
+      // premature?
+      if (outAccum === 0) return { fee }
+
       break
     }
 
