@@ -1,19 +1,19 @@
-const utils = require('./utils')
+var utils = require('./utils')
 
 module.exports = function split (utxos, outputs, feeRate) {
-  const bytesAccum = utils.transactionBytes(utxos, outputs)
-  const fee = feeRate * bytesAccum
+  var bytesAccum = utils.transactionBytes(utxos, outputs)
+  var fee = feeRate * bytesAccum
   if (outputs.length === 0) return { fee: fee }
 
-  const inAccum = utils.sum(utxos)
-  const outAccum = utils.sum(outputs)
-  const remaining = inAccum - outAccum - fee
+  var inAccum = utils.sum(utxos)
+  var outAccum = utils.sum(outputs)
+  var remaining = inAccum - outAccum - fee
   if (remaining <= 0) return { fee: fee }
 
-  const splitOutputsCount = outputs.reduce(function (a, x) {
+  var splitOutputsCount = outputs.reduce(function (a, x) {
     return a + !x.value
   }, 0)
-  const splitValue = (remaining / splitOutputsCount) | 0
+  var splitValue = (remaining / splitOutputsCount) | 0
 
   // ensure every output is either user defined, or over the threshold
   if (outputs.some(function (x) {

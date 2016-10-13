@@ -1,11 +1,9 @@
-'use-strict'
-
-const utils = require('./utils')
+var utils = require('./utils')
 
 // O(n * n)
 module.exports = function blackjack (utxos, outputs, feeRate) {
-  const outAccum = utils.sum(outputs)
-  const threshold = utils.dustThreshold({}, feeRate)
+  var outAccum = utils.sum(outputs)
+  var threshold = utils.dustThreshold({}, feeRate)
 
   // accumulate inputs until we bust
   var inAccum = 0
@@ -13,9 +11,9 @@ module.exports = function blackjack (utxos, outputs, feeRate) {
   var inputs = []
 
   for (var i = 0; i < utxos.length; ++i) {
-    const input = utxos[i]
-    const inputBytes = utils.inputBytes(input)
-    const fee = feeRate * (bytesAccum + inputBytes)
+    var input = utxos[i]
+    var inputBytes = utils.inputBytes(input)
+    var fee = feeRate * (bytesAccum + inputBytes)
 
     // would it waste value?
     if ((inAccum + input.value) > (outAccum + fee + threshold)) continue

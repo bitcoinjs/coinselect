@@ -1,13 +1,11 @@
-'use-strict'
-
-const coinSplit = require('../split')
-const fixtures = require('./fixtures/split')
-const tape = require('tape')
-const utils = require('./_utils')
+var coinSplit = require('../split')
+var fixtures = require('./fixtures/split')
+var tape = require('tape')
+var utils = require('./_utils')
 
 fixtures.forEach(function (f, k) {
   tape(f.description, function (t) {
-    const inputs = utils.valuesToObjects(f.inputs)
+    var inputs = utils.valuesToObjects(f.inputs)
     var outputs = f.outputs
 
     // avoid useless information in the fixtures
@@ -16,7 +14,7 @@ fixtures.forEach(function (f, k) {
       for (var i = 0; i < f.outputs; ++i) outputs.push({})
     }
 
-    const result = coinSplit(inputs, outputs, f.feeRate)
+    var result = coinSplit(inputs, outputs, f.feeRate)
 
     // ensure arguments were not modified
     t.equal(inputs.length, f.inputs.length)

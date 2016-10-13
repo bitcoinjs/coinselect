@@ -1,5 +1,3 @@
-'use-strict'
-
 var accumulative = require('./accum')
 var blackjack = require('./blackjack')
 

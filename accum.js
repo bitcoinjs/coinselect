@@ -1,6 +1,4 @@
-'use-strict'
-
-const utils = require('./utils')
+var utils = require('./utils')
 
 // O(n)
 module.exports = function accumulative (utxos, outputs, feeRate) {

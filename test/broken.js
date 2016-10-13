@@ -1,15 +1,13 @@
-'use-strict'
-
-const coinBreak = require('../broken')
-const fixtures = require('./fixtures/broken')
-const tape = require('tape')
-const utils = require('./_utils')
+var coinBreak = require('../broken')
+var fixtures = require('./fixtures/broken')
+var tape = require('tape')
+var utils = require('./_utils')
 
 fixtures.forEach(function (f, k) {
   tape(f.description, function (t) {
-    const inputs = utils.valuesToObjects(f.inputs)
-    const output = utils.valuesToObjects([f.output])[0]
-    const result = coinBreak(inputs, output, f.feeRate)
+    var inputs = utils.valuesToObjects(f.inputs)
+    var output = utils.valuesToObjects([f.output])[0]
+    var result = coinBreak(inputs, output, f.feeRate)
 
     // ensure arguments were not modified
     t.equal(inputs.length, f.inputs.length)

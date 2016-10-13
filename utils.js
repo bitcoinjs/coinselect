@@ -1,11 +1,9 @@
-'use-strict'
-
 // baseline estimates, used to improve performance
-const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
-const TX_INPUT_BASE = 32 + 4 + 1 + 4
-const TX_INPUT_PUBKEYHASH = 106
-const TX_OUTPUT_BASE = 8 + 1
-const TX_OUTPUT_PUBKEYHASH = 25
+var TX_EMPTY_SIZE = 4 + 1 + 1 + 4
+var TX_INPUT_BASE = 32 + 4 + 1 + 4
+var TX_INPUT_PUBKEYHASH = 106
+var TX_OUTPUT_BASE = 8 + 1
+var TX_OUTPUT_PUBKEYHASH = 25
 
 function inputBytes () {
   return TX_INPUT_BASE + TX_INPUT_PUBKEYHASH
@@ -30,12 +28,12 @@ function sum (range) {
   return range.reduce(function (a, x) { return a + (x.value >>> 0) }, 0)
 }
 
-const BLANK_OUTPUT = outputBytes({})
+var BLANK_OUTPUT = outputBytes({})
 
 function worthChange (inputs, outputs, feeRate) {
-  const bytesAccum = transactionBytes(inputs, outputs)
-  const fee = feeRate * (bytesAccum + BLANK_OUTPUT)
-  const remainder = sum(inputs) - (sum(outputs) + fee)
+  var bytesAccum = transactionBytes(inputs, outputs)
+  var fee = feeRate * (bytesAccum + BLANK_OUTPUT)
+  var remainder = sum(inputs) - (sum(outputs) + fee)
 
   if (remainder <= dustThreshold({}, feeRate)) return null
   return { value: remainder }
@@ -43,7 +41,7 @@ function worthChange (inputs, outputs, feeRate) {
 
 function finalize (inputs, outputs, feeRate) {
   // was too much left over?
-  const change = worthChange(inputs, outputs, feeRate)
+  var change = worthChange(inputs, outputs, feeRate)
   if (change) outputs = outputs.concat(change)
 
   return {

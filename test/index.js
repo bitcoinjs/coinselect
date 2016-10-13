@@ -1,15 +1,13 @@
-'use-strict'
-
-const coinSelect = require('../')
-const fixtures = require('./fixtures')
-const tape = require('tape')
-const utils = require('./_utils')
+var coinSelect = require('../')
+var fixtures = require('./fixtures')
+var tape = require('tape')
+var utils = require('./_utils')
 
 fixtures.forEach(function (f) {
   tape(f.description, function (t) {
-    const inputs = utils.valuesToObjects(f.inputs, true)
-    const outputs = utils.valuesToObjects(f.outputs)
-    const result = coinSelect(inputs, outputs, f.feeRate)
+    var inputs = utils.valuesToObjects(f.inputs, true)
+    var outputs = utils.valuesToObjects(f.outputs)
+    var result = coinSelect(inputs, outputs, f.feeRate)
 
     // ensure arguments were not modified
     t.equal(inputs.length, f.inputs.length)
