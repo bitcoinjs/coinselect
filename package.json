@@ -38,8 +38,8 @@
   "scripts": {
     "prepublish": "npm run test",
     "coverage": "nyc --check-coverage --branches 100 --functions 100 tape test/*.js",
-    "lint": "standard",
-    "test": "npm run lint && npm run unit",
+    "standard": "standard",
+    "test": "npm run standard && npm run unit",
     "unit": "tape test/*.js"
   },
   "devDependencies": {
