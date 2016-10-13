@@ -1,16 +1,16 @@
 'use-strict'
 
-let accumulative = require('./accum')
-let blackjack = require('./blackjack')
+var accumulative = require('./accum')
+var blackjack = require('./blackjack')
 
 // TODO
 // function groupByRelation (utxos) {
-//   let txoMap = {}
-//   let result = []
+//   var txoMap = {}
+//   var result = []
 //
 //   // group by address/script
 //   utxos.forEach((utxo) => {
-//     let key = utxo.address || utxo.script
+//     var key = utxo.address || utxo.script
 //
 //     // no relation known, use as is
 //     if (!key) return result.push(utxo)
@@ -20,8 +20,8 @@ let blackjack = require('./blackjack')
 //     txoMap[key].push(utxo)
 //   })
 //
-//   for (let key in txoMap) {
-//     let group = txoMap[key]
+//   for (var key in txoMap) {
+//     var group = txoMap[key]
 //
 //     // summate 'grouping' value
 //     group.value = group.reduce((a, x) => a + x.value, 0)
@@ -38,7 +38,7 @@ module.exports = function coinSelect (utxos, outputs, feeRate) {
   })
 
   // attempt to use the blackjack strategy first (no change output)
-  let base = blackjack(utxos, outputs, feeRate)
+  var base = blackjack(utxos, outputs, feeRate)
   if (base.inputs) return base
 
   // else, try the accumulative strategy
