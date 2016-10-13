@@ -1,7 +1,14 @@
 function valuesToObjects (values, indices) {
   if (indices) {
     return values.map(function (x, i) {
-      return (x.value || x.script) ? Object.assign({ i: i }, x) : { i: i, value: x }
+      if (x.value === undefined) return { i: i, value: x }
+
+      var y = { i: i }
+      for (var k in x) {
+        y[k] = x[k]
+      }
+
+      return y
     })
   }
 

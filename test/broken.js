@@ -8,7 +8,7 @@ const utils = require('./_utils')
 fixtures.forEach(function (f, k) {
   tape(f.description, function (t) {
     const inputs = utils.valuesToObjects(f.inputs)
-    const output = Object.assign({}, f.output.value ? f.output : { value: f.output })
+    const output = utils.valuesToObjects([f.output])[0]
     const result = coinBreak(inputs, output, f.feeRate)
 
     // ensure arguments were not modified
