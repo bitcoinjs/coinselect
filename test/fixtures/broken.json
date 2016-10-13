@@ -44,7 +44,20 @@
     },
     "expected": {
       "inputs": true,
-      "outputs": [10000, 10000],
+      "outputs": [
+        {
+          "script": {
+            "length": 220
+          },
+          "value": 10000
+        },
+        {
+          "script": {
+            "length": 220
+          },
+          "value": 10000
+        }
+      ],
       "fee": 7000
     }
   },
