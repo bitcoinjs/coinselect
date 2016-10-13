@@ -1,10 +1,12 @@
+'use-strict'
+
 const coinBreak = require('../broken')
 const fixtures = require('./fixtures/broken')
 const tape = require('tape')
 const utils = require('./_utils')
 
-fixtures.forEach((f, k) => {
-  tape(f.description, (t) => {
+fixtures.forEach(function (f, k) {
+  tape(f.description, function (t) {
     const inputs = utils.valuesToObjects(f.inputs)
     const output = Object.assign({}, f.output.value ? f.output : { value: f.output })
     const result = coinBreak(inputs, output, f.feeRate)
@@ -27,13 +29,13 @@ fixtures.forEach((f, k) => {
   })
 })
 
-tape('fails for non-finite value', (t) => {
+tape('fails for non-finite value', function (t) {
   t.plan(2)
-  t.throws(() => {
+  t.throws(function () {
     coinBreak([], { value: NaN }, 20)
   })
 
-  t.throws(() => {
+  t.throws(function () {
     coinBreak([], {}, 20)
   })
 })

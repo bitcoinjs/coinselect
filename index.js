@@ -33,7 +33,9 @@ let blackjack = require('./blackjack')
 
 module.exports = function coinSelect (utxos, outputs, feeRate) {
   // order by descending value
-  utxos = utxos.concat().sort((a, b) => b.value - a.value)
+  utxos = utxos.concat().sort(function (a, b) {
+    return b.value - a.value
+  })
 
   // attempt to use the blackjack strategy first (no change output)
   let base = blackjack(utxos, outputs, feeRate)

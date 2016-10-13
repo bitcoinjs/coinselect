@@ -5,8 +5,8 @@ const fixtures = require('./fixtures/split')
 const tape = require('tape')
 const utils = require('./_utils')
 
-fixtures.forEach((f, k) => {
-  tape(f.description, (t) => {
+fixtures.forEach(function (f, k) {
+  tape(f.description, function (t) {
     const inputs = utils.valuesToObjects(f.inputs)
     var outputs = f.outputs
 

@@ -5,8 +5,8 @@ const fixtures = require('./fixtures')
 const tape = require('tape')
 const utils = require('./_utils')
 
-fixtures.forEach((f) => {
-  tape(f.description, (t) => {
+fixtures.forEach(function (f) {
+  tape(f.description, function (t) {
     const inputs = utils.valuesToObjects(f.inputs, true)
     const outputs = utils.valuesToObjects(f.outputs)
     const result = coinSelect(inputs, outputs, f.feeRate)
