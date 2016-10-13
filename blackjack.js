@@ -5,23 +5,22 @@ module.exports = function blackjack (utxos, outputs, feeRate) {
   const outAccum = outputs.reduce((a, x) => a + x.value, 0)
   const threshold = utils.dustThreshold({}, feeRate)
 
+  // accumulate inputs until we bust
   let inAccum = 0
   let bytesAccum = utils.transactionBytes([], outputs)
-
-  // accumulate inputs until we bust
   let inputs = []
 
   for (let i = 0; i < utxos.length; ++i) {
-    const utxo = utxos[i]
-    const bytesAfter = utils.inputBytes(utxo)
-    const fee = feeRate * (bytesAccum + bytesAfter)
+    const input = utxos[i]
+    const inputBytes = utils.inputBytes(input)
+    const fee = feeRate * (bytesAccum + inputBytes)
 
-    // are we wasting value?
-    if (inAccum + utxo.value > outAccum + fee + threshold) continue
+    // would it waste value?
+    if ((inAccum + input.value) > (outAccum + fee + threshold)) continue
 
-    inAccum += utxo.value
-    bytesAccum += bytesAfter
-    inputs.push(utxo)
+    inAccum += input.value
+    bytesAccum += inputBytes
+    inputs.push(input)
 
     // go again?
     if (inAccum < outAccum + fee) continue
@@ -29,7 +28,6 @@ module.exports = function blackjack (utxos, outputs, feeRate) {
     return utils.finalize(inputs, outputs, feeRate)
   }
 
-  return {
-    fee: feeRate * utils.transactionBytes(inputs, outputs)
-  }
+  const fee = feeRate * bytesAccum
+  return { fee }
 }
