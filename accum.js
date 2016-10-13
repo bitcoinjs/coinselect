@@ -27,5 +27,5 @@ module.exports = function accumulative (utxos, outputs, feeRate) {
   }
 
   const fee = feeRate * bytesAccum
-  return { fee }
+  return { fee: fee }
 }

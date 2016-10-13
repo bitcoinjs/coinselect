@@ -31,5 +31,5 @@ module.exports = function blackjack (utxos, outputs, feeRate) {
   }
 
   const fee = feeRate * bytesAccum
-  return { fee }
+  return { fee: fee }
 }

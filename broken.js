@@ -19,7 +19,7 @@ module.exports = function broken (utxos, output, feeRate) {
     // did we bust?
     if (inAccum < (outAccum + fee + value)) {
       // premature?
-      if (outAccum === 0) return { fee }
+      if (outAccum === 0) return { fee: fee }
 
       break
     }
