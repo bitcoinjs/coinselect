@@ -1,12 +1,15 @@
-let coinSelect = require('../')
-let fixtures = require('./fixtures')
-let tape = require('tape')
+'use-strict'
+
+const coinSelect = require('../')
+const fixtures = require('./fixtures')
+const tape = require('tape')
+const utils = require('./_utils')
 
 fixtures.forEach((f) => {
   tape(f.description, (t) => {
-    let inputs = f.inputs.map((x, i) => x.value ? Object.assign({ i }, x) : { i, value: x })
-    let outputs = f.outputs.map(x => x.script ? x : { value: x })
-    let result = coinSelect(inputs, outputs, f.feeRate)
+    const inputs = utils.valuesToObjects(f.inputs, true)
+    const outputs = utils.valuesToObjects(f.outputs)
+    const result = coinSelect(inputs, outputs, f.feeRate)
 
     // ensure arguments were not modified
     t.equal(inputs.length, f.inputs.length)
@@ -14,11 +17,11 @@ fixtures.forEach((f) => {
 
     // drop non-index related input data for easy result comparison
     if (result.inputs) {
-      result.inputs = result.inputs.map(input => input.i)
+      result.inputs = utils.indicesOnly(result.inputs)
     }
 
     if (result.outputs) {
-      result.outputs = result.outputs.map(x => x.script ? x : x.value)
+      result.outputs = utils.objectsToValues(result.outputs)
     }
 
     t.deepEqual(result, f.expected)

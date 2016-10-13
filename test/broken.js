@@ -1,24 +1,25 @@
-let coinBreak = require('../broken')
-let fixtures = require('./fixtures/broken')
-let tape = require('tape')
+const coinBreak = require('../broken')
+const fixtures = require('./fixtures/broken')
+const tape = require('tape')
+const utils = require('./_utils')
 
 fixtures.forEach((f, k) => {
   tape(f.description, (t) => {
-    let inputs = f.inputs.map((x, i) => x.value ? x : { value: x })
-    let output = Object.assign({}, f.output.value ? f.output : { value: f.output })
-    let result = coinBreak(inputs, output, f.feeRate)
+    const inputs = utils.valuesToObjects(f.inputs)
+    const output = Object.assign({}, f.output.value ? f.output : { value: f.output })
+    const result = coinBreak(inputs, output, f.feeRate)
 
     // ensure arguments were not modified
     t.equal(inputs.length, f.inputs.length)
 
-    // drop non-index related input data for easy result comparison
+    // drop unneeded data for result comparison
     if (result.inputs) {
       t.equal(result.inputs, inputs)
       result.inputs = true
     }
 
     if (result.outputs) {
-      result.outputs = result.outputs.map(x => x.script ? x : x.value)
+      result.outputs = utils.objectsToValues(result.outputs)
     }
 
     t.deepEqual(result, f.expected)
