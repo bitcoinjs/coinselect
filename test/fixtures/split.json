@@ -109,6 +109,20 @@
     }
   },
   {
+    "description": "2 outputs, some with float values (NaN)",
+    "feeRate": 10,
+    "inputs": [20000],
+    "outputs": [
+      {
+        "value": 4000.5
+      },
+      {}
+    ],
+    "expected": {
+      "fee": 2250
+    }
+  },
+  {
     "description": "2 outputs, string values (NaN)",
     "feeRate": 11,
     "inputs": [20000],
@@ -122,6 +136,18 @@
     ],
     "expected": {
       "fee": 2475
+    }
+  },
+  {
+    "description": "input with float values (NaN)",
+    "feeRate": 10,
+    "inputs": [20000.5],
+    "outputs": [
+      {},
+      {}
+    ],
+    "expected": {
+      "fee": 2250
     }
   },
   {

@@ -144,6 +144,15 @@
     }
   },
   {
+    "description": "input with float values (NaN)",
+    "feeRate": 10,
+    "inputs": [10000.5],
+    "output": 5000,
+    "expected": {
+      "fee": 2250
+    }
+  },
+  {
     "description": "inputs and outputs, bad feeRate (NaN)",
     "feeRate": "1",
     "inputs": [20000],
