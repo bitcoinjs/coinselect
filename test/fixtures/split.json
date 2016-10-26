@@ -91,7 +91,7 @@
     }
   },
   {
-    "description": "2 outputs, some with missing value",
+    "description": "2 outputs, some with missing value (NaN)",
     "feeRate": 11,
     "inputs": [20000],
     "outputs": [
@@ -109,7 +109,7 @@
     }
   },
   {
-    "description": "2 outputs, string values",
+    "description": "2 outputs, string values (NaN)",
     "feeRate": 11,
     "inputs": [20000],
     "outputs": [
@@ -127,6 +127,15 @@
   {
     "description": "inputs and outputs, bad feeRate (NaN)",
     "feeRate": "1",
+    "inputs": [20000],
+    "outputs": [
+      {}
+    ],
+    "expected": {}
+  },
+  {
+    "description": "inputs and outputs, bad feeRate (NaN)",
+    "feeRate": 1.5,
     "inputs": [20000],
     "outputs": [
       {}
