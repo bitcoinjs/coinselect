@@ -15,7 +15,7 @@ module.exports = function split (utxos, outputs, feeRate) {
   var splitOutputsCount = outputs.reduce(function (a, x) {
     return a + !x.value
   }, 0)
-  var splitValue = (remaining / splitOutputsCount) | 0
+  var splitValue = (remaining / splitOutputsCount) >>> 0
 
   // ensure every output is either user defined, or over the threshold
   if (!outputs.every(function (x) {
