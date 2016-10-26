@@ -1,13 +1,14 @@
 var utils = require('./utils')
 
 module.exports = function broken (utxos, output, feeRate) {
-  if (!isFinite(output.value)) throw new TypeError('Expected Satoshi value, got ' + output.value)
-
-  var inAccum = utils.sum(utxos)
-  var outputBytes = utils.outputBytes(output)
-  var value = output.value
+  if (!isFinite(utils.uintOrNaN(feeRate))) return {}
 
   var bytesAccum = utils.transactionBytes(utxos, [])
+  var value = utils.uintOrNaN(output.value)
+  if (!isFinite(value)) return { fee: feeRate * bytesAccum }
+
+  var inAccum = utils.sumOrNaN(utxos)
+  var outputBytes = utils.outputBytes(output)
   var outAccum = 0
   var outputs = []
 

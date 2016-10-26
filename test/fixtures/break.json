@@ -133,5 +133,21 @@
     "expected": {
       "fee": 440
     }
+  },
+  {
+    "description": "invalid output",
+    "feeRate": 10,
+    "inputs": [],
+    "output": {},
+    "expected": {
+      "fee": 100
+    }
+  },
+  {
+    "description": "inputs and outputs, bad feeRate (NaN)",
+    "feeRate": "1",
+    "inputs": [20000],
+    "output": 10000,
+    "expected": {}
   }
 ]

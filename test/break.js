@@ -26,14 +26,3 @@ fixtures.forEach(function (f, k) {
     t.end()
   })
 })
-
-tape('fails for non-finite value', function (t) {
-  t.plan(2)
-  t.throws(function () {
-    coinBreak([], { value: NaN }, 20)
-  })
-
-  t.throws(function () {
-    coinBreak([], {}, 20)
-  })
-})

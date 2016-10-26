@@ -2,18 +2,19 @@ var utils = require('./utils')
 
 // O(n)
 module.exports = function accumulative (utxos, outputs, feeRate) {
-  var outAccum = utils.sum(outputs)
-
-  // accumulators
+  if (!isFinite(utils.uintOrNaN(feeRate))) return {}
   var bytesAccum = utils.transactionBytes([], outputs)
+
+  // accumulate inputs until we reach the target or run out
   var inAccum = 0
   var inputs = []
+  var outAccum = utils.sumOrNaN(outputs)
 
   for (var i = 0; i < utxos.length; ++i) {
     var utxo = utxos[i]
 
     bytesAccum += utils.inputBytes(utxo)
-    inAccum += utxo.value
+    inAccum += utils.uintOrNaN(utxo.value)
     inputs.push(utxo)
 
     var fee = feeRate * bytesAccum

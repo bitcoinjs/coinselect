@@ -24,30 +24,41 @@ function transactionBytes (inputs, outputs) {
     outputs.reduce(function (a, x) { return a + outputBytes(x) }, 0)
 }
 
-function sum (range) {
+function uintOrNaN (v) {
+  if (typeof v !== 'number') return NaN
+  if (!isFinite(v)) return NaN
+  if (v >>> 0 !== v) return NaN
+  return v
+}
+
+function sumForgiving (range) {
   return range.reduce(function (a, x) { return a + (x.value >>> 0) }, 0)
+}
+
+function sumOrNaN (range) {
+  return range.reduce(function (a, x) { return a + uintOrNaN(x.value) }, 0)
 }
 
 var BLANK_OUTPUT = outputBytes({})
 
-function worthChange (inputs, outputs, feeRate) {
-  var bytesAccum = transactionBytes(inputs, outputs)
-  var fee = feeRate * (bytesAccum + BLANK_OUTPUT)
-  var remainder = sum(inputs) - (sum(outputs) + fee)
-
-  if (remainder <= dustThreshold({}, feeRate)) return null
-  return { value: remainder }
-}
-
 function finalize (inputs, outputs, feeRate) {
-  // was too much left over?
-  var change = worthChange(inputs, outputs, feeRate)
-  if (change) outputs = outputs.concat(change)
+  if (!isFinite(feeRate)) return {}
+  var bytesAccum = transactionBytes(inputs, outputs)
+  var feeAfterExtraOutput = feeRate * (bytesAccum + BLANK_OUTPUT)
+  var remainderAfterExtraOutput = sumOrNaN(inputs) - (sumOrNaN(outputs) + feeAfterExtraOutput)
+
+  // is it worth a change output?
+  if (remainderAfterExtraOutput > dustThreshold({}, feeRate)) {
+    outputs = outputs.concat({ value: remainderAfterExtraOutput })
+  }
+
+  var fee = sumOrNaN(inputs) - sumOrNaN(outputs)
+  if (!isFinite(fee)) return { fee: feeRate * bytesAccum }
 
   return {
     inputs: inputs,
     outputs: outputs,
-    fee: sum(inputs) - sum(outputs)
+    fee: fee
   }
 }
 
@@ -56,6 +67,8 @@ module.exports = {
   finalize: finalize,
   inputBytes: inputBytes,
   outputBytes: outputBytes,
-  sum: sum,
-  transactionBytes: transactionBytes
+  sumOrNaN: sumOrNaN,
+  sumForgiving: sumForgiving,
+  transactionBytes: transactionBytes,
+  uintOrNaN: uintOrNaN
 }

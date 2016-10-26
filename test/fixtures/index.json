@@ -181,6 +181,43 @@
     }
   },
   {
+    "description": "2 outputs, some with missing value (NaN)",
+    "feeRate": 10,
+    "inputs": [20000],
+    "outputs": [
+      1000,
+      {}
+    ],
+    "expected": {
+      "fee": 2250
+    }
+  },
+  {
+    "description": "2 outputs, string values (NaN)",
+    "feeRate": 10,
+    "inputs": [20000],
+    "outputs": [
+      {
+        "value": "100"
+      },
+      {
+        "value": "204"
+      }
+    ],
+    "expected": {
+      "fee": 2250
+    }
+  },
+  {
+    "description": "inputs and outputs, bad feeRate (NaN)",
+    "feeRate": "1",
+    "inputs": [20000],
+    "outputs": [
+      10000
+    ],
+    "expected": {}
+  },
+  {
     "description": "no outputs, no change",
     "feeRate": 10,
     "inputs": [1900],

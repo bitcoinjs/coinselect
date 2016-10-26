@@ -6,19 +6,12 @@ var utils = require('./_utils')
 fixtures.forEach(function (f, k) {
   tape(f.description, function (t) {
     var inputs = utils.valuesToObjects(f.inputs)
-    var outputs = f.outputs
-
-    // avoid useless information in the fixtures
-    if (typeof outputs === 'number') {
-      outputs = []
-      for (var i = 0; i < f.outputs; ++i) outputs.push({})
-    }
-
+    var outputs = f.outputs.concat()
     var result = coinSplit(inputs, outputs, f.feeRate)
 
     // ensure arguments were not modified
     t.equal(inputs.length, f.inputs.length)
-    t.equal(outputs.length, f.outputs.length || f.outputs)
+    t.equal(outputs.length, f.outputs.length)
 
     // drop non-index related input data for easy result comparison
     if (result.inputs) {
