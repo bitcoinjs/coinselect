@@ -3,26 +3,20 @@ var fixtures = require('./fixtures/break')
 var tape = require('tape')
 var utils = require('./_utils')
 
-fixtures.forEach(function (f, k) {
+fixtures.forEach(function (f) {
+  var e = f.expected
+
   tape(f.description, function (t) {
-    var inputs = utils.valuesToObjects(f.inputs)
-    var output = utils.valuesToObjects([f.output])[0]
-    var result = coinBreak(inputs, output, f.feeRate)
+    var finputs = utils.expand(f.inputs)
+    var foutput = utils.expand([f.output])[0]
+    var a = coinBreak(finputs, foutput, f.feeRate)
 
     // ensure arguments were not modified
-    t.equal(inputs.length, f.inputs.length)
+    t.equal(finputs.length, f.inputs.length)
+    if (a.inputs) t.same(a.inputs, finputs)
 
-    // drop unneeded data for result comparison
-    if (result.inputs) {
-      t.equal(result.inputs, inputs)
-      result.inputs = true
-    }
-
-    if (result.outputs) {
-      result.outputs = utils.objectsToValues(result.outputs)
-    }
-
-    t.deepEqual(result, f.expected)
+    utils.testValues(t, a.outputs, e.outputs)
+    t.equal(a.fee, e.fee)
     t.end()
   })
 })

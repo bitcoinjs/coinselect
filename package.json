@@ -42,7 +42,7 @@
     "unit": "tape test/*.js"
   },
   "devDependencies": {
-    "nyc": "^6.4.0",
+    "nyc": "^8.3.2",
     "standard": "*",
     "tape": "^4.5.1"
   },

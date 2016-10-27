@@ -1,36 +1,39 @@
-function valuesToObjects (values, indices) {
+function expand (values, indices) {
   if (indices) {
     return values.map(function (x, i) {
-      if (x.value === undefined) return { i: i, value: x }
+      if (typeof x === 'number') return { i: i, value: x }
 
       var y = { i: i }
-      for (var k in x) {
-        y[k] = x[k]
-      }
-
+      for (var k in x) y[k] = x[k]
       return y
     })
   }
 
   return values.map(function (x, i) {
-    return (x.value || x.script) ? x : { value: x }
+    return typeof x === 'object' ? x : { value: x }
   })
 }
 
-function objectsToValues (objects) {
-  return objects.map(function (x) {
-    return x.script ? x : x.value
-  })
-}
+function testValues (t, actual, expected) {
+  t.equal(typeof actual, typeof expected, 'types match')
+  if (!expected) return
 
-function indicesOnly (objects) {
-  return objects.map(function (x) {
-    return x.i
+  t.equal(actual.length, expected.length, 'lengths match')
+
+  actual.forEach(function (ai, i) {
+    var ei = expected[i]
+
+    if (ai.i !== undefined) {
+      t.equal(ai.i, ei, 'indexes match')
+    } else if (typeof ei === 'number') {
+      t.equal(ai.value, ei, 'values match')
+    } else {
+      t.same(ai, ei, 'objects match')
+    }
   })
 }
 
 module.exports = {
-  indicesOnly: indicesOnly,
-  objectsToValues: objectsToValues,
-  valuesToObjects: valuesToObjects
+  expand: expand,
+  testValues: testValues
 }

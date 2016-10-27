@@ -47,14 +47,27 @@
     "inputs": [10000, 10000, 10000],
     "outputs": [
       {
+        "address": "foobar",
         "value": 12000
       },
-      {},
+      {
+        "address": "fizzbuzz"
+      },
       {}
     ],
     "expected": {
       "inputs": true,
-      "outputs": [12000, 6235, 6235],
+      "outputs": [
+        {
+          "address": "foobar",
+          "value": 12000
+        },
+        {
+          "address": "fizzbuzz",
+          "value": 6235
+        },
+        6235
+      ],
       "fee": 5530
     }
   },

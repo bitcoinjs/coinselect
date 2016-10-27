@@ -14,10 +14,17 @@
     "description": "1:1",
     "feeRate": 10,
     "inputs": [12000],
-    "output": 10000,
+    "output": {
+      "address": "woop"
+    },
     "expected": {
       "inputs": true,
-      "outputs": [10000],
+      "outputs": [
+        {
+          "address": "woop",
+          "value": 10000
+        }
+      ],
       "fee": 2000
     }
   },
