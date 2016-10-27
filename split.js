@@ -27,11 +27,9 @@ module.exports = function split (utxos, outputs, feeRate) {
     if (x.value !== undefined) return x
 
     // not user defined, but still copy over any non-value fields
-    var y = {
-      value: splitValue
-    }
-
+    var y = {}
     for (var k in x) y[k] = x[k]
+    y.value = splitValue
     return y
   })
 
