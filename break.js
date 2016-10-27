@@ -5,9 +5,10 @@ module.exports = function broken (utxos, output, feeRate) {
 
   var bytesAccum = utils.transactionBytes(utxos, [])
   var value = utils.uintOrNaN(output.value)
-  if (!isFinite(value)) return { fee: feeRate * bytesAccum }
-
   var inAccum = utils.sumOrNaN(utxos)
+  if (!isFinite(value) ||
+      !isFinite(inAccum)) return { fee: feeRate * bytesAccum }
+
   var outputBytes = utils.outputBytes(output)
   var outAccum = 0
   var outputs = []
