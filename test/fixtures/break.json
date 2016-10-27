@@ -2,47 +2,79 @@
   {
     "description": "1:1, no remainder",
     "feeRate": 10,
-    "inputs": [11910],
+    "inputs": [
+      11910
+    ],
     "output": 10000,
     "expected": {
-      "inputs": true,
-      "outputs": [10000],
+      "inputs": [
+        {
+          "value": 11910
+        }
+      ],
+      "outputs": [
+        {
+          "value": 10000
+        }
+      ],
       "fee": 1910
     }
   },
   {
     "description": "1:1",
     "feeRate": 10,
-    "inputs": [12000],
+    "inputs": [
+      12000
+    ],
     "output": {
-      "address": "woop"
+      "address": "woop",
+      "value": 10000
     },
     "expected": {
-      "inputs": true,
+      "fee": 2000,
+      "inputs": [
+        {
+          "value": 12000
+        }
+      ],
       "outputs": [
         {
           "address": "woop",
           "value": 10000
         }
-      ],
-      "fee": 2000
+      ]
     }
   },
   {
     "description": "1:1, w/ change",
     "feeRate": 10,
-    "inputs": [12000],
+    "inputs": [
+      12000
+    ],
     "output": 8000,
     "expected": {
-      "inputs": true,
-      "outputs": [8000, 1750],
+      "inputs": [
+        {
+          "value": 12000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 8000
+        },
+        {
+          "value": 1750
+        }
+      ],
       "fee": 2250
     }
   },
   {
     "description": "1:2, strange output type",
     "feeRate": 10,
-    "inputs": [27000],
+    "inputs": [
+      27000
+    ],
     "output": {
       "script": {
         "length": 220
@@ -50,7 +82,11 @@
       "value": 10000
     },
     "expected": {
-      "inputs": true,
+      "inputs": [
+        {
+          "value": 27000
+        }
+      ],
       "outputs": [
         {
           "script": {
@@ -71,62 +107,175 @@
   {
     "description": "1:4",
     "feeRate": 10,
-    "inputs": [12000],
+    "inputs": [
+      12000
+    ],
     "output": 2000,
     "expected": {
-      "inputs": true,
-      "outputs": [2000, 2000, 2000, 2000],
+      "inputs": [
+        {
+          "value": 12000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 2000
+        },
+        {
+          "value": 2000
+        },
+        {
+          "value": 2000
+        },
+        {
+          "value": 2000
+        }
+      ],
       "fee": 4000
     }
   },
   {
     "description": "2:5",
     "feeRate": 10,
-    "inputs": [3000, 12000],
+    "inputs": [
+      3000,
+      12000
+    ],
     "output": 2000,
     "expected": {
-      "inputs": true,
-      "outputs": [2000, 2000, 2000, 2000, 2000],
+      "inputs": [
+        {
+          "value": 3000
+        },
+        {
+          "value": 12000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 2000
+        },
+        {
+          "value": 2000
+        },
+        {
+          "value": 2000
+        },
+        {
+          "value": 2000
+        },
+        {
+          "value": 2000
+        }
+      ],
       "fee": 5000
     }
   },
   {
     "description": "2:5, no fee",
     "feeRate": 0,
-    "inputs": [5000, 10000],
+    "inputs": [
+      5000,
+      10000
+    ],
     "output": 3000,
     "expected": {
-      "inputs": true,
-      "outputs": [3000, 3000, 3000, 3000, 3000],
+      "inputs": [
+        {
+          "value": 5000
+        },
+        {
+          "value": 10000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 3000
+        },
+        {
+          "value": 3000
+        },
+        {
+          "value": 3000
+        },
+        {
+          "value": 3000
+        },
+        {
+          "value": 3000
+        }
+      ],
       "fee": 0
     }
   },
   {
     "description": "2:2 (+1), w/ change",
     "feeRate": 7,
-    "inputs": [16000],
+    "inputs": [
+      16000
+    ],
     "output": 6000,
     "expected": {
-      "inputs": true,
-      "outputs": [6000, 6000, 2187],
+      "inputs": [
+        {
+          "value": 16000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 6000
+        },
+        {
+          "value": 6000
+        },
+        {
+          "value": 2187
+        }
+      ],
       "fee": 1813
     }
   },
   {
     "description": "2:3 (+1), no fee, w/ change",
     "feeRate": 0,
-    "inputs": [5000, 10000],
+    "inputs": [
+      5000,
+      10000
+    ],
     "output": 4000,
     "expected": {
-      "inputs": true,
-      "outputs": [4000, 4000, 4000, 3000],
+      "inputs": [
+        {
+          "value": 5000
+        },
+        {
+          "value": 10000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 4000
+        },
+        {
+          "value": 4000
+        },
+        {
+          "value": 4000
+        },
+        {
+          "value": 3000
+        }
+      ],
       "fee": 0
     }
   },
   {
     "description": "not enough funds",
     "feeRate": 10,
-    "inputs": [41000, 1000],
+    "inputs": [
+      41000,
+      1000
+    ],
     "output": 40000,
     "expected": {
       "fee": 3380
@@ -153,7 +302,9 @@
   {
     "description": "input with float values (NaN)",
     "feeRate": 10,
-    "inputs": [10000.5],
+    "inputs": [
+      10000.5
+    ],
     "output": 5000,
     "expected": {
       "fee": 1570
@@ -162,14 +313,18 @@
   {
     "description": "inputs and outputs, bad feeRate (NaN)",
     "feeRate": "1",
-    "inputs": [20000],
+    "inputs": [
+      20000
+    ],
     "output": 10000,
     "expected": {}
   },
   {
     "description": "inputs and outputs, bad feeRate (NaN)",
     "feeRate": 1.5,
-    "inputs": [20000],
+    "inputs": [
+      20000
+    ],
     "output": 10000,
     "expected": {}
   }

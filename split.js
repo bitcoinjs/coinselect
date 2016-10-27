@@ -24,7 +24,15 @@ module.exports = function split (utxos, outputs, feeRate) {
 
   // assign splitValue to outputs not user defined
   outputs = outputs.map(function (x) {
-    return x.value !== undefined ? x : { value: splitValue }
+    if (x.value !== undefined) return x
+
+    // not user defined, but still copy over any non-value fields
+    var y = {
+      value: splitValue
+    }
+
+    for (var k in x) y[k] = x[k]
+    return y
   })
 
   return utils.finalize(utxos, outputs, feeRate)
