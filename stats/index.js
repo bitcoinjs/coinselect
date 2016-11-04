@@ -6,20 +6,24 @@ let max = 142251558 // 1000 USD
 let results = []
 let utxos = Simulation.generateTxos(15, min, max)
 
-for (var name in modules) {
-  let f = modules[name]
-  let simulation = new Simulation(name, f, 56)
-  utxos.forEach(x => simulation.addUTXO(x))
+// n samples
+for (var j = 0; j < 100; ++j) {
+  // for each strategy
+  for (var name in modules) {
+    let f = modules[name]
+    let simulation = new Simulation(name, f, 56)
+    utxos.forEach(x => simulation.addUTXO(x))
 
-  // n transactions
-  for (let i = 0; i < 50; ++i) {
-    let outputs = Simulation.generateTxos(1, min, max)
-    outputs.forEach(x => (x.address = 'A'))
+    // n transactions
+    for (let i = 0; i < 50; ++i) {
+      let outputs = Simulation.generateTxos(1, min, max)
+      outputs.forEach(x => (x.address = 'A'))
 
-    simulation.run(outputs)
+      simulation.run(outputs)
+    }
+
+    results.push(simulation)
   }
-
-  results.push(simulation)
 }
 
 function pad (i) {
@@ -29,10 +33,11 @@ function pad (i) {
 
 // sort by transactions ASCENDING
 // then fees DESCENDING
+// top 20 only
 results.sort((a, b) => {
   if (a.stats.transactions !== a.stats.transactions) return a.stats.transactions - b.stats.transactions
   return b.stats.fees - a.stats.fees
-}).forEach(x => {
+}).slice(0, 20).forEach(x => {
   let { stats } = x
   let nInputs = stats.inputs / stats.transactions
   let nOutputs = stats.outputs / stats.transactions
