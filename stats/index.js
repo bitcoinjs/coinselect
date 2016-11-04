@@ -2,11 +2,10 @@ let Simulation = require('./simulation')
 let modules = require('./strategies')
 let min = 14226 // 0.1 USD
 let max = 142251558 // 1000 USD
-
 let results = []
 
 // n samples
-for (var j = 0; j < 1000; ++j) {
+for (var j = 0; j < 10000; ++j) {
   let utxos = Simulation.generateTxos(15, min, max)
 
   // for each strategy
@@ -16,7 +15,7 @@ for (var j = 0; j < 1000; ++j) {
     utxos.forEach(x => simulation.addUTXO(x))
 
     // n transactions
-    for (let i = 0; i < 15; ++i) {
+    for (let i = 0; i < 14; ++i) {
       let outputs = Simulation.generateTxos(1, min, max)
       outputs.forEach(x => (x.address = 'A'))
 
@@ -35,8 +34,7 @@ function pad (i) {
 function merge (results) {
   let resultMap = {}
 
-  results.forEach(x => {
-    let { stats } = x
+  results.forEach(({ stats }) => {
     let result = resultMap[stats.name]
 
     if (result) {
