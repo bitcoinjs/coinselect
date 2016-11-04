@@ -53,14 +53,9 @@ function merge (results) {
   return Object.keys(resultMap).map(k => ({ stats: resultMap[k] }))
 }
 
-// sort by transactions ASCENDING
-// then fees DESCENDING
 // top 20 only
 merge(results).sort((a, b) => {
-  let aDNF = a.stats.failed / (a.stats.failed + a.stats.transactions)
-  let bDNF = b.stats.failed / (b.stats.failed + b.stats.transactions)
-
-  return aDNF - bDNF
+  return a.stats.fees - b.stats.fees
 }).slice(0, 20).forEach(x => {
   let { stats } = x
   let nInputs = stats.inputs / stats.transactions
