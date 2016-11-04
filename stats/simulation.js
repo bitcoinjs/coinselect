@@ -69,7 +69,7 @@ Simulation.prototype.run = function (outputs) {
   this.stats.inputs += inputs.length
   this.stats.outputs += outputs2.length
   this.stats.fees += fee
-  this.stats.bytes += utils.transactionBytes(inputs, outputs, this.feeRate)
+  this.stats.bytes += utils.transactionBytes(inputs, outputs2, this.feeRate)
 
   inputs.forEach(x => this.useUTXO(x))
 
