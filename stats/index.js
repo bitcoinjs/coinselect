@@ -5,12 +5,12 @@ let max = 142251558 // 1000 USD
 
 let results = []
 
+// 10 UTXOs, min 10 USD, max 10000 USD
+let utxos = Simulation.generateTxos(20, min * 100, max * 10)
+
 for (var name in modules) {
   let f = modules[name]
   let simulation = new Simulation(name, f, 56)
-
-  // 10 UTXOs, min 10 USD, max 10000 USD
-  let utxos = Simulation.generateTxos(20, min * 100, max * 10)
   utxos.forEach(x => simulation.addUTXO(x))
 
   // 500 transactions, min 0.1USD, max 500 USD
