@@ -36,15 +36,15 @@ results.sort((a, b) => {
   return b.stats.fees - a.stats.fees
 }).forEach(x => {
   let { stats } = x
-  let nIT = stats.inputs / stats.transactions
-  let nOT = stats.outputs / stats.transactions
-  let fT = stats.failed / (stats.failed + stats.transactions)
+  let nInputs = stats.inputs / stats.transactions
+  let nOutputs = stats.outputs / stats.transactions
+  let failedRatio = stats.failed / (stats.failed + stats.transactions)
 
   console.log(
     pad(stats.name),
-    '| fA', pad('' + stats.fees),
-    '| NIT', pad(nIT),
-    '| NOT', pad(nOT),
-    '| DNF', Math.round(100 * fT) + '%'
+    '| fees', pad('' + stats.fees),
+    '| nInputs', pad(nInputs),
+    '| nOutputs', pad(nOutputs),
+    '| DNF', Math.round(100 * failedRatio) + '%'
   )
 })
