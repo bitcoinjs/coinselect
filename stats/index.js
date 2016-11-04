@@ -1,16 +1,12 @@
 let Simulation = require('./simulation')
-let strategies = [
-  'bestof', 'maximal', 'minimal', 'random', 'proximal', // plain accumulative
-  'blackmax', 'blackmin', 'blackrand', // blackjack & accumulative
-  '../blackjack', '../accum', '../split', '../'
-]
-
-let modules = strategies.map(name => ({ name, f: require('./' + name) }))
+let modules = require('./strategies')
 let min = 14226 // 0.1 USD
 let max = 142251558 // 1000 USD
 
 let results = []
-modules.forEach(({ name, f }) => {
+
+for (var name in modules) {
+  let f = modules[name]
   let simulation = new Simulation(name, f, 56)
   let utxos = Simulation.generateTxos(1000, min * 10, max * 10)
   utxos.forEach(x => simulation.addUTXO(x))
@@ -24,7 +20,7 @@ modules.forEach(({ name, f }) => {
   }
 
   results.push(simulation)
-})
+}
 
 function pad (i) {
   if (typeof i === 'number') i = Math.round(i * 1000) / 1000
