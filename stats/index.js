@@ -62,7 +62,8 @@ function merge (results) {
 
 // top 20 only
 merge(results).sort((a, b) => {
-  return a.stats.fees - b.stats.fees
+  if (a.stats.DNF !== b.stats.DNF) return a.stats.DNF - b.stats.DNF
+  return b.stats.fees - a.stats.fees
 }).slice(0, 20).forEach(x => {
   let { stats } = x
 
