@@ -70,6 +70,12 @@ Simulation.prototype.run = function (outputs) {
   this.stats.outputs += outputs2.length
   this.stats.fees += fee
   this.stats.bytes += utils.transactionBytes(inputs, outputs2, this.feeRate)
+  this.stats.average = {
+    nInputs: this.stats.inputs / this.stats.transactions,
+    nOutputs: this.stats.outputs / this.stats.transactions,
+    fee: Math.round(this.stats.fees / this.stats.transactions),
+    feeRate: Math.round(this.stats.fees / this.stats.bytes)
+  }
 
   inputs.forEach(x => this.useUTXO(x))
 

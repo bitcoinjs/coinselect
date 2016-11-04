@@ -15,7 +15,7 @@ for (var j = 0; j < 1000; ++j) {
     utxos.forEach(x => simulation.addUTXO(x))
 
     // n transactions
-    for (let i = 0; i < 50; ++i) {
+    for (let i = 0; i < 10; ++i) {
       let outputs = Simulation.generateTxos(1, min, max)
       outputs.forEach(x => (x.address = 'A'))
 
@@ -45,6 +45,12 @@ function merge (results) {
       result.failed += stats.failed
       result.fees += stats.fees
       result.bytes += stats.bytes
+      result.average = {
+        nInputs: result.inputs / result.transactions,
+        nOutputs: result.outputs / result.transactions,
+        fee: Math.round(result.fees / result.transactions),
+        feeRate: Math.round(result.fees / result.bytes)
+      }
     } else {
       resultMap[stats.name] = Object.assign({}, stats)
     }
@@ -58,18 +64,14 @@ merge(results).sort((a, b) => {
   return a.stats.fees - b.stats.fees
 }).slice(0, 20).forEach(x => {
   let { stats } = x
-  let nInputs = stats.inputs / stats.transactions
-  let nOutputs = stats.outputs / stats.transactions
   let DNF = stats.failed / (stats.failed + stats.transactions)
-  let feeRateAverage = Math.floor(stats.fees / stats.bytes)
-  let feeAverage = Math.floor(stats.fees / stats.transactions)
 
   console.log(
     pad(stats.name),
-    '| fee', pad('' + feeAverage),
-    '| feeRate', pad('' + feeRateAverage),
-    '| nInputs', pad(nInputs),
-    '| nOutputs', pad(nOutputs),
+    '| fee', pad('' + stats.average.fee),
+    '| feeRate', pad('' + stats.average.feeRate),
+    '| nInputs', pad(stats.average.nInputs),
+    '| nOutputs', pad(stats.average.nOutputs),
     '| DNF', Math.round(100 * DNF) + '%'
   )
 })
