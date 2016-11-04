@@ -6,6 +6,8 @@ function uniform (min, max) {
   return min + (max - min) * Math.random()
 }
 
+var utils = require('../utils')
+
 function Simulation (name, algorithm, feeRate) {
   this.algorithm = algorithm
   this.feeRate = feeRate
@@ -16,6 +18,7 @@ function Simulation (name, algorithm, feeRate) {
     inputs: 0,
     outputs: 0,
     fees: 0,
+    bytes: 0,
     failed: 0
   }
 
@@ -66,6 +69,7 @@ Simulation.prototype.run = function (outputs) {
   this.stats.inputs += inputs.length
   this.stats.outputs += outputs2.length
   this.stats.fees += fee
+  this.stats.bytes += utils.transactionBytes(inputs, outputs, this.feeRate)
 
   inputs.forEach(x => this.useUTXO(x))
 
