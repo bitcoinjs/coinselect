@@ -38,9 +38,11 @@ results.sort((a, b) => {
   let nOutputs = stats.outputs / stats.transactions
   let failedRatio = stats.failed / (stats.failed + stats.transactions)
   let feeRateAverage = Math.floor(stats.fees / stats.bytes)
+  let feeAverage = Math.floor(stats.fees / stats.transactions)
 
   console.log(
     pad(stats.name),
+    '| fee', pad('' + feeAverage),
     '| feeRate', pad('' + feeRateAverage),
     '| nInputs', pad(nInputs),
     '| nOutputs', pad(nOutputs),
