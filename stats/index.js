@@ -4,18 +4,16 @@ let min = 14226 // 0.1 USD
 let max = 142251558 // 1000 USD
 
 let results = []
-
-// 10 UTXOs, min 10 USD, max 10000 USD
-let utxos = Simulation.generateTxos(20, min * 100, max * 10)
+let utxos = Simulation.generateTxos(15, min, max)
 
 for (var name in modules) {
   let f = modules[name]
   let simulation = new Simulation(name, f, 56)
   utxos.forEach(x => simulation.addUTXO(x))
 
-  // 500 transactions, min 0.1USD, max 500 USD
-  for (let i = 0; i < 500; ++i) {
-    let outputs = Simulation.generateTxos(1, min, max / 2)
+  // n transactions
+  for (let i = 0; i < 50; ++i) {
+    let outputs = Simulation.generateTxos(1, min, max)
     outputs.forEach(x => (x.address = 'A'))
 
     simulation.run(outputs)
@@ -39,10 +37,11 @@ results.sort((a, b) => {
   let nInputs = stats.inputs / stats.transactions
   let nOutputs = stats.outputs / stats.transactions
   let failedRatio = stats.failed / (stats.failed + stats.transactions)
+  let feeRateAverage = stats.fees / stats.transactions
 
   console.log(
     pad(stats.name),
-    '| fees', pad('' + stats.fees),
+    '| feeRate', pad('' + feeRateAverage),
     '| nInputs', pad(nInputs),
     '| nOutputs', pad(nOutputs),
     '| DNF', Math.round(100 * failedRatio) + '%'
