@@ -15,7 +15,7 @@ for (var j = 0; j < 1000; ++j) {
     utxos.forEach(x => simulation.addUTXO(x))
 
     // n transactions
-    for (let i = 0; i < 10; ++i) {
+    for (let i = 0; i < 15; ++i) {
       let outputs = Simulation.generateTxos(1, min, max)
       outputs.forEach(x => (x.address = 'A'))
 
@@ -51,6 +51,7 @@ function merge (results) {
         fee: Math.round(result.fees / result.transactions),
         feeRate: Math.round(result.fees / result.bytes)
       }
+      result.DNF = stats.failed / (stats.failed + stats.transactions)
     } else {
       resultMap[stats.name] = Object.assign({}, stats)
     }
@@ -64,7 +65,6 @@ merge(results).sort((a, b) => {
   return a.stats.fees - b.stats.fees
 }).slice(0, 20).forEach(x => {
   let { stats } = x
-  let DNF = stats.failed / (stats.failed + stats.transactions)
 
   console.log(
     pad(stats.name),
@@ -72,6 +72,6 @@ merge(results).sort((a, b) => {
     '| feeRate', pad('' + stats.average.feeRate),
     '| nInputs', pad(stats.average.nInputs),
     '| nOutputs', pad(stats.average.nOutputs),
-    '| DNF', Math.round(100 * DNF) + '%'
+    '| DNF', Math.round(100 * stats.DNF) + '%'
   )
 })
