@@ -8,12 +8,14 @@ let results = []
 for (var name in modules) {
   let f = modules[name]
   let simulation = new Simulation(name, f, 56)
-  let utxos = Simulation.generateTxos(1000, min * 10, max * 10)
+
+  // 10 UTXOs, min 10 USD, max 10000 USD
+  let utxos = Simulation.generateTxos(20, min * 100, max * 10)
   utxos.forEach(x => simulation.addUTXO(x))
 
-  // 100 rounds
-  for (let i = 0; i < 100; ++i) {
-    let outputs = Simulation.generateTxos(1, min, max / 4)
+  // 500 transactions, min 0.1USD, max 500 USD
+  for (let i = 0; i < 500; ++i) {
+    let outputs = Simulation.generateTxos(1, min, max / 2)
     outputs.forEach(x => (x.address = 'A'))
 
     simulation.run(outputs)
@@ -36,7 +38,7 @@ results.sort((a, b) => {
   let { stats } = x
   let nIT = stats.inputs / stats.transactions
   let nOT = stats.outputs / stats.transactions
-  let fT = stats.failed / stats.transactions
+  let fT = stats.failed / (stats.failed + stats.transactions)
 
   console.log(
     pad(stats.name),
