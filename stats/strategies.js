@@ -50,6 +50,12 @@ function minimal (utxos, outputs, feeRate) {
   return accumulative(utxos, outputs, feeRate)
 }
 
+function FIFO (utxos, outputs, feeRate) {
+  utxos = utxos.concat().reverse()
+
+  return accumulative(utxos, outputs, feeRate)
+}
+
 function proximal (utxos, outputs, feeRate) {
   const outAccum = outputs.reduce((a, x) => a + x.value, 0)
 
@@ -71,7 +77,7 @@ function random (utxos, outputs, feeRate) {
 }
 
 function bestof (utxos, outputs, feeRate) {
-  var n = 100
+  let n = 100
   let utxosCopy = utxos.concat()
   let best = { fee: Infinity }
 
@@ -96,6 +102,7 @@ module.exports = {
   blackmax,
   blackmin,
   blackrand,
+  FIFO,
   maximal,
   minimal,
   proximal,
