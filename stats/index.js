@@ -4,10 +4,11 @@ let min = 14226 // 0.1 USD
 let max = 142251558 // 1000 USD
 
 let results = []
-let utxos = Simulation.generateTxos(15, min, max)
 
 // n samples
 for (var j = 0; j < 1000; ++j) {
+  let utxos = Simulation.generateTxos(15, min, max)
+
   // for each strategy
   for (var name in modules) {
     let f = modules[name]
