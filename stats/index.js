@@ -5,7 +5,7 @@ let max = 142251558 // 1000 USD
 let results = []
 
 // n samples
-for (var j = 0; j < 10000; ++j) {
+for (var j = 0; j < 100000; ++j) {
   let utxos = Simulation.generateTxos(15, min, max)
 
   // for each strategy
@@ -50,7 +50,6 @@ function merge (results) {
         fee: Math.round(result.fees / result.transactions),
         feeRate: Math.round(result.fees / result.bytes)
       }
-      result.DNF = stats.failed / (stats.failed + stats.transactions)
     } else {
       resultMap[stats.name] = Object.assign({}, stats)
     }
@@ -61,17 +60,19 @@ function merge (results) {
 
 // top 20 only
 merge(results).sort((a, b) => {
-  if (a.stats.DNF !== b.stats.DNF) return a.stats.DNF - b.stats.DNF
+  if (a.stats.transactions !== b.stats.transactions) return a.stats.transactions - b.stats.transactions
   return a.stats.fees - b.stats.fees
 }).slice(0, 20).forEach(x => {
   let { stats } = x
+  let DNF = stats.failed / (stats.transactions + stats.failed)
 
   console.log(
     pad(stats.name),
+    '| transactions', pad('' + stats.transactions),
     '| fee', pad('' + stats.average.fee),
     '| feeRate', pad('' + stats.average.feeRate),
     '| nInputs', pad(stats.average.nInputs),
     '| nOutputs', pad(stats.average.nOutputs),
-    '| DNF', Math.round(100 * stats.DNF) + '%'
+    '| DNF', Math.round(100 * DNF) + '%'
   )
 })

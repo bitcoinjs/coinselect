@@ -62,7 +62,6 @@ Simulation.prototype.run = function (outputs) {
 
   if (!inputs) {
     this.stats.failed += 1
-    this.stats.DNF = this.stats.failed / (this.stats.failed + this.stats.transactions)
     return
   }
 
@@ -77,7 +76,6 @@ Simulation.prototype.run = function (outputs) {
     fee: Math.round(this.stats.fees / this.stats.transactions),
     feeRate: Math.round(this.stats.fees / this.stats.bytes)
   }
-  this.stats.DNF = this.stats.failed / (this.stats.failed + this.stats.transactions)
 
   inputs.forEach(x => this.useUTXO(x))
 
