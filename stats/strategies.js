@@ -1,4 +1,4 @@
-let accumulative = require('../accum')
+let accumulative = require('../accumulative')
 let blackjack = require('../blackjack')
 let shuffle = require('fisher-yates')
 let shuffleInplace = require('fisher-yates/inplace')

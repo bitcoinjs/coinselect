@@ -1,4 +1,4 @@
-var accumulative = require('./accum')
+var accumulative = require('./accumulative')
 var blackjack = require('./blackjack')
 
 // TODO
