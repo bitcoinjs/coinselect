@@ -498,6 +498,41 @@
     }
   },
   {
+    "description": "inputs used in order of DESCENDING (value + fee)",
+    "feeRate": 10,
+    "inputs": [
+      20000,
+      {
+        "script": {
+          "length": 300
+        },
+        "value": 10000
+      },
+      10000
+    ],
+    "outputs": [
+      25000
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 20000
+        },
+        {
+          "i": 2,
+          "value": 10000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 25000
+        }
+      ],
+      "fee": 5000
+    }
+  },
+  {
     "description": "not enough funds, empty result",
     "feeRate": 10,
     "inputs": [

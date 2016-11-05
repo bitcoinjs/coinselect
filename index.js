@@ -1,5 +1,6 @@
 var accumulative = require('./accumulative')
 var blackjack = require('./blackjack')
+var utils = require('./utils')
 
 // TODO
 // function groupByRelation (utxos) {
@@ -29,10 +30,14 @@ var blackjack = require('./blackjack')
 //   return result
 // }
 
+function utxoScore (x) {
+  return x.value / utils.inputBytes(x)
+}
+
 module.exports = function coinSelect (utxos, outputs, feeRate) {
   // order by descending value
   utxos = utxos.concat().sort(function (a, b) {
-    return b.value - a.value
+    return utxoScore(b) - utxoScore(a)
   })
 
   // attempt to use the blackjack strategy first (no change output)
