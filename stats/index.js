@@ -2,10 +2,11 @@ let Simulation = require('./simulation')
 let modules = require('./strategies')
 let min = 14226 // 0.1 USD
 let max = 142251558 // 1000 USD
+let feeRate = 56 * 100
 let results = []
 
 // n samples
-for (var j = 0; j < 1000; ++j) {
+for (var j = 0; j < 100; ++j) {
   if (j % 200 === 0) console.log('Iteration', j)
 
   let stages = []
@@ -20,7 +21,7 @@ for (var j = 0; j < 1000; ++j) {
   // for each strategy
   for (var name in modules) {
     let f = modules[name]
-    let simulation = new Simulation(name, f, 56)
+    let simulation = new Simulation(name, f, feeRate)
 
     stages.forEach((stage) => {
       // supplement our UTXOs
