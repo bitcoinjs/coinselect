@@ -132,6 +132,123 @@
     }
   },
   {
+    "description": "1 output, passes, skipped detrimental input",
+    "feeRate": 5,
+    "inputs": [
+      {
+        "script": {
+          "length": 1000
+        },
+        "value": 3000
+      },
+      {
+        "value": 3000
+      },
+      {
+        "value": 3000
+      }
+    ],
+    "outputs": [
+      4000
+    ],
+    "expected": {
+      "fee": 2000,
+      "inputs": [
+        {
+          "i": 1,
+          "value": 3000
+        },
+        {
+          "i": 2,
+          "value": 3000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 4000
+        }
+      ]
+    }
+  },
+  {
+    "description": "1 output, passes, poor ordering but still good",
+    "feeRate": 5,
+    "inputs": [
+      {
+        "script": {
+          "length": 500
+        },
+        "value": 3000
+      },
+      {
+        "value": 3000
+      },
+      {
+        "value": 3000
+      }
+    ],
+    "outputs": [
+      4000
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "i": 1,
+          "value": 3000
+        },
+        {
+          "i": 2,
+          "value": 3000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 4000
+        }
+      ],
+      "fee": 2000
+    }
+  },
+  {
+    "description": "1 output, passes, improved ordering causing low fee, no waste",
+    "feeRate": 5,
+    "inputs": [
+      {
+        "value": 3000
+      },
+      {
+        "value": 3000
+      },
+      {
+        "script": {
+          "length": 400
+        },
+        "value": 3000
+      }
+    ],
+    "outputs": [
+      4000
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 3000
+        },
+        {
+          "i": 1,
+          "value": 3000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 4000
+        }
+      ],
+      "fee": 2000
+    }
+  },
+  {
     "description": "1 output, optimal inputs, no change",
     "feeRate": 10,
     "inputs": [
@@ -498,7 +615,7 @@
     }
   },
   {
-    "description": "inputs used in order of DESCENDING (value + fee)",
+    "description": "inputs used in order of DESCENDING",
     "feeRate": 10,
     "inputs": [
       20000,
@@ -514,6 +631,7 @@
       25000
     ],
     "expected": {
+      "fee": 5000,
       "inputs": [
         {
           "i": 0,
@@ -528,8 +646,7 @@
         {
           "value": 25000
         }
-      ],
-      "fee": 5000
+      ]
     }
   },
   {
@@ -689,3 +806,4 @@
     "expected": {}
   }
 ]
+
