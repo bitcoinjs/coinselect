@@ -30,14 +30,14 @@ var utils = require('./utils')
 //   return result
 // }
 
-function utxoScore (x) {
-  return x.value / utils.inputBytes(x)
+function utxoScore (x, feeRate) {
+  return x.value - (feeRate * utils.inputBytes(x))
 }
 
 module.exports = function coinSelect (utxos, outputs, feeRate) {
   // order by descending value
   utxos = utxos.concat().sort(function (a, b) {
-    return utxoScore(b) - utxoScore(a)
+    return utxoScore(b, feeRate) - utxoScore(a, feeRate)
   })
 
   // attempt to use the blackjack strategy first (no change output)
