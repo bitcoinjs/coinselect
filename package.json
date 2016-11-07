@@ -23,7 +23,7 @@
   "license": "MIT",
   "author": "Daniel Cousens",
   "files": [
-    "accum.js",
+    "accumulative.js",
     "blackjack.js",
     "break.js",
     "index.js",
