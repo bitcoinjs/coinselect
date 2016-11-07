@@ -3,6 +3,7 @@ let blackjack = require('../blackjack')
 let shuffle = require('fisher-yates')
 let shuffleInplace = require('fisher-yates/inplace')
 let coinSelect = require('../')
+let utils = require('../utils')
 
 function blackmax (utxos, outputs, feeRate) {
   // order by ascending value
@@ -96,6 +97,34 @@ function bestof (utxos, outputs, feeRate) {
   return best
 }
 
+function utxoScore (x, feeRate) {
+  return x.value - (feeRate * utils.inputBytes(x))
+}
+
+function privet (utxos, outputs, feeRate) {
+  let txosMap = {}
+  utxos.forEach((txo) => {
+    if (!txosMap[txo.address]) {
+      txosMap[txo.address] = []
+    }
+
+    txosMap[txo.address].push(txo)
+  })
+
+  // order & summate sets
+  for (var address in txosMap) {
+    txosMap[address] = txosMap[address].sort((a, b) => {
+      return utxoScore(b, feeRate) - utxoScore(a, feeRate)
+    })
+    txosMap[address].value = txosMap[address].reduce((a, x) => a + x.value, 0)
+  }
+
+  utxos = [].concat.apply([], Object.keys(txosMap).map(x => txosMap[x]))
+
+  // only use accumulative strategy
+  return accumulative(utxos, outputs, feeRate)
+}
+
 module.exports = {
   accumulative,
   bestof,
@@ -107,6 +136,7 @@ module.exports = {
   FIFO,
   maximal,
   minimal,
+  privet,
   proximal,
   random
 }

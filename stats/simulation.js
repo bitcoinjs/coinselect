@@ -6,6 +6,10 @@ function uniform (min, max) {
   return min + (max - min) * Math.random()
 }
 
+function randomAddress () {
+  return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[(Math.random() * 26) >>> 0]
+}
+
 var utils = require('../utils')
 
 function Simulation (name, algorithm, feeRate) {
@@ -35,6 +39,7 @@ Simulation.generateTxos = function (n, min, max) {
     if (Math.random() > 0.9) s = 300
 
     txos.push({
+      address: randomAddress(),
       value: v,
       script: {
         length: s
@@ -89,7 +94,13 @@ Simulation.prototype.run = function (outputs) {
   inputs.forEach(x => this.useUTXO(x))
 
   // selected outputs w/ no script are change outputs, add them to the UTXO
-  outputs2.filter(x => x.script === undefined).forEach(x => this.addUTXO(x))
+  outputs2.filter(x => x.script === undefined).forEach((x) => {
+    // assign it a random address
+    x.address = randomAddress()
+
+    this.addUTXO(x)
+  })
+
   return true
 }
 

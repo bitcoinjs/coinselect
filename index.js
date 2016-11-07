@@ -2,34 +2,6 @@ var accumulative = require('./accumulative')
 var blackjack = require('./blackjack')
 var utils = require('./utils')
 
-// TODO
-// function groupByRelation (utxos) {
-//   var txoMap = {}
-//   var result = []
-//
-//   // group by address/script
-//   utxos.forEach((utxo) => {
-//     var key = utxo.address || utxo.script
-//
-//     // no relation known, use as is
-//     if (!key) return result.push(utxo)
-//
-//     // else, append relation via key
-//     if (!txoMap[key]) txoMap[key] = []
-//     txoMap[key].push(utxo)
-//   })
-//
-//   for (var key in txoMap) {
-//     var group = txoMap[key]
-//
-//     // summate 'grouping' value
-//     group.value = group.reduce((a, x) => a + x.value, 0)
-//     result.push(group)
-//   }
-//
-//   return result
-// }
-
 // order by descending value, minus the inputs approximate fee
 function utxoScore (x, feeRate) {
   return x.value - (feeRate * utils.inputBytes(x))
