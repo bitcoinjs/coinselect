@@ -7,6 +7,12 @@ let results = []
 // n samples
 for (var j = 0; j < 1000; ++j) {
   let utxos = Simulation.generateTxos(15, min, max)
+  let txoSets = []
+  for (let i = 0; i < 14; ++i) {
+    let txos = Simulation.generateTxos(1, min, max)
+    txos.forEach(x => (x.address = 'A'))
+    txoSets.push(txos)
+  }
 
   // for each strategy
   for (var name in modules) {
@@ -15,13 +21,7 @@ for (var j = 0; j < 1000; ++j) {
     utxos.forEach(x => simulation.addUTXO(x))
 
     // n transactions
-    for (let i = 0; i < 14; ++i) {
-      let outputs = Simulation.generateTxos(1, min, max)
-      outputs.forEach(x => (x.address = 'A'))
-
-      simulation.run(outputs)
-    }
-
+    txoSets.forEach((txos) => simulation.run(txos))
     results.push(simulation)
   }
 
