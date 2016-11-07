@@ -30,7 +30,16 @@ Simulation.generateTxos = function (n, min, max) {
   let txos = []
   for (let i = 0; i < n; ++i) {
     let v = rayleight(min, max) >>> 0
-    txos.push({ value: v })
+
+    let s = 106
+    if (Math.random() > 0.9) s = 300
+
+    txos.push({
+      value: v,
+      script: {
+        length: s
+      }
+    })
   }
   return txos
 }
@@ -79,8 +88,8 @@ Simulation.prototype.run = function (outputs) {
 
   inputs.forEach(x => this.useUTXO(x))
 
-  // selected outputs w/ no address are change addresses, add them to the UTXO
-  outputs2.filter(x => x.address === undefined).forEach(x => this.addUTXO(x))
+  // selected outputs w/ no script are change outputs, add them to the UTXO
+  outputs2.filter(x => x.script === undefined).forEach(x => this.addUTXO(x))
   return true
 }
 
