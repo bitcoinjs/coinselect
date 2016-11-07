@@ -2,6 +2,7 @@ let accumulative = require('../accumulative')
 let blackjack = require('../blackjack')
 let shuffle = require('fisher-yates')
 let shuffleInplace = require('fisher-yates/inplace')
+let coinSelect = require('../')
 
 function blackmax (utxos, outputs, feeRate) {
   // order by ascending value
@@ -102,6 +103,7 @@ module.exports = {
   blackmax,
   blackmin,
   blackrand,
+  coinSelect,
   FIFO,
   maximal,
   minimal,

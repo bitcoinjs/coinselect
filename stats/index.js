@@ -5,7 +5,7 @@ let max = 142251558 // 1000 USD
 let results = []
 
 // n samples
-for (var j = 0; j < 100000; ++j) {
+for (var j = 0; j < 1000; ++j) {
   let utxos = Simulation.generateTxos(15, min, max)
 
   // for each strategy
@@ -24,6 +24,8 @@ for (var j = 0; j < 100000; ++j) {
 
     results.push(simulation)
   }
+
+  if (j % 100 === 0) console.log('Iteration', j)
 }
 
 function pad (i) {
@@ -58,21 +60,23 @@ function merge (results) {
   return Object.keys(resultMap).map(k => ({ stats: resultMap[k] }))
 }
 
-// top 20 only
 merge(results).sort((a, b) => {
-  if (a.stats.transactions !== b.stats.transactions) return a.stats.transactions - b.stats.transactions
+  if (a.stats.transactions !== b.stats.transactions) return b.stats.transactions - a.stats.transactions
   return a.stats.fees - b.stats.fees
-}).slice(0, 20).forEach(x => {
+
+// top 20 only
+}).slice(0, 20).forEach((x, i) => {
   let { stats } = x
   let DNF = stats.failed / (stats.transactions + stats.failed)
 
   console.log(
+    pad(i),
     pad(stats.name),
     '| transactions', pad('' + stats.transactions),
     '| fee', pad('' + stats.average.fee),
     '| feeRate', pad('' + stats.average.feeRate),
     '| nInputs', pad(stats.average.nInputs),
     '| nOutputs', pad(stats.average.nOutputs),
-    '| DNF', Math.round(100 * DNF) + '%'
+    '| DNF', (100 * DNF).toFixed(2) + '%'
   )
 })
