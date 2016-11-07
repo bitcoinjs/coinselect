@@ -8,17 +8,28 @@ let results = []
 for (var j = 0; j < 1000; ++j) {
   if (j % 200 === 0) console.log('Iteration', j)
 
-  let utxos = Simulation.generateTxos(20, min, max)
-  let txos = Simulation.generateTxos(80, min, max / 3)
+  let stages = []
+
+  for (var i = 1; i < 4; ++i) {
+    let utxos = Simulation.generateTxos(20 / i, min, max)
+    let txos = Simulation.generateTxos(80 / i, min, max / 3)
+
+    stages.push({ utxos, txos })
+  }
 
   // for each strategy
   for (var name in modules) {
     let f = modules[name]
     let simulation = new Simulation(name, f, 56)
-    utxos.forEach(x => simulation.addUTXO(x))
 
-    // n transactions
-    txos.forEach((txo) => simulation.run([txo]))
+    stages.forEach((stage) => {
+      // supplement our UTXOs
+      stage.utxos.forEach(x => simulation.addUTXO(x))
+
+      // now, run stage.txos.length transactions
+      stage.txos.forEach((txo) => simulation.run([txo]))
+    })
+
     results.push(simulation)
   }
 }
