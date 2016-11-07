@@ -30,12 +30,12 @@ var utils = require('./utils')
 //   return result
 // }
 
+// order by descending value, minus the inputs approximate fee
 function utxoScore (x, feeRate) {
   return x.value - (feeRate * utils.inputBytes(x))
 }
 
 module.exports = function coinSelect (utxos, outputs, feeRate) {
-  // order by descending value
   utxos = utxos.concat().sort(function (a, b) {
     return utxoScore(b, feeRate) - utxoScore(a, feeRate)
   })
