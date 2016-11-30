@@ -171,6 +171,24 @@
     }
   },
   {
+    "description": "1 output, fails, skips (and finishes on) detrimental input",
+    "feeRate": 55,
+    "inputs": [
+      {
+        "value": 44000
+      },
+      {
+        "value": 800
+      }
+    ],
+    "outputs": [
+      38000
+    ],
+    "expected": {
+      "fee": 18590
+    }
+  },
+  {
     "description": "1 output, passes, poor ordering causing high fee",
     "feeRate": 5,
     "inputs": [
