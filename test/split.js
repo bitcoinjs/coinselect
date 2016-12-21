@@ -10,6 +10,11 @@ fixtures.forEach(function (f) {
     var actual = coinSplit(finputs, foutputs, f.feeRate)
 
     t.same(actual, f.expected)
+    if (actual.inputs) {
+      var feedback = coinSplit(finputs, actual.outputs, f.feeRate)
+      t.same(feedback, f.expected)
+    }
+
     t.end()
   })
 })
