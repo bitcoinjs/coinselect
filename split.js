@@ -10,7 +10,13 @@ module.exports = function split (utxos, outputs, feeRate) {
   var inAccum = utils.sumOrNaN(utxos)
   var outAccum = utils.sumForgiving(outputs)
   var remaining = inAccum - outAccum - fee
-  if (!isFinite(remaining) || remaining <= 0) return { fee: fee }
+  if (!isFinite(remaining) || remaining < 0) return { fee: fee }
+
+  var unspecified = outputs.reduce(function (a, x) {
+    return a + !isFinite(x.value)
+  }, 0)
+
+  if (remaining === 0 && unspecified === 0) return utils.finalize(utxos, outputs, feeRate)
 
   var splitOutputsCount = outputs.reduce(function (a, x) {
     return a + !x.value
