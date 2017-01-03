@@ -7,10 +7,6 @@
 
 A transaction input selection module for bitcoin.
 
-The code is stable.
-
-The module's interface is not.
-
 Please let me know if you are using this package.
 
 
@@ -58,8 +54,6 @@ outputs.forEach(output => {
 	txb.addOutput(output.address, output.value)
 })
 ```
-
-Feedback welcome on the API,  I'm not sure if I like it.
 
 
 ## License [MIT](LICENSE)
