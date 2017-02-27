@@ -5,9 +5,7 @@
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
-A transaction input selection module for bitcoin.
-
-Please let me know if you are using this package.
+An unspent transaction output (UTXO) selection module for bitcoin.
 
 
 ## Example
