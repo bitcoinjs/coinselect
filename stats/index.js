@@ -35,11 +35,6 @@ for (var j = 0; j < 100; ++j) {
   }
 }
 
-function pad (i) {
-  if (typeof i === 'number') i = Math.round(i * 1000) / 1000
-  return ('          ' + i).slice(-10)
-}
-
 function merge (results) {
   let resultMap = {}
 
@@ -65,6 +60,11 @@ function merge (results) {
   })
 
   return Object.keys(resultMap).map(k => ({ stats: resultMap[k] }))
+}
+
+function pad (i) {
+  if (typeof i === 'number') i = Math.round(i * 1000) / 1000
+  return ('          ' + i).slice(-10)
 }
 
 merge(results).sort((a, b) => {
