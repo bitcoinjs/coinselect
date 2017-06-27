@@ -27,12 +27,13 @@ function transactionBytes (inputs, outputs) {
 function uintOrNaN (v) {
   if (typeof v !== 'number') return NaN
   if (!isFinite(v)) return NaN
-  if (v >>> 0 !== v) return NaN
+  if (Math.floor(v) !== v) return NaN
+  if (v < 0) return NaN
   return v
 }
 
 function sumForgiving (range) {
-  return range.reduce(function (a, x) { return a + (x.value >>> 0) }, 0)
+  return range.reduce(function (a, x) { return a + (isFinite(x.value) ? x.value : 0) }, 0)
 }
 
 function sumOrNaN (range) {
