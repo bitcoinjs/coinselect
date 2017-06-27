@@ -51,6 +51,30 @@
     }
   },
   {
+    "description": "1 output, change expected, value > 2^32",
+    "feeRate": 5,
+    "inputs": [
+      5000000000
+    ],
+    "outputs": [
+      1
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 5000000000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 1
+        }
+      ],
+      "fee": 1125
+    }
+  },
+  {
     "description": "1 output, sub-optimal inputs (if re-ordered), direct possible",
     "feeRate": 10,
     "inputs": [
