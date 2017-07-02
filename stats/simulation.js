@@ -104,4 +104,11 @@ Simulation.prototype.run = function (outputs) {
   return true
 }
 
+Simulation.prototype.finish = function () {
+  let utxos = this.getUTXOs()
+  this.stats.utxos = utxos.length
+  let costToEmpty = utils.transactionBytes(utxos, []) * this.feeRate // output cost is negligible
+  this.stats.totalCost = this.stats.fees + costToEmpty
+}
+
 module.exports = Simulation
