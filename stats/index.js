@@ -31,6 +31,7 @@ for (var j = 0; j < 100; ++j) {
       stage.txos.forEach((txo) => simulation.run([txo]))
     })
 
+    simulation.finish()
     results.push(simulation)
   }
 }
@@ -48,12 +49,14 @@ function merge (results) {
       result.failed += stats.failed
       result.fees += stats.fees
       result.bytes += stats.bytes
+      result.utxos += stats.utxos
       result.average = {
         nInputs: result.inputs / result.transactions,
         nOutputs: result.outputs / result.transactions,
         fee: Math.round(result.fees / result.transactions),
         feeRate: Math.round(result.fees / result.bytes)
       }
+      result.totalCost += stats.totalCost
     } else {
       resultMap[stats.name] = Object.assign({}, stats)
     }
@@ -69,7 +72,7 @@ function pad (i) {
 
 merge(results).sort((a, b) => {
   if (a.stats.transactions !== b.stats.transactions) return b.stats.transactions - a.stats.transactions
-  return a.stats.fees - b.stats.fees
+  return a.stats.totalCost - b.stats.totalCost
 
 // top 20 only
 }).slice(0, 20).forEach((x, i) => {
@@ -84,6 +87,8 @@ merge(results).sort((a, b) => {
     '| feeRate', pad('' + stats.average.feeRate),
     '| nInputs', pad(stats.average.nInputs),
     '| nOutputs', pad(stats.average.nOutputs),
-    '| DNF', (100 * DNF).toFixed(2) + '%'
+    '| DNF', (100 * DNF).toFixed(2) + '%',
+    '| totalCost', pad('' + Math.round(stats.totalCost / 1000)),
+    '| utxos', pad('' + stats.utxos)
   )
 })
