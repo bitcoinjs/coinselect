@@ -25,6 +25,7 @@ function Simulation (name, algorithm, feeRate) {
     bytes: 0,
     failed: 0
   }
+  this.start = new Date()
 
   // used for tracking UTXOs (w/o transaction ids)
   this.k = 0
@@ -109,6 +110,8 @@ Simulation.prototype.finish = function () {
   this.stats.utxos = utxos.length
   let costToEmpty = utils.transactionBytes(utxos, []) * this.feeRate // output cost is negligible
   this.stats.totalCost = this.stats.fees + costToEmpty
+  let end = new Date()
+  this.stats.time = end.getTime() - this.start.getTime()
 }
 
 module.exports = Simulation
