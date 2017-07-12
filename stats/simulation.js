@@ -114,4 +114,65 @@ Simulation.prototype.finish = function () {
   this.stats.time = end.getTime() - this.start.getTime()
 }
 
+Simulation.mergeResults = function (results, sliceSize) {
+  let resultMap = {}
+
+  results.forEach(({ stats }) => {
+    let result = resultMap[stats.name]
+
+    if (result) {
+      result.inputs += stats.inputs
+      result.outputs += stats.outputs
+      result.transactions += stats.transactions
+      result.failed += stats.failed
+      result.fees += stats.fees
+      result.bytes += stats.bytes
+      result.utxos += stats.utxos
+      result.time += stats.time
+      result.totalCost += stats.totalCost
+    } else {
+      result = Object.assign({}, stats)
+      resultMap[stats.name] = result
+    }
+
+    result.average = {
+      nInputs: result.inputs / result.transactions,
+      nOutputs: result.outputs / result.transactions,
+      fee: Math.round(result.fees / result.transactions),
+      feeRate: Math.round(result.fees / result.bytes)
+    }
+  })
+
+  return Object.keys(resultMap).map(k => ({ stats: resultMap[k] })).sort((a, b) => {
+    if (a.stats.transactions !== b.stats.transactions) return b.stats.transactions - a.stats.transactions
+    return a.stats.totalCost - b.stats.totalCost
+  }).slice(0, sliceSize)
+}
+
+function pad (i) {
+  if (typeof i === 'number') i = Math.round(i * 1000) / 1000
+  return ('          ' + i).slice(-10)
+}
+
+Simulation.printResults = function (mergedResults) {
+  mergedResults.forEach((x, i) => {
+    let { stats } = x
+    let DNF = stats.failed / (stats.transactions + stats.failed)
+
+    console.log(
+      pad(i),
+      pad(stats.name),
+      '| transactions', pad('' + stats.transactions),
+      '| fee', pad('' + stats.average.fee),
+      '| feeRate', pad('' + stats.average.feeRate),
+      '| nInputs', pad(stats.average.nInputs),
+      '| nOutputs', pad(stats.average.nOutputs),
+      '| DNF', (100 * DNF).toFixed(2) + '%',
+      '| time', pad('' + Math.round(stats.time)),
+      '| totalCost', pad('' + Math.round(stats.totalCost / 1000)),
+      '| utxos', pad('' + stats.utxos)
+    )
+  })
+}
+
 module.exports = Simulation
