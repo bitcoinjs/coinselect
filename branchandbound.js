@@ -20,14 +20,14 @@ function calculateEffectiveValues (utxos, feeRate) {
   })
 }
 
-module.exports = function branchAndBound (utxos, outputs, feeRate) {
+module.exports = function branchAndBound (utxos, outputs, feeRate, factor) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
 
   var costPerOutput = utils.outputBytes({}) * feeRate
   var costPerInput = utils.inputBytes({}) * feeRate
-  var costOfChange = costPerInput + costPerOutput
+  var costOfChange = Math.floor((costPerInput + costPerOutput) * factor)
 
-  var outAccum = utils.sumOrNaN(outputs)
+  var outAccum = utils.sumOrNaN(outputs) + utils.transactionBytes([], outputs) * feeRate
 
   var effectiveUtxos = calculateEffectiveValues(utxos, feeRate).filter(function (x) {
     return x.effectiveValue > 0
