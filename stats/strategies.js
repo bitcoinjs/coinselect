@@ -41,9 +41,9 @@ function blackrand (utxos, outputs, feeRate) {
   return accumulative(utxos, outputs, feeRate)
 }
 
-function bnbrand (utxos, outputs, feeRate) {
+function bnbrand (utxos, outputs, feeRate, factor) {
   // attempt to use the bnb strategy first (no change output)
-  let base = branchandbound(utxos, outputs, feeRate)
+  let base = branchandbound(utxos, outputs, feeRate, factor)
   if (base.inputs) return base
 
   utxos = shuffle(utxos)
@@ -52,9 +52,9 @@ function bnbrand (utxos, outputs, feeRate) {
   return accumulative(utxos, outputs, feeRate)
 }
 
-function bnbmin (utxos, outputs, feeRate) {
+function bnbmin (utxos, outputs, feeRate, factor) {
   // attempt to use the blackjack strategy first (no change output)
-  let base = branchandbound(utxos, outputs, feeRate)
+  let base = branchandbound(utxos, outputs, feeRate, factor)
   if (base.inputs) return base
 
   // order by descending value
@@ -64,9 +64,9 @@ function bnbmin (utxos, outputs, feeRate) {
   return accumulative(utxos, outputs, feeRate)
 }
 
-function bnbmax (utxos, outputs, feeRate) {
+function bnbmax (utxos, outputs, feeRate, factor) {
   // attempt to use the bnb strategy first (no change output)
-  let base = branchandbound(utxos, outputs, feeRate)
+  let base = branchandbound(utxos, outputs, feeRate, factor)
   if (base.inputs) return base
 
   // order by ascending value
@@ -76,23 +76,23 @@ function bnbmax (utxos, outputs, feeRate) {
   return accumulative(utxos, outputs, feeRate)
 }
 
-function bnbcs (utxos, outputs, feeRate) {
+function bnbcs (utxos, outputs, feeRate, factor) {
   // attempt to use the bnb strategy first (no change output)
-  let base = branchandbound(utxos, outputs, feeRate)
+  let base = branchandbound(utxos, outputs, feeRate, factor)
   if (base.inputs) return base
 
   // else, try the current default
   return coinSelect(utxos, outputs, feeRate)
 }
 
-function bnbus (utxos, outputs, feeRate) {
+function bnbus (utxos, outputs, feeRate, factor) {
   // order by descending value, minus the inputs approximate fee
   function utxoScore (x, feeRate) {
     return x.value - (feeRate * utils.inputBytes(x))
   }
 
   // attempt to use the blackjack strategy first (no change output)
-  let base = branchandbound(utxos, outputs, feeRate)
+  let base = branchandbound(utxos, outputs, feeRate, factor)
   if (base.inputs) return base
 
   utxos = utxos.concat().sort(function (a, b) {
@@ -188,15 +188,19 @@ function privet (utxos, outputs, feeRate) {
   return accumulative(utxos, outputs, feeRate)
 }
 
+function useBnbWithFactor (strategy, factor) {
+  return (utxos, outputs, feeRate) => strategy(utxos, outputs, feeRate, factor)
+}
+
 module.exports = {
   accumulative,
   bestof,
-  bnb: branchandbound,
-  bnbrand,
-  bnbmin,
-  bnbmax,
-  bnbcs,
-  bnbus,
+  bnb: useBnbWithFactor(branchandbound, 0.5),
+  bnbrand: useBnbWithFactor(bnbrand, 0.5),
+  bnbmin: useBnbWithFactor(bnbmin, 0.5),
+  bnbmax: useBnbWithFactor(bnbmax, 0.5),
+  bnbcs: useBnbWithFactor(bnbcs, 0.5),
+  bnbus: useBnbWithFactor(bnbus, 0.5),
   blackjack,
   blackmax,
   blackmin,
@@ -209,3 +213,15 @@ module.exports = {
   proximal,
   random
 }
+
+// uncomment for benchmarking bnb parameters
+// let res = {}
+//
+// for (let i = 0; i <= 200; i+=1) {
+//    let factor = i / 100;
+//    res['M' + i] = useBnbWithFactor(bnbmin, factor)
+//    res['R' + i] = useBnbWithFactor(bnbrand, factor)
+//    res['R' + i] = (u, o, f) => bnbrand(u, o, f, factor)
+// }
+//
+// module.exports = res
