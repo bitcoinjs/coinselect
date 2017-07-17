@@ -28,7 +28,7 @@ for (var j = 0; j < 100; ++j) {
       stage.utxos.forEach(x => simulation.addUTXO(x))
 
       // now, run stage.txos.length transactions
-      stage.txos.forEach((txo) => simulation.run([txo]))
+      stage.txos.forEach((txo) => simulation.runQueued([txo]))
     })
 
     simulation.finish()
