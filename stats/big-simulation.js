@@ -1,6 +1,6 @@
 let Simulation = require('./simulation')
 let modules = require('./strategies')
-let feeRate = 56 * 100
+let feeRate = 10
 let results = []
 
 let list = require('./moneypot-hotwallet.json')
