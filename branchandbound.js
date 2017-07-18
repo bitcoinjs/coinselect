@@ -54,12 +54,8 @@ module.exports = function branchAndBound (utxos, outputs, feeRate, factor) {
 
     return utils.finalize(inputs, outputs, feeRate)
   } else {
-    const fee = feeRate * utxos.reduce(function (a, x) {
-      return a + utils.inputBytes(x)
-    }, 0)
-
     return {
-      fee: fee
+      fee: 0
     }
   }
 }
