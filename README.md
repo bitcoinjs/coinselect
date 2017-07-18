@@ -18,7 +18,8 @@ Module | Algorithm | UTXOs Order
 `require('coinselect/split')` | Split - splits the input values evenly between all `outputs`, unchanges any `output` with a `.value` set | -
 
 
-**Note:** Each algorithm will add a change output if the remaining accumulated value is over a dust threshold.  This is done by `utils.finalize` and is independent of the algorithm chosen for the purposes of safety.
+**Note:** Each algorithm will add a change output if the `input - output` value difference is over a dust threshold.
+This is calculated independently by `utils.finalize`, irrespective of the algorithm chosen, for the purposes of safety.
 
 ## Example
 
