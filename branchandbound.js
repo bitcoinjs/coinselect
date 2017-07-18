@@ -76,8 +76,6 @@ function search (effectiveUtxos, target, costOfChange) {
   var selected = [] // true -> select the utxo at this index
   var selectedAccum = 0 // sum of effective values
 
-  var traversingExclusion = [] // true -> traversing exclusion branch at this index
-
   var done = false
   var backtrack = false
 
@@ -116,13 +114,7 @@ function search (effectiveUtxos, target, costOfChange) {
       depth--
 
       // Walk backwards to find the first utxo which has not has its second branch traversed
-      while (traversingExclusion[depth]) {
-        // Reset this utxo's selection
-        if (selected[depth]) {
-          selectedAccum -= effectiveUtxos[depth].effectiveValue
-        }
-        selected[depth] = false
-        traversingExclusion[depth] = false
+      while (!selected[depth]) {
         remaining += effectiveUtxos[depth].effectiveValue
 
         // Step back one
@@ -135,9 +127,6 @@ function search (effectiveUtxos, target, costOfChange) {
 
       if (!done) {
         // Now traverse the second branch of the utxo we have arrived at.
-        traversingExclusion[depth] = true
-
-        // These were always included first, try excluding now
         selected[depth] = false
         selectedAccum -= effectiveUtxos[depth].effectiveValue
         depth++
