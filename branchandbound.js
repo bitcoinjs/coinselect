@@ -23,11 +23,18 @@ function calculateEffectiveValues (utxos, feeRate) {
 module.exports = function branchAndBound (utxos, outputs, feeRate, factor) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
 
+  // TODO: segwit cost
   var costPerOutput = utils.outputBytes({}) * feeRate
   var costPerInput = utils.inputBytes({}) * feeRate
   var costOfChange = Math.floor((costPerInput + costPerOutput) * factor)
 
   var outAccum = utils.sumOrNaN(outputs) + utils.transactionBytes([], outputs) * feeRate
+
+  if (isNaN(outAccum)) {
+    return {
+      fee: 0
+    }
+  }
 
   var effectiveUtxos = calculateEffectiveValues(utxos, feeRate).filter(function (x) {
     return x.effectiveValue > 0
