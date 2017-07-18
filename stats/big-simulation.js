@@ -26,7 +26,7 @@ for (var name in modules) {
     if (value > 0) {
       simulation.addUTXO(txo)
     } else {
-      txo.script.length = 25
+      txo.script = {length: 25}
       simulation.runQueued([txo])
     }
   }
