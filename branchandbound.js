@@ -121,12 +121,10 @@ function search (effectiveUtxos, target, costOfChange) {
         }
       }
 
-      if (!done) {
-        // Now traverse the second branch of the utxo we have arrived at.
-        selected[depth] = false
-        selectedAccum -= effectiveUtxos[depth].effectiveValue
-        depth++
-      }
+      // Now traverse the second branch of the utxo we have arrived at.
+      selected[depth] = false
+      selectedAccum -= effectiveUtxos[depth].effectiveValue
+      depth++
     }
     tries--
   }
