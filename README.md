@@ -8,6 +8,19 @@
 An unspent transaction output (UTXO) selection module for bitcoin.
 
 
+## Algorithms
+Module | Algorithm | UTXOs Order
+-|-|-
+`require('coinselect')` | Blackjack, with Accumulative fallback | By Descending Value
+`require('coinselect/accumulative')` | Accumulative - accumulates inputs until the target value is reached, skipping detrimental inputs | -
+`require('coinselect/blackjack')` | Blackjack - accumulates inputs until the target value is matched, does not accumulate inputs that go over the target value (within a threshold) | -
+`require('coinselect/break')` | Break - breaks the input values into equal denominations of `output` (as provided) | -
+`require('coinselect/split')` | Split - splits the input values evenly between all `outputs`, any provided `output` with `.value` remains unchanged | -
+
+
+**Note:** Each algorithm will add a change output if the `input - output` value difference is over a dust threshold.
+This is calculated independently by `utils.finalize`, irrespective of the algorithm chosen, for the purposes of safety.
+
 ## Example
 
 ``` javascript
