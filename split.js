@@ -1,5 +1,6 @@
 var utils = require('./utils')
 
+// split utxos between each output, ignores outputs with .value defined
 module.exports = function split (utxos, outputs, feeRate) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
 
