@@ -1,7 +1,7 @@
 // baseline estimates, used to improve performance
 var TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 var TX_INPUT_BASE = 32 + 4 + 1 + 4
-var TX_INPUT_PUBKEYHASH = 106
+var TX_INPUT_PUBKEYHASH = 107
 var TX_OUTPUT_BASE = 8 + 1
 var TX_OUTPUT_PUBKEYHASH = 25
 

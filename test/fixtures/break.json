@@ -3,13 +3,13 @@
     "description": "1:1, no remainder",
     "feeRate": 10,
     "inputs": [
-      11910
+      11920
     ],
     "output": 10000,
     "expected": {
       "inputs": [
         {
-          "value": 11910
+          "value": 11920
         }
       ],
       "outputs": [
@@ -17,7 +17,7 @@
           "value": 10000
         }
       ],
-      "fee": 1910
+      "fee": 1920
     }
   },
   {
@@ -63,10 +63,10 @@
           "value": 8000
         },
         {
-          "value": 1750
+          "value": 1740
         }
       ],
-      "fee": 2250
+      "fee": 2260
     }
   },
   {
@@ -229,10 +229,10 @@
           "value": 6000
         },
         {
-          "value": 2187
+          "value": 2180
         }
       ],
-      "fee": 1813
+      "fee": 1820
     }
   },
   {
@@ -278,7 +278,7 @@
     ],
     "output": 40000,
     "expected": {
-      "fee": 3380
+      "fee": 3400
     }
   },
   {
@@ -307,7 +307,7 @@
     ],
     "output": 5000,
     "expected": {
-      "fee": 1570
+      "fee": 1580
     }
   },
   {
