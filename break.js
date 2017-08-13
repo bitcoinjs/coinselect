@@ -1,7 +1,7 @@
 var utils = require('./utils')
 
 // break utxos into the maximum number of output possible
-module.exports = function broken (utxos, output, feeRate) {
+module.exports = function broken (utxos, output, feeRate, changeInputLengthEstimate, changeOutputLength) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
 
   var bytesAccum = utils.transactionBytes(utxos, [])
@@ -29,6 +29,5 @@ module.exports = function broken (utxos, output, feeRate) {
     outAccum += value
     outputs.push(output)
   }
-
-  return utils.finalize(utxos, outputs, feeRate)
+  return utils.finalize(utxos, outputs, feeRate, changeInputLengthEstimate, changeOutputLength)
 }

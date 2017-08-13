@@ -1,21 +1,18 @@
 // baseline estimates, used to improve performance
 var TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 var TX_INPUT_BASE = 32 + 4 + 1 + 4
-var TX_INPUT_PUBKEYHASH = 107
 var TX_OUTPUT_BASE = 8 + 1
-var TX_OUTPUT_PUBKEYHASH = 25
 
 function inputBytes (input) {
-  return TX_INPUT_BASE + (input.script ? input.script.length : TX_INPUT_PUBKEYHASH)
+  return TX_INPUT_BASE + input.script.length
 }
 
 function outputBytes (output) {
-  return TX_OUTPUT_BASE + (output.script ? output.script.length : TX_OUTPUT_PUBKEYHASH)
+  return TX_OUTPUT_BASE + output.script.length
 }
 
-function dustThreshold (output, feeRate) {
-  /* ... classify the output for input estimate  */
-  return inputBytes({}) * feeRate
+function dustThreshold (feeRate, inputLenghtEstimate) {
+  return inputBytes({script: {length: inputLenghtEstimate}}) * feeRate
 }
 
 function transactionBytes (inputs, outputs) {
@@ -40,16 +37,15 @@ function sumOrNaN (range) {
   return range.reduce(function (a, x) { return a + uintOrNaN(x.value) }, 0)
 }
 
-var BLANK_OUTPUT = outputBytes({})
-
-function finalize (inputs, outputs, feeRate) {
+function finalize (inputs, outputs, feeRate, changeInputLengthEstimate, changeOutputLength) {
   var bytesAccum = transactionBytes(inputs, outputs)
-  var feeAfterExtraOutput = feeRate * (bytesAccum + BLANK_OUTPUT)
+  var blankOutputBytes = outputBytes({script: {length: changeOutputLength}})
+  var feeAfterExtraOutput = feeRate * (bytesAccum + blankOutputBytes)
   var remainderAfterExtraOutput = sumOrNaN(inputs) - (sumOrNaN(outputs) + feeAfterExtraOutput)
 
   // is it worth a change output?
-  if (remainderAfterExtraOutput > dustThreshold({}, feeRate)) {
-    outputs = outputs.concat({ value: remainderAfterExtraOutput })
+  if (remainderAfterExtraOutput > dustThreshold(feeRate, changeInputLengthEstimate)) {
+    outputs = outputs.concat({ value: remainderAfterExtraOutput, script: {length: changeOutputLength} })
   }
 
   var fee = sumOrNaN(inputs) - sumOrNaN(outputs)
