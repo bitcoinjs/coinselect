@@ -21,7 +21,9 @@
         }
       ],
       "fee": 2001
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, change expected",
@@ -48,7 +50,9 @@
         }
       ],
       "fee": 1130
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, change expected, value > 2^32",
@@ -75,7 +79,9 @@
         }
       ],
       "fee": 1130
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, sub-optimal inputs (if re-ordered), direct possible",
@@ -101,7 +107,9 @@
         }
       ],
       "fee": 2300
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, sub-optimal inputs (if re-ordered), direct possible, but slightly higher fee",
@@ -127,7 +135,9 @@
         }
       ],
       "fee": 3200
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, sub-optimal inputs (if re-ordered, no direct possible), change expected",
@@ -156,7 +166,9 @@
         }
       ],
       "fee": 1130
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, passes, skipped detrimental input",
@@ -195,7 +207,9 @@
           "value": 4000
         }
       ]
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, fails, skips (and finishes on) detrimental input",
@@ -213,7 +227,9 @@
     ],
     "expected": {
       "fee": 18700
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, passes, poor ordering causing high fee",
@@ -259,7 +275,9 @@
         }
       ],
       "fee": 5000
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, passes, improved ordering causing low fee, no waste",
@@ -298,7 +316,9 @@
         }
       ],
       "fee": 2000
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, optimal inputs, no change",
@@ -322,7 +342,9 @@
         }
       ],
       "fee": 2300
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, no fee, change expected",
@@ -374,7 +396,9 @@
         }
       ],
       "fee": 0
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, script provided, no change",
@@ -406,7 +430,9 @@
         }
       ],
       "fee": 5000
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, script provided, change expected",
@@ -441,7 +467,9 @@
         }
       ],
       "fee": 4010
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "1 output, 2 inputs (related), no change",
@@ -473,7 +501,9 @@
         }
       ],
       "fee": 2000
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "many outputs, no change",
@@ -519,7 +549,9 @@
         }
       ],
       "fee": 6221
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "many outputs, change expected",
@@ -568,7 +600,9 @@
         }
       ],
       "fee": 6240
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "many outputs, no fee, change expected",
@@ -624,7 +658,9 @@
         }
       ],
       "fee": 0
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "no outputs, no change",
@@ -642,7 +678,9 @@
       ],
       "outputs": [],
       "fee": 1900
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "no outputs, change expected",
@@ -664,7 +702,9 @@
         }
       ],
       "fee": 1920
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "inputs used in order of DESCENDING",
@@ -709,7 +749,9 @@
           "value": 7850
         }
       ]
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "not enough funds, empty result",
@@ -722,7 +764,9 @@
     ],
     "expected": {
       "fee": 1920
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "not enough funds (w/ fee), empty result",
@@ -735,7 +779,9 @@
     ],
     "expected": {
       "fee": 1920
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "not enough funds (no inputs), empty result",
@@ -744,7 +790,9 @@
     "outputs": [],
     "expected": {
       "fee": 100
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "not enough funds (no inputs), empty result (>1KiB)",
@@ -783,7 +831,9 @@
     ],
     "expected": {
       "fee": 9960
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "2 outputs, some with missing value (NaN)",
@@ -797,7 +847,9 @@
     ],
     "expected": {
       "fee": 2260
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "input with float values (NaN)",
@@ -811,7 +863,9 @@
     ],
     "expected": {
       "fee": 2260
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "2 outputs, with float values (NaN)",
@@ -825,7 +879,9 @@
     ],
     "expected": {
       "fee": 2260
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "2 outputs, string values (NaN)",
@@ -843,7 +899,9 @@
     ],
     "expected": {
       "fee": 2260
-    }
+    },
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "inputs and outputs, bad feeRate (NaN)",
@@ -854,7 +912,9 @@
     "outputs": [
       10000
     ],
-    "expected": {}
+    "expected": {},
+    "inputLength": 107,
+    "outputLength": 25
   },
   {
     "description": "inputs and outputs, bad feeRate (NaN)",
@@ -865,6 +925,8 @@
     "outputs": [
       10000
     ],
-    "expected": {}
+    "expected": {},
+    "inputLength": 107,
+    "outputLength": 25
   }
 ]
