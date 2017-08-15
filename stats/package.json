@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "fisher-yates": "^1.0.3"
+    "fisher-yates": "^1.0.3",
+    "weighted": "^0.3.0"
   }
 }

@@ -1,3 +1,5 @@
+var weighted = require('weighted')
+
 function rayleight (a, b) {
   return a + b * Math.sqrt(-Math.log(uniform(0, 1)))
 }
@@ -32,13 +34,12 @@ function Simulation (name, algorithm, feeRate) {
   this.k = 0
 }
 
-Simulation.generateTxos = function (n, min, max) {
+Simulation.generateTxos = function (n, min, max, scriptSizes) {
   let txos = []
   for (let i = 0; i < n; ++i) {
     let v = rayleight(min, max) >>> 0
 
-    let s = 106
-    if (Math.random() > 0.9) s = 300
+    let s = parseInt(weighted.select(scriptSizes))
 
     txos.push({
       address: randomAddress(),
