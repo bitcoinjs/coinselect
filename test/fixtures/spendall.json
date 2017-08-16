@@ -1,0 +1,56 @@
+[
+  {
+    "description": "3 inputs",
+    "feeRate": 10,
+    "inputs": [
+      10000,
+      10000,
+      10000
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "value": 10000
+        },
+        {
+          "value": 10000
+        },
+        {
+          "value": 10000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 25120
+        }
+      ],
+      "fee": 4880
+    }
+  },
+  {
+    "description": "output is dust (no result)",
+    "feeRate": 10,
+    "inputs": [
+      2000
+    ],
+    "expected": {
+      "fee": 1920
+    }
+  },
+  {
+    "description": "bad feeRate (NaN)",
+    "feeRate": "1",
+    "inputs": [
+      20000
+    ],
+    "expected": {}
+  },
+  {
+    "description": "bad feeRate (NaN)",
+    "feeRate": 1.5,
+    "inputs": [
+      20000
+    ],
+    "expected": {}
+  }
+]
