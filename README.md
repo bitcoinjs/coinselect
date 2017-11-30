@@ -67,4 +67,4 @@ outputs.forEach(output => {
 ```
 
 
-## License [MIT](LICENSE)
+## License [ISC](LICENSE)
