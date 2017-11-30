@@ -5,6 +5,10 @@ let max = 142251558 // 1000 USD
 let feeRate = 56 * 100
 let results = []
 
+// switch between two modes
+// true - failed payments are discarded
+// false - failed payments are queued until there is enough balance
+let discardFailed = false
 let walletType = 'p2pkh' // set to either p2pkh or p2sh
 
 // data from blockchaing from ~august 2015 - august 2017
@@ -60,10 +64,18 @@ for (var j = 0; j < 100; ++j) {
 
     stages.forEach((stage) => {
       // supplement our UTXOs
-      stage.utxos.forEach(x => simulation.addUTXO(x))
+      stage.utxos.forEach(x => {
+        simulation.addUTXO(x)
+
+        // if discardFailed == true, this should do nothing
+        simulation.run(discardFailed)
+      })
 
       // now, run stage.txos.length transactions
-      stage.txos.forEach((txo) => simulation.runQueued([txo]))
+      stage.txos.forEach((txo) => {
+        simulation.plan([txo])
+        simulation.run(discardFailed)
+      })
     })
 
     simulation.finish()
@@ -81,7 +93,7 @@ function merge (results) {
       result.inputs += stats.inputs
       result.outputs += stats.outputs
       result.transactions += stats.transactions
-      result.failed += stats.failed
+      result.plannedTransactions += stats.plannedTransactions
       result.fees += stats.fees
       result.bytes += stats.bytes
       result.utxos += stats.utxos
@@ -112,7 +124,7 @@ merge(results).sort((a, b) => {
 // top 20 only
 }).slice(0, 20).forEach((x, i) => {
   let { stats } = x
-  let DNF = stats.failed / (stats.transactions + stats.failed)
+  let DNF = 1 - stats.transactions / stats.plannedTransactions
 
   console.log(
     pad(i),
