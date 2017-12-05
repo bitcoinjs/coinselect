@@ -60,6 +60,7 @@ outputs.forEach(output => {
   // an output address/script for
   if (!output.address) {
     output.address = wallet.getChangeAddress()
+    wallet.nextChangeAddress()
   }
 
   txb.addOutput(output.address, output.value)
