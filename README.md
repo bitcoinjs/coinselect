@@ -9,7 +9,7 @@ An unspent transaction output (UTXO) selection module for bitcoin.
 
 
 ## Algorithms
-Module | Algorithm | UTXOs Order
+Module | Algorithm | Re-orders UTXOs?
 -|-|-
 `require('coinselect')` | Blackjack, with Accumulative fallback | By Descending Value
 `require('coinselect/accumulative')` | Accumulative - accumulates inputs until the target value is reached, skipping detrimental inputs | -
