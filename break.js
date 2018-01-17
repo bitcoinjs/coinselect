@@ -1,6 +1,6 @@
 var utils = require('./utils')
 
-// break utxos into the maximum number of output possible
+// break utxos into the maximum number of 'output' possible
 module.exports = function broken (utxos, output, feeRate, changeInputLengthEstimate, changeOutputLength) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
 
