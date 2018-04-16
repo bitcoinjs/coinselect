@@ -21,6 +21,8 @@ Module | Algorithm | Re-orders UTXOs?
 **Note:** Each algorithm will add a change output if the `input - output` value difference is over a dust threshold.
 This is calculated independently by `utils.finalize`, irrespective of the algorithm chosen, for the purposes of safety.
 
+**Pro-tip:** if you want to send-all inputs to an output address, `coinselect/split` with a partial output (`.address` defined, no `.value`) can be used to send-all, while leaving an appropriate amount for the `fee`. 
+
 ## Example
 
 ``` javascript
