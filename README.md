@@ -7,6 +7,8 @@
 
 An unspent transaction output (UTXO) selection module for bitcoin.
 
+**WARNING:** Value units are in `satoshi`s, **not** Bitcoin.
+
 
 ## Algorithms
 Module | Algorithm | Re-orders UTXOs?
