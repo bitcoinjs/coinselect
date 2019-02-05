@@ -6,11 +6,11 @@ var TX_OUTPUT_BASE = 8 + 1
 var TX_OUTPUT_PUBKEYHASH = 25
 
 function inputBytes (input) {
-  return TX_INPUT_BASE + (input.script ? input.script.length : TX_INPUT_PUBKEYHASH)
+  return TX_INPUT_BASE + TX_INPUT_PUBKEYHASH
 }
 
 function outputBytes (output) {
-  return TX_OUTPUT_BASE + (output.script ? output.script.length : TX_OUTPUT_PUBKEYHASH)
+  return TX_OUTPUT_BASE + TX_OUTPUT_PUBKEYHASH
 }
 
 function dustThreshold (output, feeRate) {
