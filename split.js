@@ -1,33 +1,73 @@
 var utils = require('./utils')
+var BN = require('bn.js')
 
 // split utxos between each output, ignores outputs with .value defined
 module.exports = function split (utxos, outputs, feeRate) {
-  if (!isFinite(utils.uintOrNaN(feeRate))) return {}
+  if (isNaN(utils.bnOrNaN(feeRate))) return {}
 
   var bytesAccum = utils.transactionBytes(utxos, outputs)
-  var fee = feeRate * bytesAccum
-  if (outputs.length === 0) return { fee: fee }
+  var fee = feeRate.mul(bytesAccum)
+
+  // Error for bad non big number utxos
+  var invalidUtxos = !utxos.every(function (x) {
+    if (typeof x.value === 'number') return false
+    return true
+  })
+
+  // Error for non big number outputs
+  var invalidOutputs = !outputs.every(function (x) {
+    if (typeof x.value === 'number') return false
+    return true
+  })
+
+  if (invalidUtxos || invalidOutputs) {
+    return {
+      fee: fee
+    }
+  }
+
+  if (outputs.length === 0) {
+    return {
+      fee: fee
+    }
+  }
 
   var inAccum = utils.sumOrNaN(utxos)
   var outAccum = utils.sumForgiving(outputs)
-  var remaining = inAccum - outAccum - fee
-  if (!isFinite(remaining) || remaining < 0) return { fee: fee }
+  var remaining = inAccum.sub(outAccum).sub(fee)
+
+  if (isNaN(remaining) || remaining.lt(utils.BN_ZERO)) {
+    return {
+      fee: fee
+    }
+  }
 
   var unspecified = outputs.reduce(function (a, x) {
-    return a + !isFinite(x.value)
+    var nonValue = BN.isBN(x.value) ? 0 : 1
+    return a + nonValue
   }, 0)
 
-  if (remaining === 0 && unspecified === 0) return utils.finalize(utxos, outputs, feeRate)
+  if (remaining.cmp(utils.BN_ZERO) === 0 && unspecified === 0) return utils.finalize(utxos, outputs, feeRate)
 
-  var splitOutputsCount = outputs.reduce(function (a, x) {
+  // Counts the number of split outputs left
+  var splitOutputsCount = new BN(outputs.reduce(function (a, x) {
     return a + !x.value
-  }, 0)
-  var splitValue = (remaining / splitOutputsCount) >>> 0
+  }, 0))
+
+  // any number / 0 = infinity (shift right = 0)
+  var splitValue = (splitOutputsCount.cmp(utils.BN_ZERO) === 0) ? 0 : remaining.div(splitOutputsCount).shrn(0)
 
   // ensure every output is either user defined, or over the threshold
   if (!outputs.every(function (x) {
-    return x.value !== undefined || (splitValue > utils.dustThreshold(x, feeRate))
-  })) return { fee: fee }
+    if (x.value !== undefined) return true
+    var dustThresholdOrNaN = utils.dustThresholdOrNan(x, feeRate)
+    if (!isNaN(dustThresholdOrNaN) && splitValue.gt(dustThresholdOrNaN)) return true
+    return false
+  })) {
+    return {
+      fee: fee
+    }
+  }
 
   // assign splitValue to outputs not user defined
   outputs = outputs.map(function (x) {

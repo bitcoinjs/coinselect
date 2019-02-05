@@ -1,16 +1,20 @@
+var BN = require('bn.js')
+const BN_ZERO = new BN(0)
+const BN_ONE = new BN(1)
+
 // baseline estimates, used to improve performance
-var TX_BASE_SIZE = 10
+var TX_BASE_SIZE = new BN('10')
 
 var TX_INPUT_SIZE = {
-  LEGACY: 148,
-  P2SH: 92,
-  BECH32: 69
+  LEGACY: new BN('148'),
+  P2SH: new BN('92'),
+  BECH32: new BN('69')
 }
 
 var TX_OUTPUT_SIZE = {
-  LEGACY: 34,
-  P2SH: 32,
-  BECH32: 31
+  LEGACY: new BN('34'),
+  P2SH: new BN('32'),
+  BECH32: new BN('31')
 }
 
 function inputBytes (input) {
@@ -23,45 +27,77 @@ function outputBytes (output) {
 
 function dustThreshold (output, feeRate) {
   /* ... classify the output for input estimate  */
-  return inputBytes({}) * feeRate
+  if (!BN.isBN(feeRate)) return NaN
+  return inputBytes({}).mul(feeRate)
 }
 
 function transactionBytes (inputs, outputs) {
-  return TX_BASE_SIZE +
-    inputs.reduce(function (a, x) { return a + inputBytes(x) }, 0) +
-    outputs.reduce(function (a, x) { return a + outputBytes(x) }, 0)
+  return TX_BASE_SIZE
+    .add(inputs.reduce(function (a, x) {
+      return a.add(inputBytes(x))
+    }, BN_ZERO))
+    .add(outputs.reduce(function (a, x) {
+      return a.add(outputBytes(x))
+    }, BN_ZERO))
 }
 
-function uintOrNaN (v) {
-  if (typeof v !== 'number') return NaN
-  if (!isFinite(v)) return NaN
-  if (Math.floor(v) !== v) return NaN
-  if (v < 0) return NaN
+function bnOrNaN (v) {
+  if (isNaN(v)) return NaN
+  if (!BN.isBN(v)) return NaN
+  if (v.isNeg()) return NaN
   return v
 }
 
 function sumForgiving (range) {
-  return range.reduce(function (a, x) { return a + (isFinite(x.value) ? x.value : 0) }, 0)
+  return range.reduce(function (a, x) {
+    return a.add((BN.isBN(x.value) ? x.value : BN_ZERO))
+  },
+  BN_ZERO)
 }
 
 function sumOrNaN (range) {
-  return range.reduce(function (a, x) { return a + uintOrNaN(x.value) }, 0)
+  return range.reduce(function (a, x) {
+    var result = bnOrNaN(x.value)
+    if (isNaN(result)) return NaN
+    return a.add(result)
+  }, BN_ZERO)
 }
 
 var BLANK_OUTPUT = outputBytes({})
 
 function finalize (inputs, outputs, feeRate) {
-  var bytesAccum = transactionBytes(inputs, outputs)
-  var feeAfterExtraOutput = feeRate * (bytesAccum + BLANK_OUTPUT)
-  var remainderAfterExtraOutput = sumOrNaN(inputs) - (sumOrNaN(outputs) + feeAfterExtraOutput)
+  var remainderAfterExtraOutput = NaN
+  var feeAfterExtraOutput = NaN
+  var fee = NaN
 
+  var bytesAccum = transactionBytes(inputs, outputs)
+
+  // convert to BN or NaN
+  if (BN.isBN(feeRate)) feeAfterExtraOutput = feeRate.mul((bytesAccum.add(BLANK_OUTPUT)))
+  else feeAfterExtraOutput = NaN
+
+  var inputSumOrNaN = sumOrNaN(inputs)
+  var outputSumOrNaN = sumOrNaN(outputs)
+  var dustThresholdOrNaN = dustThreshold({}, feeRate)
+
+  if (!isNaN(inputSumOrNaN) && !isNaN(outputSumOrNaN) && !isNaN(feeAfterExtraOutput)) {
+    remainderAfterExtraOutput = inputSumOrNaN.sub(outputSumOrNaN.add(feeAfterExtraOutput))
+  }
   // is it worth a change output?
-  if (remainderAfterExtraOutput > dustThreshold({}, feeRate)) {
-    outputs = outputs.concat({ value: remainderAfterExtraOutput })
+  if (!isNaN(dustThresholdOrNaN) && !isNaN(remainderAfterExtraOutput) && remainderAfterExtraOutput.gt(dustThresholdOrNaN)) {
+    outputs = outputs.concat({
+      value: remainderAfterExtraOutput
+    })
+    outputSumOrNaN = sumOrNaN(outputs) // recalculate
   }
 
-  var fee = sumOrNaN(inputs) - sumOrNaN(outputs)
-  if (!isFinite(fee)) return { fee: feeRate * bytesAccum }
+  fee = (!isNaN(inputSumOrNaN) && !isNaN(outputSumOrNaN)) ? inputSumOrNaN.sub(outputSumOrNaN) : NaN
+
+  if (isNaN(fee)) {
+    return {
+      fee: feeRate.mul(bytesAccum)
+    }
+  }
 
   return {
     inputs: inputs,
@@ -71,12 +107,14 @@ function finalize (inputs, outputs, feeRate) {
 }
 
 module.exports = {
-  dustThreshold: dustThreshold,
+  dustThresholdOrNan: dustThreshold,
   finalize: finalize,
   inputBytes: inputBytes,
   outputBytes: outputBytes,
   sumOrNaN: sumOrNaN,
   sumForgiving: sumForgiving,
   transactionBytes: transactionBytes,
-  uintOrNaN: uintOrNaN
+  bnOrNaN: bnOrNaN,
+  BN_ONE: BN_ONE,
+  BN_ZERO: BN_ZERO
 }

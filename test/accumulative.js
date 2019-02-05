@@ -9,10 +9,17 @@ fixtures.forEach(function (f) {
     var outputs = utils.expand(f.outputs)
     var actual = coinAccum(inputs, outputs, f.feeRate)
 
-    t.same(actual, f.expected)
+    t.same(actual.inputs, f.expected.inputs)
+    t.same(actual.outputs, f.expected.outputs)
+    if (f.expected.fee) t.ok(actual.fee.cmp(f.expected.fee) === 0)
+    else t.ok(actual.fee === f.expected.fee)
+
     if (actual.inputs) {
       var feedback = coinAccum(actual.inputs, actual.outputs, f.feeRate)
-      t.same(feedback, f.expected)
+      t.same(feedback.inputs, f.expected.inputs)
+      t.same(feedback.outputs, f.expected.outputs)
+      if (f.expected.fee) t.ok(feedback.fee.cmp(f.expected.fee) === 0)
+      else t.ok(actual.fee === f.expected.fee)
     }
 
     t.end()
