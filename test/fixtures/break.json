@@ -70,41 +70,6 @@
     }
   },
   {
-    "description": "1:2, strange output type",
-    "feeRate": 10,
-    "inputs": [
-      27000
-    ],
-    "output": {
-      "script": {
-        "length": 220
-      },
-      "value": 10000
-    },
-    "expected": {
-      "inputs": [
-        {
-          "value": 27000
-        }
-      ],
-      "outputs": [
-        {
-          "script": {
-            "length": 220
-          },
-          "value": 10000
-        },
-        {
-          "script": {
-            "length": 220
-          },
-          "value": 10000
-        }
-      ],
-      "fee": 7000
-    }
-  },
-  {
     "description": "1:4",
     "feeRate": 10,
     "inputs": [

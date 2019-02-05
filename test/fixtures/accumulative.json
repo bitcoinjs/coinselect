@@ -159,45 +159,6 @@
     }
   },
   {
-    "description": "1 output, passes, skipped detrimental input",
-    "feeRate": 5,
-    "inputs": [
-      {
-        "script": {
-          "length": 1000
-        },
-        "value": 3000
-      },
-      {
-        "value": 3000
-      },
-      {
-        "value": 3000
-      }
-    ],
-    "outputs": [
-      4000
-    ],
-    "expected": {
-      "fee": 2000,
-      "inputs": [
-        {
-          "i": 1,
-          "value": 3000
-        },
-        {
-          "i": 2,
-          "value": 3000
-        }
-      ],
-      "outputs": [
-        {
-          "value": 4000
-        }
-      ]
-    }
-  },
-  {
     "description": "1 output, fails, skips (and finishes on) detrimental input",
     "feeRate": 55,
     "inputs": [
@@ -213,91 +174,6 @@
     ],
     "expected": {
       "fee": 18700
-    }
-  },
-  {
-    "description": "1 output, passes, poor ordering causing high fee",
-    "feeRate": 5,
-    "inputs": [
-      {
-        "script": {
-          "length": 500
-        },
-        "value": 3000
-      },
-      {
-        "value": 3000
-      },
-      {
-        "value": 3000
-      }
-    ],
-    "outputs": [
-      4000
-    ],
-    "expected": {
-      "inputs": [
-        {
-          "i": 0,
-          "script": {
-            "length": 500
-          },
-          "value": 3000
-        },
-        {
-          "i": 1,
-          "value": 3000
-        },
-        {
-          "i": 2,
-          "value": 3000
-        }
-      ],
-      "outputs": [
-        {
-          "value": 4000
-        }
-      ],
-      "fee": 5000
-    }
-  },
-  {
-    "description": "1 output, passes, improved ordering causing low fee, no waste",
-    "feeRate": 5,
-    "inputs": [
-      {
-        "value": 3000
-      },
-      {
-        "value": 3000
-      },
-      {
-        "script": {
-          "length": 400
-        },
-        "value": 3000
-      }
-    ],
-    "outputs": [
-      4000
-    ],
-    "expected": {
-      "inputs": [
-        {
-          "i": 0,
-          "value": 3000
-        },
-        {
-          "i": 1,
-          "value": 3000
-        }
-      ],
-      "outputs": [
-        {
-          "value": 4000
-        }
-      ],
-      "fee": 2000
     }
   },
   {
@@ -374,73 +250,6 @@
         }
       ],
       "fee": 0
-    }
-  },
-  {
-    "description": "1 output, script provided, no change",
-    "feeRate": 10,
-    "inputs": [
-      100000
-    ],
-    "outputs": [
-      {
-        "script": {
-          "length": 200
-        },
-        "value": 95000
-      }
-    ],
-    "expected": {
-      "inputs": [
-        {
-          "i": 0,
-          "value": 100000
-        }
-      ],
-      "outputs": [
-        {
-          "script": {
-            "length": 200
-          },
-          "value": 95000
-        }
-      ],
-      "fee": 5000
-    }
-  },
-  {
-    "description": "1 output, script provided, change expected",
-    "feeRate": 10,
-    "inputs": [
-      200000
-    ],
-    "outputs": [
-      {
-        "script": {
-          "length": 200
-        },
-        "value": 95000
-      }
-    ],
-    "expected": {
-      "inputs": [
-        {
-          "i": 0,
-          "value": 200000
-        }
-      ],
-      "outputs": [
-        {
-          "script": {
-            "length": 200
-          },
-          "value": 95000
-        },
-        {
-          "value": 100990
-        }
-      ],
-      "fee": 4010
     }
   },
   {
@@ -664,51 +473,6 @@
         }
       ],
       "fee": 1920
-    }
-  },
-  {
-    "description": "inputs used in order of DESCENDING",
-    "feeRate": 10,
-    "inputs": [
-      20000,
-      {
-        "script": {
-          "length": 300
-        },
-        "value": 10000
-      },
-      10000
-    ],
-    "outputs": [
-      25000
-    ],
-    "expected": {
-      "fee": 7150,
-      "inputs": [
-        {
-          "i": 0,
-          "value": 20000
-        },
-        {
-          "i": 1,
-          "script": {
-            "length": 300
-          },
-          "value": 10000
-        },
-        {
-          "i": 2,
-          "value": 10000
-        }
-      ],
-      "outputs": [
-        {
-          "value": 25000
-        },
-        {
-          "value": 7850
-        }
-      ]
     }
   },
   {
