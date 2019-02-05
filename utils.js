@@ -1,16 +1,24 @@
 // baseline estimates, used to improve performance
-var TX_EMPTY_SIZE = 4 + 1 + 1 + 4
-var TX_INPUT_BASE = 32 + 4 + 1 + 4
-var TX_INPUT_PUBKEYHASH = 107
-var TX_OUTPUT_BASE = 8 + 1
-var TX_OUTPUT_PUBKEYHASH = 25
+var TX_BASE_SIZE = 10
+
+var TX_INPUT_SIZE = {
+  LEGACY: 148,
+  P2SH: 92,
+  BECH32: 69
+}
+
+var TX_OUTPUT_SIZE = {
+  LEGACY: 34,
+  P2SH: 32,
+  BECH32: 31
+}
 
 function inputBytes (input) {
-  return TX_INPUT_BASE + TX_INPUT_PUBKEYHASH
+  return TX_INPUT_SIZE[input.type] || TX_INPUT_SIZE.LEGACY
 }
 
 function outputBytes (output) {
-  return TX_OUTPUT_BASE + TX_OUTPUT_PUBKEYHASH
+  return TX_OUTPUT_SIZE[output.type] || TX_OUTPUT_SIZE.LEGACY
 }
 
 function dustThreshold (output, feeRate) {
@@ -19,7 +27,7 @@ function dustThreshold (output, feeRate) {
 }
 
 function transactionBytes (inputs, outputs) {
-  return TX_EMPTY_SIZE +
+  return TX_BASE_SIZE +
     inputs.reduce(function (a, x) { return a + inputBytes(x) }, 0) +
     outputs.reduce(function (a, x) { return a + outputBytes(x) }, 0)
 }
