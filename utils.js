@@ -1,6 +1,5 @@
 var BN = require('bn.js')
-const BN_ZERO = new BN(0)
-const BN_ONE = new BN(1)
+var ext = require('./bn-extensions')
 
 // baseline estimates, used to improve performance
 var TX_BASE_SIZE = new BN('10')
@@ -27,22 +26,21 @@ function outputBytes (output) {
 
 function dustThreshold (output, feeRate) {
   /* ... classify the output for input estimate  */
-  if (!BN.isBN(feeRate)) return NaN
-  return inputBytes({}).mul(feeRate)
+  return ext.mul(inputBytes({}), feeRate)
 }
 
 function transactionBytes (inputs, outputs) {
   return TX_BASE_SIZE
     .add(inputs.reduce(function (a, x) {
       return a.add(inputBytes(x))
-    }, BN_ZERO))
+    }, ext.BN_ZERO))
     .add(outputs.reduce(function (a, x) {
       return a.add(outputBytes(x))
-    }, BN_ZERO))
+    }, ext.BN_ZERO))
 }
 
 function bnOrNaN (v) {
-  if (isNaN(v)) return NaN
+  if (!isFinite(v)) return NaN
   if (!BN.isBN(v)) return NaN
   if (v.isNeg()) return NaN
   return v
@@ -50,54 +48,32 @@ function bnOrNaN (v) {
 
 function sumForgiving (range) {
   return range.reduce(function (a, x) {
-    return a.add((BN.isBN(x.value) ? x.value : BN_ZERO))
+    var valueOrZero = BN.isBN(x.value) ? x.value : ext.BN_ZERO
+    return ext.add(a, valueOrZero)
   },
-  BN_ZERO)
+  ext.BN_ZERO)
 }
 
 function sumOrNaN (range) {
   return range.reduce(function (a, x) {
-    var result = bnOrNaN(x.value)
-    if (isNaN(result)) return NaN
-    return a.add(result)
-  }, BN_ZERO)
+    return ext.add(a, bnOrNaN(x.value))
+  }, ext.BN_ZERO)
 }
 
 var BLANK_OUTPUT = outputBytes({})
 
 function finalize (inputs, outputs, feeRate) {
-  var remainderAfterExtraOutput = NaN
-  var feeAfterExtraOutput = NaN
-  var fee = NaN
-
   var bytesAccum = transactionBytes(inputs, outputs)
+  var feeAfterExtraOutput = ext.mul(feeRate, ext.add(bytesAccum, BLANK_OUTPUT))
+  var remainderAfterExtraOutput = ext.sub(sumOrNaN(inputs), ext.add(sumOrNaN(outputs), feeAfterExtraOutput))
 
-  // convert to BN or NaN
-  if (BN.isBN(feeRate)) feeAfterExtraOutput = feeRate.mul((bytesAccum.add(BLANK_OUTPUT)))
-  else feeAfterExtraOutput = NaN
-
-  var inputSumOrNaN = sumOrNaN(inputs)
-  var outputSumOrNaN = sumOrNaN(outputs)
-  var dustThresholdOrNaN = dustThreshold({}, feeRate)
-
-  if (!isNaN(inputSumOrNaN) && !isNaN(outputSumOrNaN) && !isNaN(feeAfterExtraOutput)) {
-    remainderAfterExtraOutput = inputSumOrNaN.sub(outputSumOrNaN.add(feeAfterExtraOutput))
-  }
   // is it worth a change output?
-  if (!isNaN(dustThresholdOrNaN) && !isNaN(remainderAfterExtraOutput) && remainderAfterExtraOutput.gt(dustThresholdOrNaN)) {
-    outputs = outputs.concat({
-      value: remainderAfterExtraOutput
-    })
-    outputSumOrNaN = sumOrNaN(outputs) // recalculate
+  if (ext.gt(remainderAfterExtraOutput, dustThreshold({}, feeRate))) {
+    outputs = outputs.concat({ value: remainderAfterExtraOutput })
   }
 
-  fee = (!isNaN(inputSumOrNaN) && !isNaN(outputSumOrNaN)) ? inputSumOrNaN.sub(outputSumOrNaN) : NaN
-
-  if (isNaN(fee)) {
-    return {
-      fee: feeRate.mul(bytesAccum)
-    }
-  }
+  var fee = ext.sub(sumOrNaN(inputs), sumOrNaN(outputs))
+  if (!isFinite(fee)) return { fee: ext.mul(feeRate, bytesAccum) }
 
   return {
     inputs: inputs,
@@ -107,14 +83,12 @@ function finalize (inputs, outputs, feeRate) {
 }
 
 module.exports = {
-  dustThresholdOrNan: dustThreshold,
+  dustThreshold: dustThreshold,
   finalize: finalize,
   inputBytes: inputBytes,
   outputBytes: outputBytes,
   sumOrNaN: sumOrNaN,
   sumForgiving: sumForgiving,
   transactionBytes: transactionBytes,
-  bnOrNaN: bnOrNaN,
-  BN_ONE: BN_ONE,
-  BN_ZERO: BN_ZERO
+  bnOrNaN: bnOrNaN
 }

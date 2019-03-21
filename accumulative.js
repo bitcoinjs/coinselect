@@ -1,39 +1,43 @@
 var utils = require('./utils')
+var ext = require('./bn-extensions')
 
 // add inputs until we reach or surpass the target value (or deplete)
 // worst-case: O(n)
 module.exports = function accumulative (utxos, outputs, feeRate) {
-  if (isNaN(utils.bnOrNaN(feeRate))) return {}
-
+  if (!isFinite(utils.bnOrNaN(feeRate))) return {}
   var bytesAccum = utils.transactionBytes([], outputs)
-  var inAccum = utils.BN_ZERO
+
+  var inAccum = ext.BN_ZERO
   var inputs = []
   var outAccum = utils.sumOrNaN(outputs)
 
   for (var i = 0; i < utxos.length; ++i) {
     var utxo = utxos[i]
     var utxoBytes = utils.inputBytes(utxo)
-    var utxoFee = feeRate.mul(utxoBytes)
+    var utxoFee = ext.mul(feeRate, utxoBytes)
     var utxoValue = utils.bnOrNaN(utxo.value)
 
     // skip detrimental input
-    if (!isNaN(utxoValue) && utxoFee.gt(utxoValue)) {
+    var feeIsMoreThanValue = ext.gt(utxoFee, utxoValue)
+    // utxoFee > utxoValue
+    if (feeIsMoreThanValue) {
       if (i === utxos.length - 1) {
+        var bytesSum = ext.add(bytesAccum, utxoBytes)
         return {
-          fee: feeRate.mul((bytesAccum.add(utxoBytes)))
+          fee: ext.mul(feeRate, bytesSum)
         }
       }
       continue
     }
 
-    inAccum = !isNaN(utxoValue) ? inAccum.add(utxoValue) : NaN
-    bytesAccum = bytesAccum.add(utxoBytes)
+    bytesAccum = ext.add(bytesAccum, utxoBytes)
+    inAccum = ext.add(inAccum, utxoValue)
     inputs.push(utxo)
 
-    var fee = feeRate.mul(bytesAccum)
+    var fee = ext.mul(feeRate, bytesAccum)
 
     // go again?
-    if (!isNaN(inAccum) && !isNaN(outAccum) && inAccum.lt(outAccum.add(fee))) continue
+    if (ext.lt(inAccum, ext.add(outAccum, fee))) continue
 
     return utils.finalize(inputs, outputs, feeRate)
   }

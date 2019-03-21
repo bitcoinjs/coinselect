@@ -1,30 +1,30 @@
 var utils = require('./utils')
+var ext = require('./bn-extensions')
 
 // break utxos into the maximum number of 'output' possible
 module.exports = function broken (utxos, output, feeRate) {
-  if (isNaN(utils.bnOrNaN(feeRate))) return {}
+  if (!isFinite(utils.bnOrNaN(feeRate))) return {}
 
   var bytesAccum = utils.transactionBytes(utxos, [])
   var value = utils.bnOrNaN(output.value)
   var inAccum = utils.sumOrNaN(utxos)
 
-  if (isNaN(value) || isNaN(inAccum)) {
-    return {
-      fee: feeRate.mul(bytesAccum)
-    }
-  }
+  if (!isFinite(value) ||
+      !isFinite(inAccum)) return { fee: feeRate.mul(bytesAccum) }
 
   var outputBytes = utils.outputBytes(output)
-  var outAccum = utils.BN_ZERO
+  var outAccum = ext.BN_ZERO
   var outputs = []
 
   while (true) {
-    var fee = feeRate.mul((bytesAccum.add(outputBytes)))
+    // feeRate * (bytesAccum + outputBytes)
+    var fee = ext.mul(feeRate, ext.add(bytesAccum, outputBytes))
 
     // did we bust?
-    if (inAccum.lt((outAccum.add(fee).add(value)))) {
+    if (ext.lt(inAccum, ext.add(outAccum, fee, value))) {
+      var isZero = ext.isZero(outAccum)
       // premature?
-      if (outAccum.cmp(utils.BN_ZERO) === 0) {
+      if (isZero) {
         return {
           fee: fee
         }
@@ -32,8 +32,8 @@ module.exports = function broken (utxos, output, feeRate) {
       break
     }
 
-    bytesAccum = bytesAccum.add(outputBytes)
-    outAccum = outAccum.add(value)
+    bytesAccum = ext.add(bytesAccum, outputBytes)
+    outAccum = ext.add(outAccum, value)
     outputs.push(output)
   }
 
