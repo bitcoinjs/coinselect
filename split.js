@@ -1,32 +1,37 @@
 var utils = require('./utils')
+var BN = require('bn.js')
+var ext = require('./bn-extensions')
 
 // split utxos between each output, ignores outputs with .value defined
 module.exports = function split (utxos, outputs, feeRate) {
-  if (!isFinite(utils.uintOrNaN(feeRate))) return {}
+  if (!utils.uintOrNull(feeRate)) return {}
 
   var bytesAccum = utils.transactionBytes(utxos, outputs)
-  var fee = feeRate * bytesAccum
+  var fee = ext.mul(feeRate, bytesAccum)
   if (outputs.length === 0) return { fee: fee }
 
   var inAccum = utils.sumOrNaN(utxos)
   var outAccum = utils.sumForgiving(outputs)
-  var remaining = inAccum - outAccum - fee
-  if (!isFinite(remaining) || remaining < 0) return { fee: fee }
+  var remaining = ext.sub(inAccum, outAccum, fee)
+  if (!remaining || remaining < 0) return { fee: fee }
 
   var unspecified = outputs.reduce(function (a, x) {
-    return a + !isFinite(x.value)
-  }, 0)
-
-  if (remaining === 0 && unspecified === 0) return utils.finalize(utxos, outputs, feeRate)
-
-  var splitOutputsCount = outputs.reduce(function (a, x) {
     return a + !x.value
   }, 0)
-  var splitValue = (remaining / splitOutputsCount) >>> 0
+
+  if (ext.isZero(remaining) && unspecified === 0) return utils.finalize(utxos, outputs, feeRate)
+
+  // Counts the number of split outputs left
+  var splitOutputsCount = new BN(outputs.reduce(function (a, x) {
+    return a + !x.value
+  }, 0))
+
+  // any number / 0 = infinity (shift right = 0)
+  var splitValue = ext.div(remaining, splitOutputsCount)
 
   // ensure every output is either user defined, or over the threshold
   if (!outputs.every(function (x) {
-    return x.value !== undefined || (splitValue > utils.dustThreshold(x, feeRate))
+    return x.value !== undefined || ext.gt(splitValue, utils.dustThreshold(x, feeRate))
   })) return { fee: fee }
 
   // assign splitValue to outputs not user defined

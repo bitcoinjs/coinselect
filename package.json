@@ -46,5 +46,7 @@
     "standard": "*",
     "tape": "^4.5.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "bn.js": "^4.11.8"
+  }
 }

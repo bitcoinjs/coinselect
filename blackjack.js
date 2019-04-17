@@ -1,13 +1,14 @@
 var utils = require('./utils')
+var ext = require('./bn-extensions')
 
 // only add inputs if they don't bust the target value (aka, exact match)
 // worst-case: O(n)
 module.exports = function blackjack (utxos, outputs, feeRate) {
-  if (!isFinite(utils.uintOrNaN(feeRate))) return {}
+  if (!utils.uintOrNull(feeRate)) return {}
 
   var bytesAccum = utils.transactionBytes([], outputs)
 
-  var inAccum = 0
+  var inAccum = ext.BN_ZERO
   var inputs = []
   var outAccum = utils.sumOrNaN(outputs)
   var threshold = utils.dustThreshold({}, feeRate)
@@ -15,21 +16,20 @@ module.exports = function blackjack (utxos, outputs, feeRate) {
   for (var i = 0; i < utxos.length; ++i) {
     var input = utxos[i]
     var inputBytes = utils.inputBytes(input)
-    var fee = feeRate * (bytesAccum + inputBytes)
-    var inputValue = utils.uintOrNaN(input.value)
+    var fee = ext.mul(feeRate, ext.add(bytesAccum, inputBytes))
+    var inputValue = utils.uintOrNull(input.value)
 
     // would it waste value?
-    if ((inAccum + inputValue) > (outAccum + fee + threshold)) continue
+    if (ext.gt(ext.add(inAccum, inputValue), ext.add(outAccum, fee, threshold))) continue
 
-    bytesAccum += inputBytes
-    inAccum += inputValue
+    bytesAccum = ext.add(bytesAccum, inputBytes)
+    inAccum = ext.add(inAccum, inputValue)
     inputs.push(input)
 
     // go again?
-    if (inAccum < outAccum + fee) continue
+    if (ext.lt(inAccum, ext.add(outAccum, fee))) continue
 
     return utils.finalize(inputs, outputs, feeRate)
   }
-
-  return { fee: feeRate * bytesAccum }
+  return { fee: ext.mul(feeRate, bytesAccum) }
 }
