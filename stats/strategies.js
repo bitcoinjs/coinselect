@@ -1,16 +1,16 @@
-let accumulative = require('../accumulative')
-let blackjack = require('../blackjack')
-let shuffle = require('fisher-yates')
-let shuffleInplace = require('fisher-yates/inplace')
-let coinSelect = require('../')
-let utils = require('../utils')
+const accumulative = require('../accumulative')
+const blackjack = require('../blackjack')
+const shuffle = require('fisher-yates')
+const shuffleInplace = require('fisher-yates/inplace')
+const coinSelect = require('../')
+const utils = require('../utils')
 
 function blackmax (utxos, outputs, feeRate) {
   // order by ascending value
   utxos = utxos.concat().sort((a, b) => a.value - b.value)
 
   // attempt to use the blackjack strategy first (no change output)
-  let base = blackjack(utxos, outputs, feeRate)
+  const base = blackjack(utxos, outputs, feeRate)
   if (base.inputs) return base
 
   // else, try the accumulative strategy
@@ -22,7 +22,7 @@ function blackmin (utxos, outputs, feeRate) {
   utxos = utxos.concat().sort((a, b) => b.value - a.value)
 
   // attempt to use the blackjack strategy first (no change output)
-  let base = blackjack(utxos, outputs, feeRate)
+  const base = blackjack(utxos, outputs, feeRate)
   if (base.inputs) return base
 
   // else, try the accumulative strategy
@@ -33,7 +33,7 @@ function blackrand (utxos, outputs, feeRate) {
   utxos = shuffle(utxos)
 
   // attempt to use the blackjack strategy first (no change output)
-  let base = blackjack(utxos, outputs, feeRate)
+  const base = blackjack(utxos, outputs, feeRate)
   if (base.inputs) return base
 
   // else, try the accumulative strategy
@@ -62,8 +62,8 @@ function proximal (utxos, outputs, feeRate) {
   const outAccum = outputs.reduce((a, x) => a + x.value, 0)
 
   utxos = utxos.concat().sort((a, b) => {
-    let aa = a.value - outAccum
-    let bb = b.value - outAccum
+    const aa = a.value - outAccum
+    const bb = b.value - outAccum
 
     return aa - bb
   })
@@ -80,13 +80,13 @@ function random (utxos, outputs, feeRate) {
 
 function bestof (utxos, outputs, feeRate) {
   let n = 100
-  let utxosCopy = utxos.concat()
+  const utxosCopy = utxos.concat()
   let best = { fee: Infinity }
 
   while (n) {
     shuffleInplace(utxosCopy)
 
-    let result = accumulative(utxos, outputs, feeRate)
+    const result = accumulative(utxos, outputs, feeRate)
     if (result.inputs && result.fee < best.fee) {
       best = result
     }
@@ -102,7 +102,7 @@ function utxoScore (x, feeRate) {
 }
 
 function privet (utxos, outputs, feeRate) {
-  let txosMap = {}
+  const txosMap = {}
   utxos.forEach((txo) => {
     if (!txosMap[txo.address]) {
       txosMap[txo.address] = []

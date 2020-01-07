@@ -1,20 +1,20 @@
-let Simulation = require('./simulation')
-let modules = require('./strategies')
-let min = 14226 // 0.1 USD
-let max = 142251558 // 1000 USD
-let feeRate = 56 * 100
-let results = []
+const Simulation = require('./simulation')
+const modules = require('./strategies')
+const min = 14226 // 0.1 USD
+const max = 142251558 // 1000 USD
+const feeRate = 56 * 100
+const results = []
 
 // switch between two modes
 // true - failed payments are discarded
 // false - failed payments are queued until there is enough balance
-let discardFailed = false
-let walletType = 'p2pkh' // set to either p2pkh or p2sh
+const discardFailed = false
+const walletType = 'p2pkh' // set to either p2pkh or p2sh
 
 // data from blockchaing from ~august 2015 - august 2017
 // see https://gist.github.com/runn1ng/8e2881e5bb44e01748e46b3d1c549038
 // these are 2-of-3 lengths, most common p2sh (66%), percs changed so they add to 100
-let scripthashScriptLengthData = {
+const scripthashScriptLengthData = {
   prob: 0.16,
   inLengthPercs: {
     252: 25.29,
@@ -26,7 +26,7 @@ let scripthashScriptLengthData = {
 
 // these are compressed key length (90% of p2pkh inputs)
 // percs changed so they add to 100
-let pubkeyhashScriptLengthData = {
+const pubkeyhashScriptLengthData = {
   prob: 0.84,
   inLengthPercs: {
     105: 0.4,
@@ -37,11 +37,11 @@ let pubkeyhashScriptLengthData = {
   outLength: 25
 }
 
-let selectedData = walletType === 'p2pkh' ? pubkeyhashScriptLengthData : scripthashScriptLengthData
-let inLengthProbs = selectedData.inLengthPercs
+const selectedData = walletType === 'p2pkh' ? pubkeyhashScriptLengthData : scripthashScriptLengthData
+const inLengthProbs = selectedData.inLengthPercs
 
-let outLengthProbs = {};
-[scripthashScriptLengthData, pubkeyhashScriptLengthData].forEach(({prob, outLength}) => {
+const outLengthProbs = {};
+[scripthashScriptLengthData, pubkeyhashScriptLengthData].forEach(({ prob, outLength }) => {
   outLengthProbs[outLength] = prob
 })
 
@@ -49,18 +49,18 @@ let outLengthProbs = {};
 for (var j = 0; j < 100; ++j) {
   if (j % 200 === 0) console.log('Iteration', j)
 
-  let stages = []
+  const stages = []
 
   for (var i = 1; i < 4; ++i) {
-    let utxos = Simulation.generateTxos(20 / i, min, max, inLengthProbs)
-    let txos = Simulation.generateTxos(80 / i, min, max / 3, outLengthProbs)
+    const utxos = Simulation.generateTxos(20 / i, min, max, inLengthProbs)
+    const txos = Simulation.generateTxos(80 / i, min, max / 3, outLengthProbs)
     stages.push({ utxos, txos })
   }
 
   // for each strategy
   for (var name in modules) {
-    let f = modules[name]
-    let simulation = new Simulation(name, f, feeRate)
+    const f = modules[name]
+    const simulation = new Simulation(name, f, feeRate)
 
     stages.forEach((stage) => {
       // supplement our UTXOs
@@ -84,10 +84,10 @@ for (var j = 0; j < 100; ++j) {
 }
 
 function merge (results) {
-  let resultMap = {}
+  const resultMap = {}
 
   results.forEach(({ stats }) => {
-    let result = resultMap[stats.name]
+    const result = resultMap[stats.name]
 
     if (result) {
       result.inputs += stats.inputs
@@ -123,8 +123,8 @@ merge(results).sort((a, b) => {
 
 // top 20 only
 }).slice(0, 20).forEach((x, i) => {
-  let { stats } = x
-  let DNF = 1 - stats.transactions / stats.plannedTransactions
+  const { stats } = x
+  const DNF = 1 - stats.transactions / stats.plannedTransactions
 
   console.log(
     pad(i),
