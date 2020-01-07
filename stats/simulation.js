@@ -35,11 +35,11 @@ function Simulation (name, algorithm, feeRate) {
 }
 
 Simulation.generateTxos = function (n, min, max, scriptSizes) {
-  let txos = []
+  const txos = []
   for (let i = 0; i < n; ++i) {
-    let v = rayleight(min, max) >>> 0
+    const v = rayleight(min, max) >>> 0
 
-    let s = parseInt(weighted.select(scriptSizes))
+    const s = parseInt(weighted.select(scriptSizes))
 
     txos.push({
       address: randomAddress(),
@@ -53,7 +53,7 @@ Simulation.generateTxos = function (n, min, max, scriptSizes) {
 }
 
 Simulation.prototype.addUTXO = function (utxo) {
-  let k = this.k + 1
+  const k = this.k + 1
   if (this.utxoMap[k] !== undefined) throw new Error('Bad UTXO')
 
   this.utxoMap[k] = Object.assign({}, utxo, { id: k })
@@ -67,8 +67,8 @@ Simulation.prototype.useUTXO = function (utxo) {
 }
 
 Simulation.prototype.getUTXOs = function () {
-  let utxos = []
-  for (let k in this.utxoMap) utxos.push(this.utxoMap[k])
+  const utxos = []
+  for (const k in this.utxoMap) utxos.push(this.utxoMap[k])
   return utxos
 }
 
@@ -79,10 +79,10 @@ Simulation.prototype.plan = function (outputs) {
 
 Simulation.prototype.run = function (discardFailed) {
   while (this.planned.length > 0) {
-    let outputs = this.planned[0]
-    let utxos = this.getUTXOs()
+    const outputs = this.planned[0]
+    const utxos = this.getUTXOs()
 
-    let { inputs, outputs: outputs2, fee } = this.algorithm(utxos, outputs, this.feeRate)
+    const { inputs, outputs: outputs2, fee } = this.algorithm(utxos, outputs, this.feeRate)
 
     if (!inputs) {
       if (discardFailed) {
@@ -121,9 +121,9 @@ Simulation.prototype.useResult = function (inputs, outputs, fee) {
 }
 
 Simulation.prototype.finish = function () {
-  let utxos = this.getUTXOs()
+  const utxos = this.getUTXOs()
   this.stats.utxos = utxos.length
-  let costToEmpty = utils.transactionBytes(utxos, []) * this.feeRate // output cost is negligible
+  const costToEmpty = utils.transactionBytes(utxos, []) * this.feeRate // output cost is negligible
   this.stats.totalCost = this.stats.fees + costToEmpty
 }
 
