@@ -36,7 +36,16 @@ let utxos = [
     txId: '...',
     vout: 0,
     ...,
-    value: 10000
+    value: 10000,
+    // For use with PSBT:
+    // not needed for coinSelect, but will be passed on to inputs later
+    nonWitnessUtxo: Buffer.from('...full raw hex of txId tx...', 'hex'),
+    // OR
+    // if your utxo is a segwit output, you can use witnessUtxo instead
+    witnessUtxo: {
+      script: Buffer.from('... scriptPubkey hex...', 'hex'),
+      value: 10000 // 0.0001 BTC and is the exact same as the value above
+    }
   }
 ]
 let targets = [
@@ -56,9 +65,17 @@ console.log(fee)
 // .inputs and .outputs will be undefined if no solution was found
 if (!inputs || !outputs) return
 
-let txb = new bitcoin.TransactionBuilder()
+let psbt = new bitcoin.Psbt()
 
-inputs.forEach(input => txb.addInput(input.txId, input.vout))
+inputs.forEach(input =>
+  psbt.addInput({
+    hash: input.txId,
+    index: input.vout,
+    nonWitnessUtxo: input.nonWitnessUtxo,
+    // OR (not both)
+    witnessUtxo: input.witnessUtxo,
+  })
+)
 outputs.forEach(output => {
   // watch out, outputs may have been added that you need to provide
   // an output address/script for
@@ -67,7 +84,10 @@ outputs.forEach(output => {
     wallet.nextChangeAddress()
   }
 
-  txb.addOutput(output.address, output.value)
+  psbt.addOutput({
+    address: output.address,
+    value: output.value,
+  })
 })
 ```
 
