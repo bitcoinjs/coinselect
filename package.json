@@ -16,9 +16,9 @@
     "optimizing",
     "bitcoin"
   ],
-  "homepage": "https://github.com/dcousens/coinselect",
+  "homepage": "https://github.com/bitcoinjs/coinselect",
   "bugs": {
-    "url": "https://github.com/dcousens/coinselect/issues"
+    "url": "https://github.com/bitcoinjs/coinselect/issues"
   },
   "license": "MIT",
   "author": "Daniel Cousens",
@@ -33,7 +33,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dcousens/coinselect.git"
+    "url": "https://github.com/bitcoinjs/coinselect.git"
   },
   "scripts": {
     "coverage": "nyc --check-coverage --branches 100 --functions 100 tape test/*.js",
