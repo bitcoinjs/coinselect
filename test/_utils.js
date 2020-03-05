@@ -3,8 +3,8 @@ function expand (values, indices) {
     return values.map(function (x, i) {
       if (typeof x === 'number') return { i: i, value: x }
 
-      var y = { i: i }
-      for (var k in x) y[k] = x[k]
+      const y = { i: i }
+      for (const k in x) y[k] = x[k]
       return y
     })
   }
@@ -21,7 +21,7 @@ function testValues (t, actual, expected) {
   t.equal(actual.length, expected.length, 'lengths match')
 
   actual.forEach(function (ai, i) {
-    var ei = expected[i]
+    const ei = expected[i]
 
     if (ai.i !== undefined) {
       t.equal(ai.i, ei, 'indexes match')

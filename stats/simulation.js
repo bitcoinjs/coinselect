@@ -1,4 +1,4 @@
-var weighted = require('weighted')
+const weighted = require('weighted')
 
 function rayleight (a, b) {
   return a + b * Math.sqrt(-Math.log(uniform(0, 1)))
@@ -12,7 +12,7 @@ function randomAddress () {
   return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[(Math.random() * 26) >>> 0]
 }
 
-var utils = require('../utils')
+const utils = require('../utils')
 
 function Simulation (name, algorithm, feeRate) {
   this.algorithm = algorithm

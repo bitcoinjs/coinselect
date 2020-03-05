@@ -112,7 +112,7 @@ function privet (utxos, outputs, feeRate) {
   })
 
   // order & summate sets
-  for (var address in txosMap) {
+  for (const address in txosMap) {
     txosMap[address] = txosMap[address].sort((a, b) => {
       return utxoScore(b, feeRate) - utxoScore(a, feeRate)
     })

@@ -1,6 +1,6 @@
-var accumulative = require('./accumulative')
-var blackjack = require('./blackjack')
-var utils = require('./utils')
+const accumulative = require('./accumulative')
+const blackjack = require('./blackjack')
+const utils = require('./utils')
 
 // order by descending value, minus the inputs approximate fee
 function utxoScore (x, feeRate) {
@@ -13,7 +13,7 @@ module.exports = function coinSelect (utxos, outputs, feeRate) {
   })
 
   // attempt to use the blackjack strategy first (no change output)
-  var base = blackjack(utxos, outputs, feeRate)
+  const base = blackjack(utxos, outputs, feeRate)
   if (base.inputs) return base
 
   // else, try the accumulative strategy

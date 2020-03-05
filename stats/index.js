@@ -46,19 +46,19 @@ const outLengthProbs = {};
 })
 
 // n samples
-for (var j = 0; j < 100; ++j) {
+for (let j = 0; j < 100; ++j) {
   if (j % 200 === 0) console.log('Iteration', j)
 
   const stages = []
 
-  for (var i = 1; i < 4; ++i) {
+  for (let i = 1; i < 4; ++i) {
     const utxos = Simulation.generateTxos(20 / i, min, max, inLengthProbs)
     const txos = Simulation.generateTxos(80 / i, min, max / 3, outLengthProbs)
     stages.push({ utxos, txos })
   }
 
   // for each strategy
-  for (var name in modules) {
+  for (const name in modules) {
     const f = modules[name]
     const simulation = new Simulation(name, f, feeRate)
 
