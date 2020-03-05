@@ -2,11 +2,12 @@ const utils = require('./utils')
 
 // only add inputs if they don't bust the target value (aka, exact match)
 // worst-case: O(n)
-module.exports = function blackjack (utxos, outputs, feeRate, minFee = 0) {
+module.exports = function blackjack (utxos, outputs, feeRate, minFee = 0, extraBytes = 0) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
   if (!isFinite(utils.uintOrNaN(minFee))) return {}
+  if (!isFinite(utils.uintOrNaN(extraBytes))) return {}
 
-  let bytesAccum = utils.transactionBytes([], outputs)
+  let bytesAccum = utils.transactionBytes([], outputs) + extraBytes
 
   let inAccum = 0
   const inputs = []
