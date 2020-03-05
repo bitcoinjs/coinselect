@@ -42,7 +42,7 @@ function sumOrNaN (range) {
 
 const BLANK_OUTPUT = outputBytes({})
 
-function finalize (inputs, outputs, feeRate) {
+function finalize (inputs, outputs, feeRate, minFee = 0) {
   const bytesAccum = transactionBytes(inputs, outputs)
   const feeAfterExtraOutput = feeRate * (bytesAccum + BLANK_OUTPUT)
   const remainderAfterExtraOutput = sumOrNaN(inputs) - (sumOrNaN(outputs) + feeAfterExtraOutput)
@@ -53,7 +53,7 @@ function finalize (inputs, outputs, feeRate) {
   }
 
   const fee = sumOrNaN(inputs) - sumOrNaN(outputs)
-  if (!isFinite(fee)) return { fee: feeRate * bytesAccum }
+  if (!isFinite(fee)) return { fee: (feeRate * bytesAccum) > minFee ? feeRate * bytesAccum : minFee }
 
   return {
     inputs: inputs,

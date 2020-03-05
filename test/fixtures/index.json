@@ -77,6 +77,60 @@
     }
   },
   {
+    "description": "1 output, sub-optimal inputs (if re-ordered), direct possible, minFee",
+    "feeRate": 10,
+    "minFee": 2000,
+    "inputs": [
+      10000,
+      40000,
+      40000
+    ],
+    "outputs": [
+      7700
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 10000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 7700
+        }
+      ],
+      "fee": 2300
+    }
+  },
+  {
+    "description": "1 output, sub-optimal inputs (if re-ordered), direct possible, !minFee",
+    "feeRate": 10,
+    "minFee": 3000,
+    "inputs": [
+      10000,
+      40000,
+      40000
+    ],
+    "outputs": [
+      7000
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 10000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 7000
+        }
+      ],
+      "fee": 3000
+    }
+  },
+  {
     "description": "1 output, sub-optimal inputs (if re-ordered), direct possible, but slightly higher fee",
     "feeRate": 10,
     "inputs": [

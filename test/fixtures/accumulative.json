@@ -24,6 +24,20 @@
     }
   },
   {
+    "description": "1 output, no change, !minFee",
+    "feeRate": 10,
+    "minFee": 3000,
+    "inputs": [
+      102001
+    ],
+    "outputs": [
+      100000
+    ],
+    "expected": {
+      "fee": 3000
+    }
+  },
+  {
     "description": "1 output, change expected",
     "feeRate": 5,
     "inputs": [
@@ -213,6 +227,44 @@
     ],
     "expected": {
       "fee": 18700
+    }
+  },
+  {
+    "description": "1 output, fails, skips (and finishes on) detrimental input, minFee",
+    "feeRate": 55,
+    "minFee": 10000,
+    "inputs": [
+      {
+        "value": 44000
+      },
+      {
+        "value": 800
+      }
+    ],
+    "outputs": [
+      38000
+    ],
+    "expected": {
+      "fee": 18700
+    }
+  },
+  {
+    "description": "1 output, fails, skips (and finishes on) detrimental input, !minFee",
+    "feeRate": 55,
+    "minFee": 20000,
+    "inputs": [
+      {
+        "value": 44000
+      },
+      {
+        "value": 800
+      }
+    ],
+    "outputs": [
+      36300
+    ],
+    "expected": {
+      "fee": 20000
     }
   },
   {

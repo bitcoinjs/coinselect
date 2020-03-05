@@ -1,11 +1,13 @@
 const utils = require('./utils')
 
 // split utxos between each output, ignores outputs with .value defined
-module.exports = function split (utxos, outputs, feeRate) {
+module.exports = function split (utxos, outputs, feeRate, minFee = 0) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
+  if (!isFinite(utils.uintOrNaN(minFee))) return {}
 
   const bytesAccum = utils.transactionBytes(utxos, outputs)
-  const fee = feeRate * bytesAccum
+  let fee = feeRate * bytesAccum
+  fee = fee > minFee ? fee : minFee
   if (outputs.length === 0) return { fee: fee }
 
   const inAccum = utils.sumOrNaN(utxos)
@@ -17,7 +19,7 @@ module.exports = function split (utxos, outputs, feeRate) {
     return a + !isFinite(x.value)
   }, 0)
 
-  if (remaining === 0 && unspecified === 0) return utils.finalize(utxos, outputs, feeRate)
+  if (remaining === 0 && unspecified === 0) return utils.finalize(utxos, outputs, feeRate, minFee)
 
   const splitOutputsCount = outputs.reduce(function (a, x) {
     return a + !x.value
@@ -40,5 +42,5 @@ module.exports = function split (utxos, outputs, feeRate) {
     return y
   })
 
-  return utils.finalize(utxos, outputs, feeRate)
+  return utils.finalize(utxos, outputs, feeRate, minFee)
 }
