@@ -44,7 +44,8 @@ const BLANK_OUTPUT = outputBytes({})
 
 function finalize (inputs, outputs, feeRate, minFee = 0) {
   const bytesAccum = transactionBytes(inputs, outputs)
-  const feeAfterExtraOutput = feeRate * (bytesAccum + BLANK_OUTPUT)
+  let feeAfterExtraOutput = feeRate * (bytesAccum + BLANK_OUTPUT)
+  feeAfterExtraOutput = feeAfterExtraOutput > minFee ? feeAfterExtraOutput : minFee
   const remainderAfterExtraOutput = sumOrNaN(inputs) - (sumOrNaN(outputs) + feeAfterExtraOutput)
 
   // is it worth a change output?
@@ -53,7 +54,7 @@ function finalize (inputs, outputs, feeRate, minFee = 0) {
   }
 
   const fee = sumOrNaN(inputs) - sumOrNaN(outputs)
-  if (!isFinite(fee)) return { fee: (feeRate * bytesAccum) > minFee ? feeRate * bytesAccum : minFee }
+  if (!(isFinite(fee) && fee >= 0)) return { fee: (feeRate * bytesAccum) > minFee ? feeRate * bytesAccum : minFee }
 
   return {
     inputs: inputs,
