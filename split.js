@@ -41,5 +41,5 @@ module.exports = function split (utxos, outputs, feeRate, options = defaultOptsO
     return y
   })
 
-  return utils.finalize(utxos, outputs, feeRate, options.changeInputLengthEstimate, options.changeOutputLength)
+  return utils.finalize(utxos, outputs, feeRate, options)
 }

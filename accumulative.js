@@ -32,7 +32,7 @@ module.exports = function accumulative (utxos, outputs, feeRate, options = defau
     // go again?
     if (inAccum < outAccum + fee) continue
 
-    return utils.finalize(inputs, outputs, feeRate, options.changeInputLengthEstimate, options.changeOutputLength)
+    return utils.finalize(inputs, outputs, feeRate, options)
   }
 
   return { fee: feeRate * bytesAccum }

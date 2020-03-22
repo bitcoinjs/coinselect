@@ -30,5 +30,5 @@ module.exports = function broken (utxos, output, feeRate, options = defaultOptsO
     outAccum += value
     outputs.push(output)
   }
-  return utils.finalize(utxos, outputs, feeRate, options.changeInputLengthEstimate, options.changeOutputLength)
+  return utils.finalize(utxos, outputs, feeRate, options)
 }

@@ -29,7 +29,7 @@ module.exports = function blackjack (utxos, outputs, feeRate, options = defaultO
     // go again?
     if (inAccum < outAccum + fee) continue
 
-    return utils.finalize(inputs, outputs, feeRate, options.changeInputLengthEstimate, options.changeOutputLength)
+    return utils.finalize(inputs, outputs, feeRate, options)
   }
 
   return { fee: feeRate * bytesAccum }
