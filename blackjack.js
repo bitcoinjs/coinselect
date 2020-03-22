@@ -1,8 +1,9 @@
 var utils = require('./utils')
-
+var defaultOpts = require('./defaultOpts')
+var defaultOptsObj = defaultOpts.defaultOpts
 // only add inputs if they don't bust the target value (aka, exact match)
 // worst-case: O(n)
-module.exports = function blackjack (utxos, outputs, feeRate, changeInputLengthEstimate, changeOutputLength) {
+module.exports = function blackjack (utxos, outputs, feeRate, options = defaultOptsObj) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
 
   var bytesAccum = utils.transactionBytes([], outputs)
@@ -10,7 +11,7 @@ module.exports = function blackjack (utxos, outputs, feeRate, changeInputLengthE
   var inAccum = 0
   var inputs = []
   var outAccum = utils.sumOrNaN(outputs)
-  var threshold = utils.dustThreshold(feeRate, changeInputLengthEstimate)
+  var threshold = utils.dustThreshold(feeRate, options.changeInputLengthEstimate)
 
   for (var i = 0; i < utxos.length; ++i) {
     var input = utxos[i]
@@ -28,7 +29,7 @@ module.exports = function blackjack (utxos, outputs, feeRate, changeInputLengthE
     // go again?
     if (inAccum < outAccum + fee) continue
 
-    return utils.finalize(inputs, outputs, feeRate, changeInputLengthEstimate, changeOutputLength)
+    return utils.finalize(inputs, outputs, feeRate, options.changeInputLengthEstimate, options.changeOutputLength)
   }
 
   return { fee: feeRate * bytesAccum }

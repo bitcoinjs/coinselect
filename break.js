@@ -1,7 +1,8 @@
 var utils = require('./utils')
-
-// break utxos into the maximum number of output possible
-module.exports = function broken (utxos, output, feeRate, changeInputLengthEstimate, changeOutputLength) {
+var defaultOpts = require('./defaultOpts')
+var defaultOptsObj = defaultOpts.defaultOpts
+// break utxos into the maximum number of 'output' possible
+module.exports = function broken (utxos, output, feeRate, options = defaultOptsObj) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
 
   var bytesAccum = utils.transactionBytes(utxos, [])
@@ -29,5 +30,5 @@ module.exports = function broken (utxos, output, feeRate, changeInputLengthEstim
     outAccum += value
     outputs.push(output)
   }
-  return utils.finalize(utxos, outputs, feeRate, changeInputLengthEstimate, changeOutputLength)
+  return utils.finalize(utxos, outputs, feeRate, options.changeInputLengthEstimate, options.changeOutputLength)
 }

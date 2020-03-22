@@ -1,7 +1,8 @@
 var utils = require('./utils')
-
+var defaultOpts = require('./defaultOpts')
+var defaultOptsObj = defaultOpts.defaultOpts
 // split utxos between each output, ignores outputs with .value defined
-module.exports = function split (utxos, outputs, feeRate, changeInputLengthEstimate, changeOutputLength) {
+module.exports = function split (utxos, outputs, feeRate, options = defaultOptsObj) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
 
   var bytesAccum = utils.transactionBytes(utxos, outputs)
@@ -17,7 +18,7 @@ module.exports = function split (utxos, outputs, feeRate, changeInputLengthEstim
     return a + !isFinite(x.value)
   }, 0)
 
-  if (remaining === 0 && unspecified === 0) return utils.finalize(utxos, outputs, feeRate, changeInputLengthEstimate, changeOutputLength)
+  if (remaining === 0 && unspecified === 0) return utils.finalize(utxos, outputs, feeRate, options.changeInputLengthEstimate, options.changeOutputLength)
 
   var splitOutputsCount = outputs.reduce(function (a, x) {
     return a + !x.value
@@ -26,7 +27,7 @@ module.exports = function split (utxos, outputs, feeRate, changeInputLengthEstim
 
   // ensure every output is either user defined, or over the threshold
   if (!outputs.every(function (x) {
-    return x.value !== undefined || (splitValue > utils.dustThreshold(feeRate, changeInputLengthEstimate))
+    return x.value !== undefined || (splitValue > utils.dustThreshold(feeRate, options.changeInputLengthEstimate))
   })) return { fee: fee }
 
   // assign splitValue to outputs not user defined
@@ -40,5 +41,5 @@ module.exports = function split (utxos, outputs, feeRate, changeInputLengthEstim
     return y
   })
 
-  return utils.finalize(utxos, outputs, feeRate, changeInputLengthEstimate, changeOutputLength)
+  return utils.finalize(utxos, outputs, feeRate, options.changeInputLengthEstimate, options.changeOutputLength)
 }

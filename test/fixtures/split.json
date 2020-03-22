@@ -28,9 +28,7 @@
         }
       ],
       "fee": 2601
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "5 to 2",
@@ -73,9 +71,7 @@
         }
       ],
       "fee": 8180
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "3 to 1",
@@ -106,9 +102,7 @@
         }
       ],
       "fee": 4880
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "3 to 3 (1 output pre-defined)",
@@ -154,9 +148,7 @@
         }
       ],
       "fee": 5560
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "2 to 0 (no result)",
@@ -168,9 +160,7 @@
     "outputs": [],
     "expected": {
       "fee": 3060
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "0 to 2 (no result)",
@@ -182,9 +172,7 @@
     ],
     "expected": {
       "fee": 780
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "1 to 2, output is dust (no result)",
@@ -197,9 +185,7 @@
     ],
     "expected": {
       "fee": 1920
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "2 outputs, some with missing value (NaN)",
@@ -228,9 +214,7 @@
         }
       ],
       "fee": 2486
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "2 outputs, some with float values (NaN)",
@@ -246,9 +230,7 @@
     ],
     "expected": {
       "fee": 2260
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "2 outputs, string values (NaN)",
@@ -266,9 +248,7 @@
     ],
     "expected": {
       "fee": 2486
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "input with float values (NaN)",
@@ -282,9 +262,7 @@
     ],
     "expected": {
       "fee": 2260
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "inputs and outputs, bad feeRate (NaN)",
@@ -295,9 +273,7 @@
     "outputs": [
       {}
     ],
-    "expected": {},
-    "inputLength": 107,
-    "outputLength": 25
+    "expected": {}
   },
   {
     "description": "inputs and outputs, bad feeRate (NaN)",
@@ -308,8 +284,6 @@
     "outputs": [
       {}
     ],
-    "expected": {},
-    "inputLength": 107,
-    "outputLength": 25
+    "expected": {}
   }
 ]

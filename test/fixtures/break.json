@@ -18,9 +18,7 @@
         }
       ],
       "fee": 1920
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "1:1",
@@ -45,9 +43,7 @@
           "value": 10000
         }
       ]
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "1:1, w/ change",
@@ -71,9 +67,7 @@
         }
       ],
       "fee": 2260
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "1:2, strange output type",
@@ -108,9 +102,7 @@
         }
       ],
       "fee": 7000
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "1:4",
@@ -140,9 +132,7 @@
         }
       ],
       "fee": 4000
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "2:5",
@@ -179,9 +169,7 @@
         }
       ],
       "fee": 5000
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "2:5, no fee",
@@ -218,9 +206,7 @@
         }
       ],
       "fee": 0
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "2:2 (+1), w/ change",
@@ -247,9 +233,7 @@
         }
       ],
       "fee": 1820
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "2:3 (+1), no fee, w/ change",
@@ -283,9 +267,7 @@
         }
       ],
       "fee": 0
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "not enough funds",
@@ -297,9 +279,7 @@
     "output": 40000,
     "expected": {
       "fee": 3400
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "no inputs",
@@ -308,9 +288,7 @@
     "output": 2000,
     "expected": {
       "fee": 440
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "invalid output (NaN)",
@@ -319,9 +297,7 @@
     "output": {},
     "expected": {
       "fee": 100
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "input with float values (NaN)",
@@ -332,9 +308,7 @@
     "output": 5000,
     "expected": {
       "fee": 1580
-    },
-    "inputLength": 107,
-    "outputLength": 25
+    }
   },
   {
     "description": "inputs and outputs, bad feeRate (NaN)",
@@ -343,9 +317,7 @@
       20000
     ],
     "output": 10000,
-    "expected": {},
-    "inputLength": 107,
-    "outputLength": 25
+    "expected": {}
   },
   {
     "description": "inputs and outputs, bad feeRate (NaN)",
@@ -354,8 +326,6 @@
       20000
     ],
     "output": 10000,
-    "expected": {},
-    "inputLength": 107,
-    "outputLength": 25
+    "expected": {}
   }
 ]
