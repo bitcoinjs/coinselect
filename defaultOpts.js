@@ -1,7 +1,6 @@
 const defaultOpts = {
   changeInputLengthEstimate: 107,
-  changeOutputLength: 25,
-  lowRSig: false
+  changeOutputLength: 25
 }
 
 function processOptions (options) {
