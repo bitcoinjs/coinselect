@@ -2,13 +2,14 @@ var coinSplit = require('../split')
 var fixtures = require('./fixtures/split')
 var tape = require('tape')
 var utils = require('./_utils')
-var defaultOpts = require('../defaultOpts')
-var defaultOptsObj = defaultOpts.defaultOpts
+var processOptions = require('../defaultOpts')
+var processOptionsFunc = processOptions.processOptions
 
 fixtures.forEach(function (f) {
   tape(f.description, function (t) {
-    var inputLength = defaultOptsObj.changeInputLengthEstimate
-    var outputLength = defaultOptsObj.changeOutputLength
+    const options = processOptionsFunc()
+    var inputLength = options.changeInputLengthEstimate
+    var outputLength = options.changeOutputLength
 
     var inputs = utils.expand(f.inputs, false, inputLength)
     var outputs = utils.expand(f.outputs.concat(), false, outputLength)

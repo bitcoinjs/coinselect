@@ -1,9 +1,10 @@
 var utils = require('./utils')
-var defaultOpts = require('./defaultOpts')
-var defaultOptsObj = defaultOpts.defaultOpts
+var processOptions = require('./defaultOpts')
+var processOptionsFunc = processOptions.processOptions
 // only add inputs if they don't bust the target value (aka, exact match)
 // worst-case: O(n)
-module.exports = function blackjack (utxos, outputs, feeRate, options = defaultOptsObj) {
+module.exports = function blackjack (utxos, outputs, feeRate, options) {
+  options = processOptionsFunc()
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
 
   var bytesAccum = utils.transactionBytes([], outputs)

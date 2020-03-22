@@ -1,9 +1,10 @@
 var utils = require('./utils')
-var defaultOpts = require('./defaultOpts')
-var defaultOptsObj = defaultOpts.defaultOpts
+var processOptions = require('./defaultOpts')
+var processOptionsFunc = processOptions.processOptions
 // add inputs until we reach or surpass the target value (or deplete)
 // worst-case: O(n)
-module.exports = function accumulative (utxos, outputs, feeRate, options = defaultOptsObj) {
+module.exports = function accumulative (utxos, outputs, feeRate, options) {
+  options = processOptionsFunc(options)
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
   var bytesAccum = utils.transactionBytes([], outputs)
 

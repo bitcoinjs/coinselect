@@ -1,8 +1,9 @@
 var utils = require('./utils')
-var defaultOpts = require('./defaultOpts')
-var defaultOptsObj = defaultOpts.defaultOpts
+var processOptions = require('./defaultOpts')
+var processOptionsFunc = processOptions.processOptions
 // break utxos into the maximum number of 'output' possible
-module.exports = function broken (utxos, output, feeRate, options = defaultOptsObj) {
+module.exports = function broken (utxos, output, feeRate, options) {
+  options = processOptionsFunc(options)
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
 
   var bytesAccum = utils.transactionBytes(utxos, [])
