@@ -14,7 +14,7 @@ function addScriptLengthToExpected (expected, inputLength, outputLength) {
     newExpected.inputs = expected.inputs.map(function (input) {
       var newInput = Object.assign({}, input)
       if (newInput.script == null) {
-        newInput.script = {length: inputLength}
+        newInput.script = { length: inputLength }
       }
       return newInput
     })
@@ -24,7 +24,7 @@ function addScriptLengthToExpected (expected, inputLength, outputLength) {
     newExpected.outputs = expected.outputs.map(function (output) {
       var newOutput = Object.assign({}, output)
       if (newOutput.script == null) {
-        newOutput.script = {length: outputLength}
+        newOutput.script = { length: outputLength }
       }
       return newOutput
     })

@@ -12,7 +12,7 @@ function outputBytes (output) {
 }
 
 function dustThreshold (feeRate, inputLenghtEstimate) {
-  return inputBytes({script: {length: inputLenghtEstimate}}) * feeRate
+  return inputBytes({ script: { length: inputLenghtEstimate } }) * feeRate
 }
 
 function transactionBytes (inputs, outputs) {
@@ -39,13 +39,13 @@ function sumOrNaN (range) {
 
 function finalize (inputs, outputs, feeRate, changeInputLengthEstimate, changeOutputLength) {
   var bytesAccum = transactionBytes(inputs, outputs)
-  var blankOutputBytes = outputBytes({script: {length: changeOutputLength}})
+  var blankOutputBytes = outputBytes({ script: { length: changeOutputLength } })
   var feeAfterExtraOutput = feeRate * (bytesAccum + blankOutputBytes)
   var remainderAfterExtraOutput = sumOrNaN(inputs) - (sumOrNaN(outputs) + feeAfterExtraOutput)
 
   // is it worth a change output?
   if (remainderAfterExtraOutput > dustThreshold(feeRate, changeInputLengthEstimate)) {
-    outputs = outputs.concat({ value: remainderAfterExtraOutput, script: {length: changeOutputLength} })
+    outputs = outputs.concat({ value: remainderAfterExtraOutput, script: { length: changeOutputLength } })
   }
 
   var fee = sumOrNaN(inputs) - sumOrNaN(outputs)

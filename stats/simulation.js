@@ -1,3 +1,5 @@
+var weighted = require('weighted')
+
 function rayleight (a, b) {
   return a + b * Math.sqrt(-Math.log(uniform(0, 1)))
 }
@@ -18,27 +20,26 @@ function Simulation (name, algorithm, feeRate) {
   this.utxoMap = {}
   this.stats = {
     name,
+    plannedTransactions: 0,
     transactions: 0,
     inputs: 0,
     outputs: 0,
     fees: 0,
-    bytes: 0,
-    failed: 0
+    bytes: 0
   }
 
-  this.queue = []
+  this.planned = []
 
   // used for tracking UTXOs (w/o transaction ids)
   this.k = 0
 }
 
-Simulation.generateTxos = function (n, min, max) {
-  let txos = []
+Simulation.generateTxos = function (n, min, max, scriptSizes) {
+  const txos = []
   for (let i = 0; i < n; ++i) {
-    let v = rayleight(min, max) >>> 0
+    const v = rayleight(min, max) >>> 0
 
-    let s = 106
-    if (Math.random() > 0.9) s = 300
+    const s = parseInt(weighted.select(scriptSizes))
 
     txos.push({
       address: randomAddress(),
@@ -51,15 +52,12 @@ Simulation.generateTxos = function (n, min, max) {
   return txos
 }
 
-Simulation.prototype.addUTXO = function (utxo, change) {
-  let k = this.k + 1
+Simulation.prototype.addUTXO = function (utxo) {
+  const k = this.k + 1
   if (this.utxoMap[k] !== undefined) throw new Error('Bad UTXO')
 
   this.utxoMap[k] = Object.assign({}, utxo, { id: k })
   this.k = k
-  if (!change) {
-    this.tryQueue()
-  }
 }
 
 Simulation.prototype.useUTXO = function (utxo) {
@@ -69,49 +67,37 @@ Simulation.prototype.useUTXO = function (utxo) {
 }
 
 Simulation.prototype.getUTXOs = function () {
-  let utxos = []
-  for (let k in this.utxoMap) utxos.push(this.utxoMap[k])
+  const utxos = []
+  for (const k in this.utxoMap) utxos.push(this.utxoMap[k])
   return utxos
 }
 
-Simulation.prototype.runQueued = function (outputs) {
-  this.queue.push(outputs)
-  this.tryQueue()
+Simulation.prototype.plan = function (outputs) {
+  this.stats.plannedTransactions += 1
+  this.planned.push(outputs)
 }
 
-Simulation.prototype.tryQueue = function () {
-  while (this.queue.length > 0) {
-    let outputs = this.queue[0]
-    let utxos = this.getUTXOs()
+Simulation.prototype.run = function (discardFailed) {
+  while (this.planned.length > 0) {
+    const outputs = this.planned[0]
+    const utxos = this.getUTXOs()
 
-    let { inputs, outputs: outputs2, fee } = this.algorithm(utxos, outputs, this.feeRate)
+    const { inputs, outputs: outputs2, fee } = this.algorithm(utxos, outputs, this.feeRate)
 
     if (!inputs) {
+      if (discardFailed) {
+        this.planned.shift()
+      }
       return
     }
 
-    this.queue.shift()
+    this.planned.shift()
 
-    this.useAlgorithmResult(inputs, outputs2, fee)
+    this.useResult(inputs, outputs2, fee)
   }
 }
 
-Simulation.prototype.run = function (outputs) {
-  let utxos = this.getUTXOs()
-
-  let { inputs, outputs: outputs2, fee } = this.algorithm(utxos, outputs, this.feeRate)
-
-  if (!inputs) {
-    this.stats.failed += 1
-    return
-  }
-
-  this.useAlgorithmResult(inputs, outputs2, fee)
-
-  return true
-}
-
-Simulation.prototype.useAlgorithmResult = function (inputs, outputs, fee) {
+Simulation.prototype.useResult = function (inputs, outputs, fee) {
   this.stats.transactions += 1
   this.stats.inputs += inputs.length
   this.stats.outputs += outputs.length
@@ -130,14 +116,14 @@ Simulation.prototype.useAlgorithmResult = function (inputs, outputs, fee) {
   outputs.filter(x => x.script === undefined).forEach((x) => {
     // assign it a random address
     x.address = randomAddress()
-    this.addUTXO(x, true)
+    this.addUTXO(x)
   })
 }
 
 Simulation.prototype.finish = function () {
-  let utxos = this.getUTXOs()
+  const utxos = this.getUTXOs()
   this.stats.utxos = utxos.length
-  let costToEmpty = utils.transactionBytes(utxos, []) * this.feeRate // output cost is negligible
+  const costToEmpty = utils.transactionBytes(utxos, []) * this.feeRate // output cost is negligible
   this.stats.totalCost = this.stats.fees + costToEmpty
 }
 
