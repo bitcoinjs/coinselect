@@ -1,0 +1,108 @@
+[
+  {
+    "description": "3 ins, 2 outs",
+    "feeRate": 5,
+    "inputs": [
+      {
+        "value": 3000
+      },
+      {
+        "value": 3000
+      },
+      {
+        "value": 3000
+      }
+    ],
+    "outputs": [
+      {
+        "value": 4000,
+        "address": "1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm"
+      }
+    ],
+    "expected": {
+      "fee": 2610,
+      "inputs": [
+        {
+          "i": 0,
+          "value": 3000
+        },
+        {
+          "i": 1,
+          "value": 3000
+        },
+        {
+          "i": 2,
+          "value": 3000
+        }
+      ],
+      "outputs": [
+        {
+          "address": "1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm",
+          "value": 4000
+        },
+        {
+          "value": 2390
+        }
+      ]
+    }
+  },
+  {
+    "description": "1 output, no change",
+    "feeRate": 10,
+    "inputs": [
+      102001
+    ],
+    "outputs": [
+      {
+        "value": 100000,
+        "address": "1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm"
+      }
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 102001
+        }
+      ],
+      "outputs": [
+        {
+          "value": 100000,
+          "address": "1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm"
+        }
+      ],
+      "fee": 2001
+    }
+  },
+  {
+    "description": "1 output, change expected",
+    "feeRate": 5,
+    "inputs": [
+      106001
+    ],
+    "outputs": [
+      {
+        "value": 100000,
+        "address": "1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm"
+      }
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 106001
+        }
+      ],
+      "outputs": [
+        {
+          "value": 100000,
+          "address": "1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm"
+        },
+        {
+          "value": 4871
+        }
+      ],
+      "fee": 1130
+    }
+  }
+]
