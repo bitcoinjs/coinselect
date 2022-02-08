@@ -28,7 +28,8 @@
     "break.js",
     "index.js",
     "split.js",
-    "utils.js"
+    "utils.js",
+    "bn-extensions.js"
   ],
   "main": "index.js",
   "repository": {
