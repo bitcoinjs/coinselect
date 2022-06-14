@@ -105,6 +105,42 @@
     }
   },
   {
+    "description": "3 to 1 (1 zero value output script)",
+    "feeRate": 10,
+    "inputs": [
+      10000,
+      10000,
+      10000
+    ],
+    "outputs": [
+      {},
+      {"value": 0, "script": "foobar"}
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "value": 10000
+        },
+        {
+          "value": 10000
+        },
+        {
+          "value": 10000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 24970
+        },
+        {
+          "value": 0,
+          "script": "foobar"
+        }
+      ],
+      "fee": 5030
+    }
+  },
+  {
     "description": "3 to 3 (1 output pre-defined)",
     "feeRate": 10,
     "inputs": [
