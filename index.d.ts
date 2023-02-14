@@ -1,5 +1,5 @@
 export interface UTXO {
-    txid: string,
+    txid: string | Buffer,
     vout: number,
     value: number,
     nonWitnessUtxo? : Buffer,
