@@ -10,11 +10,11 @@ export interface UTXO {
 }
 export interface Target {
     address: string,
-    value: number
+    value?: number
 }
 export interface SelectedUTXO {
-    inputs: UTXO[],
-    outputs: Target[],
+    inputs?: UTXO[],
+    outputs?: Target[],
     fee: number
 }
 export default function coinSelect(utxos: UTXO[], outputs: Target[], feeRate: number): SelectedUTXO;
