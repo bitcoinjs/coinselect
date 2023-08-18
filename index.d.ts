@@ -7,9 +7,12 @@ export interface UTXO {
         script: Buffer,
         value: number
     }
+    script?: Buffer,
+    isTaproot?: boolean
 }
 export interface Target {
-    address: string,
+    address?: string,
+    script?: Buffer,
     value?: number
 }
 export interface SelectedUTXO {
