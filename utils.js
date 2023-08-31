@@ -11,10 +11,11 @@ var TX_OUTPUT_SEGWIT = 22
 var TX_OUTPUT_SEGWIT_SCRIPTHASH = 34
 
 function inputBytes (input) {
-  return TX_INPUT_BASE + (input.script ? input.script.length
-    : input.isTaproot ? TX_INPUT_TAPROOT
-      : input.witnessUtxo ? TX_INPUT_SEGWIT
-        : TX_INPUT_PUBKEYHASH)
+  return TX_INPUT_BASE + (input.redeemScript ? input.redeemScript.length : 0) +
+    (input.witnessScript ? parseInt(input.witnessScript.length / 4)
+      : input.isTaproot ? TX_INPUT_TAPROOT
+        : input.witnessUtxo ? TX_INPUT_SEGWIT
+          : !input.redeemScript ? TX_INPUT_PUBKEYHASH : 0)
 }
 
 function outputBytes (output) {

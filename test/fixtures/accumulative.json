@@ -163,7 +163,7 @@
     "feeRate": 5,
     "inputs": [
       {
-        "script": {
+        "redeemScript": {
           "length": 1000
         },
         "value": 3000
@@ -220,7 +220,7 @@
     "feeRate": 5,
     "inputs": [
       {
-        "script": {
+        "redeemScript": {
           "length": 500
         },
         "value": 3000
@@ -239,7 +239,7 @@
       "inputs": [
         {
           "i": 0,
-          "script": {
+          "redeemScript": {
             "length": 500
           },
           "value": 3000
@@ -272,7 +272,7 @@
         "value": 3000
       },
       {
-        "script": {
+        "redeemScript": {
           "length": 400
         },
         "value": 3000
@@ -672,7 +672,7 @@
     "inputs": [
       20000,
       {
-        "script": {
+        "redeemScript": {
           "length": 300
         },
         "value": 10000
@@ -691,7 +691,7 @@
         },
         {
           "i": 1,
-          "script": {
+          "redeemScript": {
             "length": 300
           },
           "value": 10000

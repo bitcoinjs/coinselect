@@ -7,7 +7,8 @@ export interface UTXO {
         script: Buffer,
         value: number
     }
-    script?: Buffer,
+    redeemScript?: Buffer,
+    witnessScript?: Buffer,
     isTaproot?: boolean
 }
 export interface Target {

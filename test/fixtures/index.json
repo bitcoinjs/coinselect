@@ -136,7 +136,7 @@
     "feeRate": 5,
     "inputs": [
       {
-        "script": {
+        "redeemScript": {
           "length": 1000
         },
         "value": 3000
@@ -175,7 +175,7 @@
     "feeRate": 5,
     "inputs": [
       {
-        "script": {
+        "redeemScript": {
           "length": 500
         },
         "value": 3000
@@ -220,7 +220,7 @@
         "value": 3000
       },
       {
-        "script": {
+        "redeemScript": {
           "length": 400
         },
         "value": 3000
@@ -620,7 +620,7 @@
     "inputs": [
       20000,
       {
-        "script": {
+        "redeemScript": {
           "length": 300
         },
         "value": 10000
@@ -1034,6 +1034,84 @@
         }
       ],
       "fee": 1360
+    }
+  },
+  {
+    "description": "1 output, passes, skipped detrimental input",
+    "feeRate": 5,
+    "inputs": [
+      {
+        "redeemScript": {
+          "length": 1000
+        },
+        "value": 3000
+      },
+      {
+        "value": 3000
+      },
+      {
+        "value": 3000
+      }
+    ],
+    "outputs": [
+      4000
+    ],
+    "expected": {
+      "fee": 2000,
+      "inputs": [
+        {
+          "i": 1,
+          "value": 3000
+        },
+        {
+          "i": 2,
+          "value": 3000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 4000
+        }
+      ]
+    }
+  },
+  {
+    "description": "1 output, passes, skipped detrimental input",
+    "feeRate": 5,
+    "inputs": [
+      {
+        "witnessScript": {
+          "length": 4000
+        },
+        "value": 3000
+      },
+      {
+        "value": 3000
+      },
+      {
+        "value": 3000
+      }
+    ],
+    "outputs": [
+      4000
+    ],
+    "expected": {
+      "fee": 2000,
+      "inputs": [
+        {
+          "i": 1,
+          "value": 3000
+        },
+        {
+          "i": 2,
+          "value": 3000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 4000
+        }
+      ]
     }
   }
 ]
