@@ -136,7 +136,7 @@
     "feeRate": 5,
     "inputs": [
       {
-        "script": {
+        "redeemScript": {
           "length": 1000
         },
         "value": 3000
@@ -175,7 +175,7 @@
     "feeRate": 5,
     "inputs": [
       {
-        "script": {
+        "redeemScript": {
           "length": 500
         },
         "value": 3000
@@ -220,7 +220,7 @@
         "value": 3000
       },
       {
-        "script": {
+        "redeemScript": {
           "length": 400
         },
         "value": 3000
@@ -620,7 +620,7 @@
     "inputs": [
       20000,
       {
-        "script": {
+        "redeemScript": {
           "length": 300
         },
         "value": 10000
@@ -804,6 +804,315 @@
       10000
     ],
     "expected": {}
+  },
+  {
+    "description": "segwit mainnet input and output",
+    "feeRate": 10,
+    "inputs": [{
+      "value": 103430,
+      "witnessUtxo": {
+        "script": "script public key",
+        "value": 103430
+      }
+    }],
+    "outputs": [
+      {
+        "value": 100000,
+        "address": "bc1q34aq5drpuwy3wgl9lhup9892qp6svr8ldzyy7c"
+      }
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 103430,
+          "witnessUtxo": {
+            "script": "script public key",
+            "value": 103430
+          }    
+        }
+      ],
+      "outputs": [
+        {
+          "value": 100000,
+          "address": "bc1q34aq5drpuwy3wgl9lhup9892qp6svr8ldzyy7c"
+        },
+        {
+          "value": 2000
+        }
+      ],
+      "fee": 1430
+    }
+  },
+  {
+    "description": "segwit testnet input and output",
+    "feeRate": 10,
+    "inputs": [{
+      "value": 103430,
+      "witnessUtxo": {
+        "script": "script public key",
+        "value": 103430
+      }
+    }],
+    "outputs": [
+      {
+        "value": 100000,
+        "address": "tb1q34aq5drpuwy3wgl9lhup9892qp6svr8ldzyy7c"
+      }
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 103430,
+          "witnessUtxo": {
+            "script": "script public key",
+            "value": 103430
+          }    
+        }
+      ],
+      "outputs": [
+        {
+          "value": 100000,
+          "address": "tb1q34aq5drpuwy3wgl9lhup9892qp6svr8ldzyy7c"
+        },
+        {
+          "value": 2000
+        }
+      ],
+      "fee": 1430
+    }
+  },
+  {
+    "description": "p2sh mainnet output",
+    "feeRate": 10,
+    "inputs": [
+      105000
+    ],
+    "outputs": [
+      {
+        "value": 100000,
+        "address": "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy"
+      }
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 105000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 100000,
+          "address": "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy"
+        },
+        { 
+          "value": 2760 
+        }
+      ],
+      "fee": 2240
+    }
+  },
+  {
+    "description": "p2sh testnet output",
+    "feeRate": 10,
+    "inputs": [
+      105000
+    ],
+    "outputs": [
+      {
+        "value": 100000,
+        "address": "2J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy"
+      }
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 105000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 100000,
+          "address": "2J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy"
+        },
+        { 
+          "value": 2760 
+        }
+      ],
+      "fee": 2240
+    }
+  },
+  {
+    "description": "p2wsh or taproot mainnet output",
+    "feeRate": 10,
+    "inputs": [
+      104010
+    ],
+    "outputs": [
+      {
+        "value": 100000,
+        "address": "bc1qeklep85ntjz4605drds6aww9u0qr46qzrv5xswd35uhjuj8ahfcqgf6hak"
+      }
+    ],    
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 104010
+        }
+      ],
+      "outputs": [
+        {
+          "value": 100000,
+          "address": "bc1qeklep85ntjz4605drds6aww9u0qr46qzrv5xswd35uhjuj8ahfcqgf6hak"
+        },
+        {
+          "value": 1660
+        }
+      ],
+      "fee": 2350
+    }
+  },
+  {
+    "description": "p2wsh or taproot testnet output",
+    "feeRate": 10,
+    "inputs": [
+      104010
+    ],
+    "outputs": [
+      {
+        "value": 100000,
+        "address": "tb1qeklep85ntjz4605drds6aww9u0qr46qzrv5xswd35uhjuj8ahfcqgf6hak"
+      }
+    ],    
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 104010
+        }
+      ],
+      "outputs": [
+        {
+          "value": 100000,
+          "address": "tb1qeklep85ntjz4605drds6aww9u0qr46qzrv5xswd35uhjuj8ahfcqgf6hak"
+        },
+        {
+          "value": 1660
+        }
+      ],
+      "fee": 2350
+    }
+  },
+  {
+    "description": "taproot input",
+    "feeRate": 10,
+    "inputs": [{
+      "value": 103360,
+      "isTaproot": true
+  }],
+    "outputs": [
+      100000
+    ],
+    "expected": {
+      "inputs": [
+        {
+          "i": 0,
+          "value": 103360,
+          "isTaproot": true
+        }
+      ],
+      "outputs": [
+        {
+          "value": 100000
+        },
+        {
+          "value": 2000
+        }
+      ],
+      "fee": 1360
+    }
+  },
+  {
+    "description": "1 output, passes, skipped detrimental input",
+    "feeRate": 5,
+    "inputs": [
+      {
+        "redeemScript": {
+          "length": 1000
+        },
+        "value": 3000
+      },
+      {
+        "value": 3000
+      },
+      {
+        "value": 3000
+      }
+    ],
+    "outputs": [
+      4000
+    ],
+    "expected": {
+      "fee": 2000,
+      "inputs": [
+        {
+          "i": 1,
+          "value": 3000
+        },
+        {
+          "i": 2,
+          "value": 3000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 4000
+        }
+      ]
+    }
+  },
+  {
+    "description": "1 output, passes, skipped detrimental input",
+    "feeRate": 5,
+    "inputs": [
+      {
+        "witnessScript": {
+          "length": 4000
+        },
+        "value": 3000
+      },
+      {
+        "value": 3000
+      },
+      {
+        "value": 3000
+      }
+    ],
+    "outputs": [
+      4000
+    ],
+    "expected": {
+      "fee": 2000,
+      "inputs": [
+        {
+          "i": 1,
+          "value": 3000
+        },
+        {
+          "i": 2,
+          "value": 3000
+        }
+      ],
+      "outputs": [
+        {
+          "value": 4000
+        }
+      ]
+    }
   }
 ]
 

@@ -2,15 +2,29 @@
 var TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 var TX_INPUT_BASE = 32 + 4 + 1 + 4
 var TX_INPUT_PUBKEYHASH = 107
+var TX_INPUT_SEGWIT = 27
+var TX_INPUT_TAPROOT = 17 // round up 16.5 bytes
 var TX_OUTPUT_BASE = 8 + 1
 var TX_OUTPUT_PUBKEYHASH = 25
+var TX_OUTPUT_SCRIPTHASH = 23
+var TX_OUTPUT_SEGWIT = 22
+var TX_OUTPUT_SEGWIT_SCRIPTHASH = 34
 
 function inputBytes (input) {
-  return TX_INPUT_BASE + (input.script ? input.script.length : TX_INPUT_PUBKEYHASH)
+  return TX_INPUT_BASE + (input.redeemScript ? input.redeemScript.length : 0) +
+    (input.witnessScript ? parseInt(input.witnessScript.length / 4)
+      : input.isTaproot ? TX_INPUT_TAPROOT
+        : input.witnessUtxo ? TX_INPUT_SEGWIT
+          : !input.redeemScript ? TX_INPUT_PUBKEYHASH : 0)
 }
 
 function outputBytes (output) {
-  return TX_OUTPUT_BASE + (output.script ? output.script.length : TX_OUTPUT_PUBKEYHASH)
+  return TX_OUTPUT_BASE + (output.script ? output.script.length
+    : output.address?.startsWith('bc1') || output.address?.startsWith('tb1')
+      ? output.address?.length === 42 ? TX_OUTPUT_SEGWIT : TX_OUTPUT_SEGWIT_SCRIPTHASH
+      : output.address?.startsWith('3') || output.address?.startsWith('2')
+        ? TX_OUTPUT_SCRIPTHASH : TX_OUTPUT_PUBKEYHASH
+  )
 }
 
 function dustThreshold (output, feeRate) {
