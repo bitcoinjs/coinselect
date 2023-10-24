@@ -1,17 +1,52 @@
-function expand (values, indices) {
+function addScriptLength (values, scriptLength) {
+  return values.map(function (x) {
+    if (x.script === undefined) {
+      x.script = { length: scriptLength }
+    }
+    return x
+  })
+}
+
+function addScriptLengthToExpected (expected, inputLength, outputLength) {
+  var newExpected = Object.assign({}, expected)
+
+  if (expected.inputs != null) {
+    newExpected.inputs = expected.inputs.map(function (input) {
+      var newInput = Object.assign({}, input)
+      if (newInput.script == null) {
+        newInput.script = {length: inputLength}
+      }
+      return newInput
+    })
+  }
+
+  if (expected.outputs != null) {
+    newExpected.outputs = expected.outputs.map(function (output) {
+      var newOutput = Object.assign({}, output)
+      if (newOutput.script == null) {
+        newOutput.script = {length: outputLength}
+      }
+      return newOutput
+    })
+  }
+
+  return newExpected
+}
+
+function expand (values, indices, scriptLength) {
   if (indices) {
-    return values.map(function (x, i) {
+    return addScriptLength(values.map(function (x, i) {
       if (typeof x === 'number') return { i: i, value: x }
 
       var y = { i: i }
       for (var k in x) y[k] = x[k]
       return y
-    })
+    }), scriptLength)
   }
 
-  return values.map(function (x, i) {
+  return addScriptLength(values.map(function (x, i) {
     return typeof x === 'object' ? x : { value: x }
-  })
+  }), scriptLength)
 }
 
 function testValues (t, actual, expected) {
@@ -35,5 +70,6 @@ function testValues (t, actual, expected) {
 
 module.exports = {
   expand: expand,
-  testValues: testValues
+  testValues: testValues,
+  addScriptLengthToExpected: addScriptLengthToExpected
 }
