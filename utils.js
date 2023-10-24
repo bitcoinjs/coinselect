@@ -4,12 +4,16 @@ var TX_INPUT_BASE = 32 + 4 + 1 + 4
 var TX_INPUT_PUBKEYHASH = 107
 var TX_OUTPUT_BASE = 8 + 1
 var TX_OUTPUT_PUBKEYHASH = 25
+var OP_RETURN_OVERHEAD = 1 + 8 + 1
 
 function inputBytes (input) {
   return TX_INPUT_BASE + (input.script ? input.script.length : TX_INPUT_PUBKEYHASH)
 }
 
 function outputBytes (output) {
+  if (output.script) {
+    return OP_RETURN_OVERHEAD + output.script.length + (output.script.length >= 74 ? 2 : 1);
+  }
   return TX_OUTPUT_BASE + (output.script ? output.script.length : TX_OUTPUT_PUBKEYHASH)
 }
 

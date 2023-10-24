@@ -130,14 +130,14 @@
       ],
       "outputs": [
         {
-          "value": 24970
+          "value": 24950
         },
         {
           "value": 0,
           "script": "foobar"
         }
       ],
-      "fee": 5030
+      "fee": 5050
     }
   },
   {
