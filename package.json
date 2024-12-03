@@ -1,5 +1,5 @@
 {
-  "name": "coinselect",
+  "name": "@onekeyfe/coinselect",
   "version": "3.1.13",
   "description": "A transaction input selection module for bitcoin.",
   "keywords": [
@@ -28,7 +28,9 @@
     "break.js",
     "index.js",
     "split.js",
-    "utils.js"
+    "utils.js",
+    "witness.js",
+    "witness.d.ts"
   ],
   "main": "index.js",
   "types": "index.d.ts",
@@ -40,12 +42,15 @@
     "coverage": "nyc --check-coverage --branches 100 --functions 100 tape test/*.js",
     "standard": "standard",
     "test": "npm run standard && npm run unit",
-    "unit": "tape test/*.js"
+    "unit": "tape test/*.js",
+    "test-witness": "tape test/witness.js"
   },
   "devDependencies": {
     "nyc": "^15.0.0",
     "standard": "^14.3.4",
     "tape": "^4.5.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@trezor/utxo-lib": "^2.2.4"
+  }
 }
