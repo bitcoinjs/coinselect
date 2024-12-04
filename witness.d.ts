@@ -1,36 +1,68 @@
-import { Network } from 'bitcoinjs-lib';
-
-export interface UTXO {
-    txId: string;
+export type IPaymentType = 'p2pkh' | 'p2sh' | 'p2tr' | 'p2wpkh' | 'p2wsh';
+export interface IUtxo {
     vout: number;
-    value: string | number;
-    address?: string;
-    path?: string;
-    [key: string]: any;
+    txid: string;
+    amount: string;
+    coinbase: boolean;
+    own: boolean;
+    confirmations: number;
 }
 
-export interface Output {
+export interface IOutputPayment {
+    type: 'payment';
     address: string;
-    value: string | number;
-    [key: string]: any;
+    amount: string;
 }
 
-export interface CoinSelectParams {
-    utxos: UTXO[];
-    outputs: Output[];
+export interface IOutputSendMax {
+    type: 'send-max'; // only one in TX request
+    address: string;
+    amount?: typeof undefined;
+}
+
+export interface IOutputOpreturn {
+    type: 'opreturn';
+    dataHex: string;
+    amount?: typeof undefined;
+    address?: typeof undefined;
+}
+export interface IOutputChange {
+    type: 'change';
+    amount: string;
+}
+
+export type IFinalOutput =
+    | ComposeOutputPayment
+    | ComposeOutputSendMax
+    | ComposeOutputOpreturn;
+
+export interface IChangeAddress {
+    address: string;
+    path: string;
+}
+
+export interface ICoinSelectParams {
+    utxos: IUtxo;
+    outputs: IFinalOutput[];
     feeRate: string | number;
-    changeAddress: string;
-    network: Network;
-    dustThreshold: number;
+    changeAddress: IChangeAddress;
+    network: any;
+    txType: IPaymentType
+    dustThreshold?: number;
 }
 
-export interface CoinSelectResult {
+export interface ICoinSelectResult {
+    type: 'final';
+    max?: string;
+    totalSpent: string;
     fee: string;
-    inputs: UTXO[];
-    outputs: Output[];
-    changeOutput?: Output;
+    feePerByte: string;
+    bytes: number;
+    inputs: IUtxo[];
+    outputs: (IFinalOutput | IOutputChange)[];
+    outputsPermutation: number[];
 }
 
-declare function coinSelect(params: CoinSelectParams): CoinSelectResult;
+declare function coinSelect(params: ICoinSelectParams): ICoinSelectResult;
 
 export = coinSelect;
