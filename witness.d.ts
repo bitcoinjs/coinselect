@@ -42,7 +42,7 @@ export interface IChangeAddress {
 }
 
 export interface ICoinSelectParams {
-    utxos: IUtxo;
+    utxos: IUtxo[];
     outputs: IFinalOutput[];
     feeRate: string | number;
     changeAddress: IChangeAddress;
