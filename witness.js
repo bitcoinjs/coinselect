@@ -6,8 +6,9 @@ module.exports = function coinSelect ({
 	feeRate,
 	changeAddress,
 	network,
-	dustThreshold = 546,
 	txType,
+	baseFee = 0,
+	dustThreshold = 546,
 }) {
 
 	const result = composeTx({
@@ -18,11 +19,12 @@ module.exports = function coinSelect ({
 		txType,
 		dustThreshold,
 		changeAddress,
-		network
+		network,
+		baseFee
 	});
 
 	if (result.type === 'error') {
-		throw new Error(result.message)
+		throw new Error(result.message || result.error)
 	}
 
 	return result;

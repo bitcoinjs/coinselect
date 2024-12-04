@@ -48,6 +48,7 @@ export interface ICoinSelectParams {
     changeAddress: IChangeAddress;
     network: any;
     txType: IPaymentType
+    baseFee?: number;
     dustThreshold?: number;
 }
 
