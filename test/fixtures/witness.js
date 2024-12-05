@@ -19,8 +19,10 @@ const fixtures = [
         "txId": "f4668",
         "vout": 0,
         "value": 10000,
+        "amount": "10000",
         "confirmations": 22,
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       },
@@ -28,8 +30,10 @@ const fixtures = [
         "txId": "a88d1",
         "vout": 0,
         "value": 21000,
+        "amount": "21000",
         "confirmations": 2150,
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       },
@@ -37,8 +41,10 @@ const fixtures = [
         "txId": "a88d1",
         "vout": 1,
         "value": 757928711,
+        "amount": "757928711",
         "confirmations": 2155300,
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       },
@@ -46,8 +52,10 @@ const fixtures = [
         "txId": "adb852",
         "vout": 0,
         "value": 1000,
+        "amount": "1000",
         "confirmations": 33,
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       },
@@ -55,8 +63,10 @@ const fixtures = [
         "txId": "ed57f6",
         "vout": 0,
         "value": 10000,
+        "amount": "10000",
         "confirmations": 3321,
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       },
@@ -64,8 +74,10 @@ const fixtures = [
         "txId": "cfc54b",
         "vout": 0,
         "value": 30000,
+        "amount": "30000",
         "confirmations": 3320,
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       },
@@ -73,8 +85,10 @@ const fixtures = [
         "txId": "158d17",
         "vout": 1,
         "value": 1851600,
+        "amount": "1851600",
         "confirmations": 3320,
         "own": true,
+        "coinbase": false,
         "address": "tb1qwqfxvxf5a8pf02at7xz55xgt0j5cmcm9ta8r57",
         "path": "m/84'/1'/0'/1/0"
       },
@@ -82,8 +96,10 @@ const fixtures = [
         "txId": "d91c6b",
         "vout": 0,
         "value": 100000,
+        "amount": "100000",
         "confirmations": 3320,
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       },
@@ -91,8 +107,10 @@ const fixtures = [
         "txId": "5036d8",
         "vout": 0,
         "value": 100000,
+        "amount": "100000",
         "confirmations": 2120,
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       },
@@ -100,8 +118,10 @@ const fixtures = [
         "txId": "06d3a5",
         "vout": 18,
         "value": 3686229,
+        "amount": "3686229",
         "confirmations": 2150,
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       },
@@ -109,8 +129,10 @@ const fixtures = [
         "txId": "b07db9",
         "vout": 1,
         "value": 7306,
+        "amount": "7306",
         "confirmations": 2150,
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       },
@@ -118,16 +140,20 @@ const fixtures = [
         "txId": "f3d23",
         "vout": 1,
         "value": 2993713,
+        "amount": "2993713",
         "confirmations": 2150,
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       }
     ],
     "outputs": [
       {
+        "type": "payment",
         "address": "tb1quawu6eyfuechu3qhdeejnrzne9y7shr08u8zzt",
-        "value": 40000000
+        "value": 40000000,
+        "amount": "40000000"
       }
     ],
     "network": testnet,
@@ -135,6 +161,7 @@ const fixtures = [
       "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
       "path": "m/84'/1'/0'/0/0"
     },
+    "txType": "p2wpkh",
     "expected": {
       "type": "final",
       "fee": "86715",
@@ -181,7 +208,9 @@ const fixtures = [
         "txId": "f46689066ac0493cc55920c3918163ccda6c64998d6c078c6254e1c00c36a332",
         "vout": 0,
         "value": 10000,
+        "amount": "10000",
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       }
@@ -197,6 +226,7 @@ const fixtures = [
       "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
       "path": "m/84'/1'/0'/0/0"
     },
+    "txType": "p2wpkh",
     "expected": "Missing confirmations",
     "shouldThrow": true
   },
@@ -208,16 +238,20 @@ const fixtures = [
         "txId": "f46689066ac0493cc55920c3918163ccda6c64998d6c078c6254e1c00c36a332",
         "vout": 0,
         "value": 1000000,
+        "amount": "1000000",
         "confirmations": 2150,
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       }
     ],
     "outputs": [
       {
+        "type": "payment",
         "address": "tb1quawu6eyfuechu3qhdeejnrzne9y7shr08u8zzt",
-        "value": 4000
+        "value": 4000,
+        "amount": "4000"
       },
       {
         "type": "opreturn",
@@ -229,6 +263,7 @@ const fixtures = [
       "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
       "path": "m/84'/1'/0'/0/0"
     },
+    "txType": "p2wpkh",
     "expected": {
       "type": "final",
       "fee": "3240",
@@ -251,22 +286,21 @@ const fixtures = [
       ],
       "outputs": [
         {
+          "type": "payment",
           "address": "tb1quawu6eyfuechu3qhdeejnrzne9y7shr08u8zzt",
           "value": 4000,
-          "amount": "4000",
-          "type": "payment"
+          "amount": "4000"
         },
         {
           "type": "opreturn",
           "dataHex": "48656c6c6f576f726c64",
-          "amount": undefined
         },
         {
           "type": "change",
           "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
           "path": "m/84'/1'/0'/0/0",
           "amount": "992760"
-        }
+        },
       ],
       "outputsPermutation": [0, 1, 2]
     },
@@ -280,8 +314,10 @@ const fixtures = [
         "txId": "f46689066ac0493cc55920c3918163ccda6c64998d6c078c6254e1c00c36a332",
         "vout": 0,
         "value": 1000000,
+        "amount": "1000000",
         "confirmations": 2150,
         "own": true,
+        "coinbase": false,
         "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
         "path": "m/84'/1'/0'/0/0"
       }
@@ -297,6 +333,7 @@ const fixtures = [
       "address": "tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd",
       "path": "m/84'/1'/0'/0/0"
     },
+    "txType": "p2wpkh",
     "expected": {
       "type": "final",
       "fee": "22220",

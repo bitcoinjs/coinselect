@@ -24,7 +24,8 @@ fixtures.forEach(function (f) {
         outputs: f.outputs,
         feeRate: f.feeRate,
         network: f.network,
-        changeAddress: f.changeAddress
+        changeAddress: f.changeAddress,
+        txType: f.txType
       })
 
       // Restore the order of outputs according to outputsPermutation
