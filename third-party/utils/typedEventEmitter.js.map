@@ -1,0 +1,1 @@
+{"version":3,"file":"typedEventEmitter.js","sourceRoot":"","sources":["../src/typedEventEmitter.ts"],"names":[],"mappings":";;;AAUA,mCAAsC;AAoCtC,MAAa,YAAiC,SAAQ,qBAAY;IAE9D,aAAa,CAAwB,SAAY;QAC7C,OAAO,KAAK,CAAC,aAAa,CAAC,SAAS,CAAC,CAAC;IAC1C,CAAC;CACJ;AALD,oCAKC"}

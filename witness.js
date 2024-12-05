@@ -1,4 +1,4 @@
-const { composeTx } = require('@trezor/utxo-lib')
+const { composeTx } = require('./third-party/utxo-lib')
 
 module.exports = function coinSelect ({
 	utxos,
