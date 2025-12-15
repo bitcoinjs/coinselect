@@ -27,6 +27,7 @@
     "blackjack.js",
     "break.js",
     "index.js",
+    "index.d.ts",
     "split.js",
     "utils.js"
   ],
