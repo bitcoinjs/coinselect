@@ -19,3 +19,10 @@ module.exports = function coinSelect (utxos, outputs, feeRate) {
   // else, try the accumulative strategy
   return accumulative(utxos, outputs, feeRate)
 }
+
+module.exports.coinSelect = module.exports
+module.exports.accumulative = accumulative
+module.exports.blackjack = blackjack
+module.exports.break = require('./break')
+module.exports.split = require('./split')
+module.exports.utils = utils
